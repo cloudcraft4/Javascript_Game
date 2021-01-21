@@ -1,0 +1,78 @@
+TODO BEFORE FUNCTIONAL:
+
+- I am able (I THINK) to equip arms.  However crazy things are going to happen if you
+    ever are able to equip more than one.  Likely code does not allow this yet.
+- Need to handle bump attack.  IE attack is = to total attack of all arms.  At 
+    beginning probably just add attacks together.
+
+
+
+NEED TO DO:
+
+_       __COMBAT__
+
+1.  Don't have any kind of inventory screen for equiptment  Probably have it just
+    below the normal inventory screen
+
+2.  Monsters need to drop items based on their own abilities.
+    - check what mixins they have.  Mixin with tag dropable maybe.  Then percent chance
+        of dropping?
+
+3.  Targeting.  Not sure if there is any targeting implimented at all.
+
+4.  Various random issues:
+    - Deal with remainingUses items
+    - Code what happens with item is used up (switch to default with a time penalty)
+    - 
+
+
+_       __ITEM-MIXINS__
+
+
+1.  Miscellaneous
+    --> Could I use two numbers for attributes.  So a list or object maybe.
+        This would be so I do not have to write out everything twice.  For 
+        instance what if I have to lower range of enemy ability?  Granted
+        doing this is pretty lame from a gameplay situation.  Maybe just give
+        the player extra armor or something to balance instead?????????
+    - One use: (DOES THIS ALSO ALREADY EXIST??)
+    - Multi use:  Not sure if this or one use is needed
+
+    - Short Range: Or is it automatically short range if long range is missing?
+    - Long Range:
+
+    - AOE:
+    - Beam:
+
+2.  Attack
+    - Basic Attack: This is given if nothing else is equipted.
+    - Medium Attack:
+    - Heavy Attack:
+
+3.  Protection
+    - Healing:  Full heal to start with I guess (MAYBE THIS ALREADY EXISTS)
+
+
+_       __MISC__
+
+1.  Map Generation/ Digging:
+    Make digging harder or fix unconnected parts.  Not totally sure how to code
+    fix.
+
+2.  Map Height is one square too high
+
+3.  Entities are radomly added and given experience.  But there should be some harder
+    enemies that only show up at later level. So need to split that up.
+
+_       __EntityMixins__
+
+1.  InventoryHolder:
+    - This is for the player and mostly deals with picking up, dropping, etc
+    - IS THIS OK???
+
+2.  Equipper:
+    - Now there are wield and wear.  Need four things.
+    - There will be right arm, left arm.  But probably arms can work with either side.
+        So not sure how I want to handle it.  Probably attachRightArm but then can pick
+        from any arm item.  Not sure how to handle from a UI standpoint.  Maybe equip
+        arm and then chose right or left???
