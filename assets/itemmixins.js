@@ -43,9 +43,15 @@ Game.ItemMixins.Equippable = {
         this._defenseValue = template['defenseValue'] || 0;
         // Attributes that can be added to item
         this._range = template['range'] || 0;
-        this._wearable = template['legPart'] || false;
-        this._wearable = template['armPart'] || false;
-        this._wearable = template['torsoPart'] || false;
+        this._legPart = template['legPart'] || false;
+        this._armPart = template['armPart'] || false;
+        this._torsoPart = template['torsoPart'] || false;
+        
+        //This is redundant but is used in one place
+
+        // this._wearable = template['legPart'] || false;
+        // this._wearable = template['armPart'] || false;
+        // this._wearable = template['torsoPart'] || false;
         this._beam = template['beam'] || false;
         this._aoe = template['aoe'] || false;
         this._description = template['description'] || 'Description Missing';
@@ -66,13 +72,13 @@ Game.ItemMixins.Equippable = {
         return this._description;
     },
     isArm: function() {
-        return this.armPart;
+        return this._armPart;
     },
     isLeg: function() {
-        return this.legPart;
+        return this._legPart;
     },
     isTorso: function() {
-        return this.torsoPart;
+        return this._torsoPart;
     },
     isBeam: function() {
         return this._beam;
@@ -84,10 +90,14 @@ Game.ItemMixins.Equippable = {
         return this._remainingConsumptions > 0;
     },
     listeners: {
-        // PRETTY SURE THIS DOES NOT WORK
-        // THE PROBLEM IS MULTIPLE BODY PART SLOTS>>>>>
         'details': function() {
             var results = [];
+            // This will not work because it is always returning a value.  I need to
+            // check each slot and see if there is a part in it.
+
+            //Still not sure if this works.  It would end up with multiple attack:3 or
+            //whatever.  Likely this is bad.
+            //Notice this is under the item...  weird... how does this work?
             if (this._armPart) {
                 results.push({key: 'attack', value: this.getAttackValue()});
             }

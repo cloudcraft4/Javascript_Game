@@ -12,8 +12,6 @@ Game.Map.Cave = function(tiles, player) {
             this.addEntityAtRandomPosition(entity, z);
             // Level up the entity based on the floor
             
-            // DO I WANT TO CREATE ITEMS HERE?  OR PART OF addEntityAtRandomPosition
-            
             if (entity.hasMixin('ExperienceGainer')) {
                 for (var level = 0; level < z; level++) {
                     entity.giveExperience(entity.getNextLevelExperience() -
@@ -28,7 +26,20 @@ Game.Map.Cave = function(tiles, player) {
         }
     }
     // Add weapons and armor to the map in random positions and floors
+    // Need to overhaul this.
     var templates = ['large claw', 'blade arm', 'staff arm', 
+        'tunic torso', 'chainmail torso', 'platemail torso',
+        'large claw', 'blade arm', 'staff arm', 
+        'tunic torso', 'chainmail torso', 'platemail torso',
+        'large claw', 'blade arm', 'staff arm', 
+        'tunic torso', 'chainmail torso', 'platemail torso',
+        'large claw', 'blade arm', 'staff arm', 
+        'tunic torso', 'chainmail torso', 'platemail torso',
+        'large claw', 'blade arm', 'staff arm', 
+        'tunic torso', 'chainmail torso', 'platemail torso',
+        'large claw', 'blade arm', 'staff arm', 
+        'tunic torso', 'chainmail torso', 'platemail torso',
+        'large claw', 'blade arm', 'staff arm', 
         'tunic torso', 'chainmail torso', 'platemail torso'];
     for (var i = 0; i < templates.length; i++) {
         this.addItemAtRandomPosition(Game.ItemRepository.create(templates[i]),

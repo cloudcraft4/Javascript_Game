@@ -204,14 +204,33 @@ Game.EntityMixins.Attacker = {
     },
     getAttackValue: function() {
         var modifier = 0;
-        // If we can equip items, then have to take into 
-        // consideration weapon and armor
+        // If we can equip body parts, then have to take into 
+        // consideration these parts.
         if (this.hasMixin(Game.EntityMixins.Equipper)) {
-            if (this.getWeapon()) {
-                modifier += this.getWeapon().getAttackValue();
+            if (this.getTorso()) {
+                let torsoSlot = this.getTorso();
+                for (let torsoParts in torsoSlot) {
+                    // REMOVE THIS WHEN REMAKE DEFAULT ITEMS
+                    if (torsoParts.part != undefined) {
+                        modifier += torsoParts.part.getAttackValue();
+                    }
+                }
             }
-            if (this.getArmor()) {
-                modifier += this.getArmor().getAttackValue();
+            if (this.getArms()) {
+                let armsSlot = this.getArms();
+                for (let armParts in armsSlot) {
+                    if (armParts.part != undefined) {
+                        modifier += armParts.part.getAttackValue();
+                    }
+                }
+            }
+            if (this.getLegs()) {
+                let legsSlot = this.getLegs();
+                for (let legParts in legsSlot) {
+                    if (legParts.part != undefined) {
+                        modifier += legsParts.part.getAttackValue();
+                    }
+                }
             }
         }
         return this._attackValue + modifier;
@@ -260,17 +279,39 @@ Game.EntityMixins.Destructible = {
     },
     getDefenseValue: function() {
         var modifier = 0;
-        // If we can equip items, then have to take into 
-        // consideration weapon and armor
+        // If we can equip parts, then have to take into 
+        // consideration these parts.     
+          
         if (this.hasMixin(Game.EntityMixins.Equipper)) {
-            if (this.getWeapon()) {
-                modifier += this.getWeapon().getDefenseValue();
+            
+            if (this.getTorso()) {
+                let torsoSlot = this.getTorso();
+                for (let torsoParts in torsoSlot) {
+                    // REMOVE THIS WHEN REMAKE DEFAULT ITEMS
+                    if (torsoParts.part != undefined) {
+                        modifier += torsoParts.getDefenseValue();
+                    }
+                }
             }
-            if (this.getArmor()) {
-                modifier += this.getArmor().getDefenseValue();
+            if (this.getArms()) {
+                let armsSlot = this.getArms();
+                for (let armParts in armsSlot) {
+                    if (armParts.part != undefined) {
+                        modifier += armParts.getDefenseValue();
+                    }
+                }
+            }
+            if (this.getLegs()) {
+                let legsSlot = this.getLegs();
+                for (let legParts in legsSlot) {
+                    if (legParts.part != undefined) {
+                        modifier += legsParts.getDefenseValue();
+                    }
+                }
             }
         }
         return this._defenseValue + modifier;
+
     },
     getHp: function() {
         return this._hp;
@@ -443,14 +484,10 @@ Game.EntityMixins.InventoryHolder = {
     },
     
 
-    //NEED TO FIX THIS
-    //FIX THIS
-    //FIX THIS
-    //FIX THIS
     removeItem: function(i) {
         // If we can equip items, then make sure we unequip the item we are removing.
         if (this._items[i] && this.hasMixin(Game.EntityMixins.Equipper)) {
-            this.unequip(this._items[i]);
+            this.removePart(this._items[i]);
         }
         // Simply clear the inventory slot.
         this._items[i] = null;
@@ -566,70 +603,69 @@ Game.EntityMixins.Equipper = {
     name: 'Equipper',
     init: function(template) {
         // Set up the body part slots
-        // MIGHT NEED TO REPLACE DEFAULT WITH AN OBJECT.  OTHERWISE TRYING TO ACCESS
-        // INFO FROM IT LIKE NAME MIGHT CAUSE ERRORS.  ALSO HOW TO CALCULATE DAMAGE
+
         var armSlots = template['armSlots'] || 
             [rightArm = {
                 name: 'Right Arm',
                 slot: 'arm',
-                part: 'default'
+                part: {}
             },
             leftArm = {
                 name: 'Left Arm',
                 slot: 'arm',
-                part: 'default'
+                part: {}
             }];
         var legSlots = template['legSlots'] || 
             [rightLeg = {
                 name: 'Right Leg',
                 slot: 'leg',
-                part: 'default'
+                part: {}
             },
             leftLeg = {
                 name: 'Left Leg',
                 slot: 'leg',
-                part: 'default'
+                part: {}
             }];
         var torsoSlots = template['torsoSlots'] || 
             [mainTorso = {
                 name: 'Main Chassi',
                 slot: 'torso',
-                part: 'default'
+                part: {}
             }];
-        this._arms = new Array(armSlots);
-        this._legs = new Array(legSlots);
-        this._torso = new Array(torsoSlots);
+        //Originally it said "= new Array(armSlots)"
+        //Is this saying every thing with this mixin has SAME slots???
+        this._arms = armSlots;
+        this._legs = legSlots;
+        this._torso = torsoSlots;
     },
 
     attachPart: function(item) {
         if (item.isArm()) {
             //PULL UP SCREEN ASKING WHAT SLOT TO INSTALL
-            let bodySlot = self._arms[0];
-            bodySlot.part = item;
-            // DO I WANT CODE HERE TO REMOVE ITEM FROM INVENTORY??
+            let armSlot = this._arms[0];
+            armSlot.part = item;
         } else if (item.isLeg()) {
-            let bodySlot = self._legs[0];
-            bodySlot.part = item;
+            let legSlot = this._legs[0];
+            legSlot.part = item;
         } else if (item.isTorso()) {
-            let bodySlot = self._torso[0];
-            bodySlot.part = item;
+            let torsoSlot = this._torso[0];
+           torsoSlot.part = item;
         } else {
-            console.log('You cannot install this item');
+            console.log('You cannot attach this item');
         }
     },
-    
+   
+
     removePart: function(item) {
         if (item.isArm()) {
-            //PULL UP SCREEN ASKING WHAT SLOT TO INSTALL
-            let bodySlot = self._arms[0];
-            bodySlot.part = 'default';
-            // DO I WANT CODE HERE TO PLACE ITEM IN INVENTORY??
+            let bodySlot = this._arms[0];
+            bodySlot.part = {};
         } else if (item.isLeg()) {
-            let bodySlot = self._legs[0];
-            bodySlot.part = 'default';
+            let bodySlot = this._legs[0];
+            bodySlot.part = {};
         } else if (item.isTorso()) {
-            let bodySlot = self._torso[0];
-            bodySlot.part = 'default';
+            let bodySlot = this._torso[0];
+            bodySlot.part = {};
         } else {
             console.log('You cannot remove this item');
         }
@@ -645,40 +681,6 @@ Game.EntityMixins.Equipper = {
         return this._torso;
     },
 
-    /*
-    wear: function(item) {
-        this._armor = item;
-    },
-    takeOff: function() {
-        this._armor = null;
-    },
-    getWeapon: function() {
-        return this._weapon;
-    },
-    getArmor: function() {
-        return this._armor;
-    },
-    unequip: function(item) {
-        // Helper function to be called before getting rid of an item.
-        if (this._weapon === item) {
-            this.unwield();
-        }
-        if (this._armor === item) {
-            this.takeOff();
-        }
-    }
-    */
-       /*
-    getArms: function() {
-        return this._arms;
-    },
-    getLegs: function() {
-        return this._legs;
-    },
-    getTorso: function() {
-        return this._torso;
-    },
-    */
 };
 
 Game.EntityMixins.ExperienceGainer = {

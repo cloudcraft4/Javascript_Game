@@ -1,56 +1,42 @@
-TODO BEFORE FUNCTIONAL:
-
-- I am able (I THINK) to equip arms.  However crazy things are going to happen if you
-    ever are able to equip more than one.  Likely code does not allow this yet.
-- Need to handle bump attack.  IE attack is = to total attack of all arms.  At 
-    beginning probably just add attacks together.
+_           ____STAGE 1___
 
 
+- itemmixins.js at end --> equippable - listeners.  Does not work since there are multiple
+    body slots and this looks at only one.
 
-NEED TO DO:
+- Right now you can only attach ONE arm slots and ONE leg slots even if there are 
+    technically multiple
 
-_       __COMBAT__
-
-1.  Don't have any kind of inventory screen for equiptment  Probably have it just
-    below the normal inventory screen
-
-2.  Monsters need to drop items based on their own abilities.
-    - check what mixins they have.  Mixin with tag dropable maybe.  Then percent chance
-        of dropping?
-
-3.  Targeting.  Not sure if there is any targeting implimented at all.
-
-4.  Various random issues:
-    - Deal with remainingUses items
-    - Code what happens with item is used up (switch to default with a time penalty)
-    - 
+- What to do with default parts?
 
 
-_       __ITEM-MIXINS__
 
 
-1.  Miscellaneous
-    --> Could I use two numbers for attributes.  So a list or object maybe.
-        This would be so I do not have to write out everything twice.  For 
-        instance what if I have to lower range of enemy ability?  Granted
-        doing this is pretty lame from a gameplay situation.  Maybe just give
-        the player extra armor or something to balance instead?????????
-    - One use: (DOES THIS ALSO ALREADY EXIST??)
-    - Multi use:  Not sure if this or one use is needed
+_           ____STAGE 2___
 
-    - Short Range: Or is it automatically short range if long range is missing?
-    - Long Range:
 
-    - AOE:
-    - Beam:
+1.  entitymixins.js Equipper.removepart --> part goes into inventory or destroyed?
+2.  Screens.js playScreen --> Render player parts on screen
+3.  Map.js addEntity --> creatures spawn with parts
+4.  entitymixins.js Equipper.attachPart --> Can only use on part
+5.  Screens.js NEW --> Need to make a screen to show parts enemy drops
+6.  Set up default player parts
+7.  Update Inventory Screen
+8.  Add inputs for using abilities
 
-2.  Attack
-    - Basic Attack: This is given if nothing else is equipted.
-    - Medium Attack:
-    - Heavy Attack:
 
-3.  Protection
-    - Healing:  Full heal to start with I guess (MAYBE THIS ALREADY EXISTS)
+_           ____STAGE 3___
+
+1.  Targeting for abilities
+2.  Single Use parts
+3.  AOE parts
+4.  Healing Parts
+5.  Enemies use Parts
+6.  Overhaul enemy AI
+
+
+
+
 
 
 _       __MISC__
@@ -61,18 +47,7 @@ _       __MISC__
 
 2.  Map Height is one square too high
 
-3.  Entities are radomly added and given experience.  But there should be some harder
+3.  Entities are randomly added and given experience.  But there should be some harder
     enemies that only show up at later level. So need to split that up.
 
-_       __EntityMixins__
-
-1.  InventoryHolder:
-    - This is for the player and mostly deals with picking up, dropping, etc
-    - IS THIS OK???
-
-2.  Equipper:
-    - Now there are wield and wear.  Need four things.
-    - There will be right arm, left arm.  But probably arms can work with either side.
-        So not sure how I want to handle it.  Probably attachRightArm but then can pick
-        from any arm item.  Not sure how to handle from a UI standpoint.  Maybe equip
-        arm and then chose right or left???
+4.  Tiles

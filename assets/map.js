@@ -170,7 +170,7 @@ Game.Map.prototype.addEntity = function(entity) {
         this._player = entity;
     }
     //If the entity has parts, create the parts.
-    if (entity.hasMixin(Game.EntityMixins.Equipper)) {
+    //if (entity.hasMixin(Game.EntityMixins.Equipper)) {
         /* for entity.arms 
             1.  register x in Map.items
             2. entity.attachPart(x)   

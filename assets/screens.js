@@ -71,13 +71,48 @@ Game.Screen.playScreen = {
         var hungerState = this._player.getHungerState();
         display.drawText(screenWidth - hungerState.length, screenHeight, hungerState);
         
+
+        //THIS TOTALLY DOES NOT WORK BECAUSE OF DEFAULT ITEMS NOT BEING
+        //IMPLIMENTED INTO THE GAME!
+
+        // Render player parts
+        /*
+        
+        //ALSO THIS IS NOT TOTALLY THE RIGHT WAY TO DO THINGS BECAUSE I AM GOING
+        //TO NEED TO THINK ABOUT HOW TO USE THESE ABILITIES.  PROBABLY ADD EVERY
+        //ABILITY TO A NEW ARRAY SO THAT WHEN SOMEONE PRESSES A NUMBER IT CAN
+        //CHECK THAT AGAINST ARRAY
+
+        let armSlots = this._player.getArms();
+        console.log(this._player.getArms());
+        let legSlots = this._player.getLegs();
+        let torsoSlots = this._player.getTorso();
+        let slotNum = 1;
+        let slotBar = '';
+        for(let i = 0; i < armSlots.length; i++) {
+            slotBar += slotNum + ': ' + armSlot[i].name + ' ';
+            slotNum += 1;
+            console.log(slotBar);
+        }
+        for(let i = 0; i < legSlots.length; i++) {
+            slotBar += slotNum + ': ' + legSlot[i].name + ' ';
+            slotNum += 1;
+            console.log(slotBar);
+        }
+        for(let i = 0; i < torsoSlots.length; i++) {
+            slotBar += slotNum + ': ' + torsoSlot[i].name + ' ';
+            slotNum += 1;
+            console.log(slotBar);
+        }
+        */
+        
         /*
         // Render player parts
         let parts = '%c{white}%b{black}';
         parts += vsprintf('Monster Parts 1: %d 3: %d 5: %d', 
             [this._player.getArms(), this._player.getLegs(), 
-             this._player.getTorso()]);
-        display.drawText(0, screenHeight - 1, parts);
+            this._player.getTorso()]);
+            display.drawText(0, screenHeight - 1, parts);
         */
     },
     getScreenOffsets: function() {
@@ -193,17 +228,20 @@ Game.Screen.playScreen = {
                 // Show the drop screen
                 this.showItemsSubScreen(Game.Screen.eatScreen, this._player.getItems(),
                    'You have nothing to eat.');
-                return;
+                return;           
             } else if (inputData.keyCode === ROT.VK_W) {
+                /* 
+                    !NOTE: This is to show if I want to use a capital for input!
+
                 if (inputData.shiftKey) {
                     // Show the wear screen
                     this.showItemsSubScreen(Game.Screen.wearScreen, this._player.getItems(),
                         'You have nothing to wear.');
                 } else {
                     // Show the wield screen
+                */
                     this.showItemsSubScreen(Game.Screen.wieldScreen, this._player.getItems(),
                         'You have nothing to wield.');
-                }
                 return;
             } else if (inputData.keyCode === ROT.VK_X) {
                 // Show the drop screen
@@ -355,31 +393,54 @@ Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
 };
 
 Game.Screen.ItemListScreen.prototype.render = function(display) {
-    var letters = 'abcdefghijklmnopqrstuvwxyz';
+    let letters = 'abcdefghijklmnopqrstuvwxyz';
     // Render the caption in the top row
     display.drawText(0, 0, this._caption);
     // Render the no item row if enabled
     if (this._hasNoItemOption) {
         display.drawText(0, 1, '0 - no item');
     }
-    var row = 0;
-    for (var i = 0; i < this._items.length; i++) {
+    let row = 0;
+    for (let i = 0; i < this._items.length; i++) {
         // If we have an item, we want to render it.
         if (this._items[i]) {
             // Get the letter matching the item's index
-            var letter = letters.substring(i, i + 1);
+            let letter = letters.substring(i, i + 1);
             // If we have selected an item, show a +, else show a dash between
             // the letter and the item's name.
-            var selectionState = (this._canSelectItem && this._canSelectMultipleItems &&
+            let selectionState = (this._canSelectItem && this._canSelectMultipleItems &&
                 this._selectedIndices[i]) ? '+' : '-';
-            // Check if the item is worn or wielded
+
+            // Check what slot the body part is attached to and show this by
+            // having a suffix in the inventory screen. 
             var suffix = '';
-            if (this._items[i] === this._player.getArmor()) {
-                suffix = ' (wearing)';
-            } else if (this._items[i] === this._player.getWeapon()) {
-                suffix = ' (wielding)';
-            }
-            // Render at the correct row and add 2.
+            if (this._items[i].hasMixin('Equippable')) {
+                if (this._items[i].isArm()) {
+                    let playerArmSlots = this._player.getArms();
+                    for (let s = 0; s < playerArmSlots.length; s++) {
+                        if (this._items[i] === playerArmSlots[s].part) {
+                            suffix = ' (Arm Slot)';
+                        }
+                    }
+                } else if (this._items[i].isLeg()) {
+                    let playerLegSlots = this._player.getLegs();
+                    for (let s = 0; s < playerLegSlots.length; s++) {
+                        if (this._items[i] === playerLegSlots[s].part) {
+                            suffix = ' (Leg Slot)';
+                        }
+                    }
+                } else if (this._items[i].isTorso()) {
+                    let playerTorsoSlots = this._player.getTorso();
+                    for (let s = 0; s < playerTorsoSlots.length; s++) {
+                        if (this._items[i] === playerTorsoSlots[s].part) {
+                            suffix = ' (Torso Slot)';
+                        }                        
+                    }
+                } else {
+                    console.log('Error: Item is equippable but is not a part');
+                }
+            };                          
+                // Render at the correct row and add 2.
             display.drawText(0, 2 + row,  letter + ' ' + selectionState + ' ' +
                 this._items[i].describe() + suffix);
             row++;
@@ -491,54 +552,27 @@ Game.Screen.eatScreen = new Game.Screen.ItemListScreen({
     }
 });
 
-/*
-HAVE TO REDO A LOT OF THIS>  DO NOT HAVE WIELD, ETC
-*/
 Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the item you wish to wield',
+    caption: 'Choose the item you wish to attach to a body part',
     canSelect: true,
     canSelectMultipleItems: false,
     hasNoItemOption: true,
     isAcceptable: function(item) {
-        return item && item.hasMixin('Equippable') && item.isWieldable();
+        return item && item.hasMixin('Equippable');
     },
     ok: function(selectedItems) {
         // Check if we selected 'no item'
         var keys = Object.keys(selectedItems);
         if (keys.length === 0) {
-            this._player.unwield();
-            Game.sendMessage(this._player, "You are empty handed.")
+            //this._player.unwield();
+            Game.sendMessage(this._player, "You have not selected anything.")
         } else {
             // Make sure to unequip the item first in case it is the armor.
+            // So far I do not have multiple use items so this not needed...
             var item = selectedItems[keys[0]];
-            this._player.unequip(item);
-            this._player.wield(item);
-            Game.sendMessage(this._player, "You are wielding %s.", [item.describeA()]);
-        }
-        return true;
-    }
-});
-
-Game.Screen.wearScreen = new Game.Screen.ItemListScreen({
-    caption: 'Choose the item you wish to wear',
-    canSelect: true,
-    canSelectMultipleItems: false,
-    hasNoItemOption: true,
-    isAcceptable: function(item) {
-        return item && item.hasMixin('Equippable') && item.isWearable();
-    },
-    ok: function(selectedItems) {
-        // Check if we selected 'no item'
-        var keys = Object.keys(selectedItems);
-        if (keys.length === 0) {
-            this._player.unwield();
-            Game.sendMessage(this._player, "You are not wearing anthing.")
-        } else {
-            // Make sure to unequip the item first in case it is the weapon.
-            var item = selectedItems[keys[0]];
-            this._player.unequip(item);
-            this._player.wear(item);
-            Game.sendMessage(this._player, "You are wearing %s.", [item.describeA()]);
+            //this._player.unequip(item);
+            this._player.attachPart(item);
+            Game.sendMessage(this._player, "You has attached %s.", [item.describeA()]);
         }
         return true;
     }
