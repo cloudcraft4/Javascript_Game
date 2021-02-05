@@ -275,8 +275,7 @@ Game.EntityMixins.Destructible = {
                     // This is checking if object is empty.  Apparently this
                     // is challenging to do.
                     if (Object.keys(partsSlot[i].part).length != 0) {
-                        modifier += partsSlot[i].part.getDefenseValue();
-                        console.log('entitymixins getDefenseValue modifier=' + modifier)
+                        modifier += partsSlot[i].part._defenseValue;
                     }
                 }
             }
@@ -568,10 +567,12 @@ Game.EntityMixins.CorpseDropper = {
             }
             // Drop a body part if one is available
             if (this.hasMixin(Game.EntityMixins.Equipper)) {
-                for (i = 0; i < this._bodySlots.length; i++) {
+                let slots = this.getBodySlots();
+                for (i = 0; i < slots.length; i++) {
                     // Redo this when I change how default parts work
-                    if (Object.keys(this._bodySlots[i].part).length != 0) {
-                        this._map.addItem(this._bodySlots[i].part);
+                    if (Object.keys(slots[i].part).length != 0) {
+                        this._map.addItem(this.getX(), this.getY(), this.getZ(),
+                            slots[i].part);
                         break;
                     }
                 }
