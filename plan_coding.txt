@@ -1,14 +1,20 @@
 _           ____STAGE 1___
 
 
-- itemmixins.js at end --> equippable - listeners.  Does not work since there are multiple
-    body slots and this looks at only one.
-
 - Right now you can only attach ONE arm slots and ONE leg slots even if there are 
     technically multiple
 
 - What to do with default parts?
 
+- REMAKING PARTS:
+    1. DONE? entitymixins.js getDefenseValue  BUT TEST
+    2. DONE? entitymixins.js getAttackValue  BUT TEST
+    3. DONE? entitymixins.js Equipper 
+    4. DONE ? entitymixins.js attachPart
+    5. DONE ? entitymixins.js removePart
+    6. DONE? items.js bodyParts
+    7. DONE? itemmixins.js equippable
+    8. DONE?????? itemmixins.js listeners  ??getAttackValue gives integer right???
 
 
 

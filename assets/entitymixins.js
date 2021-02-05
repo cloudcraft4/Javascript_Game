@@ -207,28 +207,13 @@ Game.EntityMixins.Attacker = {
         // If we can equip body parts, then have to take into 
         // consideration these parts.
         if (this.hasMixin(Game.EntityMixins.Equipper)) {
-            if (this.getTorso()) {
-                let torsoSlot = this.getTorso();
-                for (let torsoParts in torsoSlot) {
+            if (this.getBodySlots()) {
+                let partsSlot = this.getBodySlots();
+                for (i = 0; i < partsSlot.length; i++) {
                     // REMOVE THIS WHEN REMAKE DEFAULT ITEMS
-                    if (torsoParts.part != undefined) {
-                        modifier += torsoParts.part.getAttackValue();
-                    }
-                }
-            }
-            if (this.getArms()) {
-                let armsSlot = this.getArms();
-                for (let armParts in armsSlot) {
-                    if (armParts.part != undefined) {
-                        modifier += armParts.part.getAttackValue();
-                    }
-                }
-            }
-            if (this.getLegs()) {
-                let legsSlot = this.getLegs();
-                for (let legParts in legsSlot) {
-                    if (legParts.part != undefined) {
-                        modifier += legsParts.part.getAttackValue();
+                    if (Object.keys(partsSlot[i].part).length != 0) {
+                        modifier += partsSlot[i].part.getAttackValue();
+                        console.log('entitymixins getAttackValue modifier=' + modifier);
                     }
                 }
             }
@@ -283,29 +268,15 @@ Game.EntityMixins.Destructible = {
         // consideration these parts.     
           
         if (this.hasMixin(Game.EntityMixins.Equipper)) {
-            
-            if (this.getTorso()) {
-                let torsoSlot = this.getTorso();
-                for (let torsoParts in torsoSlot) {
-                    // REMOVE THIS WHEN REMAKE DEFAULT ITEMS
-                    if (torsoParts.part != undefined) {
-                        modifier += torsoParts.getDefenseValue();
-                    }
-                }
-            }
-            if (this.getArms()) {
-                let armsSlot = this.getArms();
-                for (let armParts in armsSlot) {
-                    if (armParts.part != undefined) {
-                        modifier += armParts.getDefenseValue();
-                    }
-                }
-            }
-            if (this.getLegs()) {
-                let legsSlot = this.getLegs();
-                for (let legParts in legsSlot) {
-                    if (legParts.part != undefined) {
-                        modifier += legsParts.getDefenseValue();
+             if (this.getBodySlots()) {
+                let partsSlot = this.getBodySlots();
+                for (let i = 0; i < partsSlot.length; i++) {
+                    // Change this when I modify how default items work
+                    // This is checking if object is empty.  Apparently this
+                    // is challenging to do.
+                    if (Object.keys(partsSlot[i].part).length != 0) {
+                        modifier += partsSlot[i].part.getDefenseValue();
+                        console.log('entitymixins getDefenseValue modifier=' + modifier)
                     }
                 }
             }
@@ -604,7 +575,7 @@ Game.EntityMixins.Equipper = {
     init: function(template) {
         // Set up the body part slots
 
-        var armSlots = template['armSlots'] || 
+        var bodySlots = template['bodySlots'] || 
             [rightArm = {
                 name: 'Right Arm',
                 slot: 'arm',
@@ -614,9 +585,8 @@ Game.EntityMixins.Equipper = {
                 name: 'Left Arm',
                 slot: 'arm',
                 part: {}
-            }];
-        var legSlots = template['legSlots'] || 
-            [rightLeg = {
+            },
+            rightLeg = {
                 name: 'Right Leg',
                 slot: 'leg',
                 part: {}
@@ -625,60 +595,55 @@ Game.EntityMixins.Equipper = {
                 name: 'Left Leg',
                 slot: 'leg',
                 part: {}
-            }];
-        var torsoSlots = template['torsoSlots'] || 
-            [mainTorso = {
+            },
+            mainTorso = {
                 name: 'Main Chassi',
                 slot: 'torso',
                 part: {}
             }];
-        //Originally it said "= new Array(armSlots)"
-        //Is this saying every thing with this mixin has SAME slots???
-        this._arms = armSlots;
-        this._legs = legSlots;
-        this._torso = torsoSlots;
+        this._bodySlots = bodySlots;
     },
 
     attachPart: function(item) {
-        if (item.isArm()) {
+        if (item.getPart()) {
             //PULL UP SCREEN ASKING WHAT SLOT TO INSTALL
-            let armSlot = this._arms[0];
-            armSlot.part = item;
-        } else if (item.isLeg()) {
-            let legSlot = this._legs[0];
-            legSlot.part = item;
-        } else if (item.isTorso()) {
-            let torsoSlot = this._torso[0];
-           torsoSlot.part = item;
+            //TEMPORARILY THIS JUST AUTOMATICALLY SLOTS THEM
+            if (item.getPart() === 'arm') {
+                this._bodySlots[0].part = item;
+            } else if (item.getPart() === 'leg') {
+                this._bodySlots[2].part = item;
+            } else if (item.getPart() === 'torso') {
+                this._bodySlots[4].part = item;
+            } else {
+                console.log('Error: Item isPart() but is not arm, leg or torso.');
+                console.log('Typo likely of item =' + item.name +' in item.js');
+            }
         } else {
             console.log('You cannot attach this item');
         }
     },
    
-
     removePart: function(item) {
-        if (item.isArm()) {
-            let bodySlot = this._arms[0];
-            bodySlot.part = {};
-        } else if (item.isLeg()) {
-            let bodySlot = this._legs[0];
-            bodySlot.part = {};
-        } else if (item.isTorso()) {
-            let bodySlot = this._torso[0];
-            bodySlot.part = {};
+        if (item.getPart()) {
+            //PULL UP SCREEN ASKING WHAT SLOT TO REMOVE
+            //TEMPORARILY THIS JUST AUTOMATICALLY REMOVES THEM
+            if (item.getPart() === 'arm') {
+                this._bodySlots[0].part = {};
+            } else if (item.getPart() === 'leg') {
+                this._bodySlots[2].part = {};
+            } else if (item.getPart() === 'torso') {
+                this._bodySlots[4].part = {};
+            } else {
+                console.log('Error: Item isPart() but is not arm, leg or torso.');
+                console.log('Typo likely of item =' + item.name +' in item.js');
+            }
         } else {
             console.log('You cannot remove this item');
         }
     },
 
-    getArms: function() {
-        return this._arms;
-    },
-    getLegs: function() {
-        return this._legs;
-    },
-    getTorso: function() {
-        return this._torso;
+    getBodySlots: function() {
+        return this._bodySlots;
     },
 
 };

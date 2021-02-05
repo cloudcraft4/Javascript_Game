@@ -415,29 +415,25 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
             // having a suffix in the inventory screen. 
             var suffix = '';
             if (this._items[i].hasMixin('Equippable')) {
-                if (this._items[i].isArm()) {
-                    let playerArmSlots = this._player.getArms();
-                    for (let s = 0; s < playerArmSlots.length; s++) {
-                        if (this._items[i] === playerArmSlots[s].part) {
-                            suffix = ' (Arm Slot)';
+                if (this._items[i].getPart()) {
+                    let bodySlots = this._player.getBodySlots();
+                    for (let s = 0; s < bodySlots.length; s++) {
+                        if (this._items[i] === bodySlots[s].part) {
+                            if (this._items[i].getPart() === 'arm'){
+                                suffix = ' (Arm Slot)';
+                                break;
+                            } else if (this._items[i].getPart() === 'leg'){
+                                suffix = ' (Leg Slot)';
+                                break;
+                            } else if (this._items[i].getPart() === 'torso'){
+                                suffix = ' (Torso Slot)';
+                                break;
+                            } else {
+                                console.log('Error: Item is equippable but not an arm, leg or torso');
+                                break;
+                            }
                         }
                     }
-                } else if (this._items[i].isLeg()) {
-                    let playerLegSlots = this._player.getLegs();
-                    for (let s = 0; s < playerLegSlots.length; s++) {
-                        if (this._items[i] === playerLegSlots[s].part) {
-                            suffix = ' (Leg Slot)';
-                        }
-                    }
-                } else if (this._items[i].isTorso()) {
-                    let playerTorsoSlots = this._player.getTorso();
-                    for (let s = 0; s < playerTorsoSlots.length; s++) {
-                        if (this._items[i] === playerTorsoSlots[s].part) {
-                            suffix = ' (Torso Slot)';
-                        }                        
-                    }
-                } else {
-                    console.log('Error: Item is equippable but is not a part');
                 }
             };                          
                 // Render at the correct row and add 2.

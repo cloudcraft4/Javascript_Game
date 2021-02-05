@@ -43,15 +43,7 @@ Game.ItemMixins.Equippable = {
         this._defenseValue = template['defenseValue'] || 0;
         // Attributes that can be added to item
         this._range = template['range'] || 0;
-        this._legPart = template['legPart'] || false;
-        this._armPart = template['armPart'] || false;
-        this._torsoPart = template['torsoPart'] || false;
-        
-        //This is redundant but is used in one place
-
-        // this._wearable = template['legPart'] || false;
-        // this._wearable = template['armPart'] || false;
-        // this._wearable = template['torsoPart'] || false;
+        this._bodyPart = template['bodyPart'] || false;
         this._beam = template['beam'] || false;
         this._aoe = template['aoe'] || false;
         this._description = template['description'] || 'Description Missing';
@@ -71,14 +63,8 @@ Game.ItemMixins.Equippable = {
     getDescription: function() {
         return this._description;
     },
-    isArm: function() {
-        return this._armPart;
-    },
-    isLeg: function() {
-        return this._legPart;
-    },
-    isTorso: function() {
-        return this._torsoPart;
+    getPart: function() {
+        return this._bodyPart
     },
     isBeam: function() {
         return this._beam;
@@ -92,17 +78,24 @@ Game.ItemMixins.Equippable = {
     listeners: {
         'details': function() {
             var results = [];
-            // This will not work because it is always returning a value.  I need to
-            // check each slot and see if there is a part in it.
-
-            //Still not sure if this works.  It would end up with multiple attack:3 or
-            //whatever.  Likely this is bad.
-            //Notice this is under the item...  weird... how does this work?
-            if (this._armPart) {
-                results.push({key: 'attack', value: this.getAttackValue()});
-            }
-            if (this._torsoPart) {
-                results.push({key: 'defense', value: this.getDefenseValue()});
+            // I THINK this works.  Have not tested much yet
+            // Not totally sure I need the 'attackValue != 0' part
+            if (this._bodyParts) {
+                let bodyParts = this._bodyParts;
+                let attackValue = 0;
+                let defenceValue = 0;
+                for (i = 0; i < bodyParts.length; i++) {
+                    attackValue += bodyParts[i].part.getAttackValue();
+                    defenceValue += bodyParts[i].part.getDefenceValue();
+                };
+                if (attackValue != 0) {
+                    results.push({key: 'attack', value: attackValue});
+                    console.log('itemmixins listeners attackValue results=' + attackValue);
+                };
+                if (defenceValue != 0) {
+                    results.push({key: 'defense', value: defenceValue});
+                    console.log('itemmixins listeners defenceValue results=' + defenceValue);
+                };
             }
             return results;
         }

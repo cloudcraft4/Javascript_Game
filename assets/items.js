@@ -36,7 +36,7 @@ Game.ItemRepository.define('large claw', {
     character: ')',
     foreground: 'gray',
     attackValue: 5,
-    armPart: true,
+    bodyPart: 'arm',
     mixins: [Game.ItemMixins.Equippable],
     description: 'This default arm is used whenever you don\'t have a better option.'
 }, {
@@ -48,7 +48,7 @@ Game.ItemRepository.define('blade arm', {
     character: ')',
     foreground: 'white',
     attackValue: 10,
-    armPart: true,
+    bodyPart: 'arm',
     maxUses: 10,
     mixins: [Game.ItemMixins.Equippable],
     description: 'Deals medium damage to adjacent creatures.  Breaks after ten uses.'
@@ -62,7 +62,7 @@ Game.ItemRepository.define('staff arm', {
     foreground: 'yellow',
     attackValue: 5,
     defenseValue: 3,
-    armPart: true,
+    bodyPart: 'arm',
     mixins: [Game.ItemMixins.Equippable]
 }, {
     disableRandomCreation: true
@@ -74,7 +74,7 @@ Game.ItemRepository.define('tunic torso', {
     character: '[',
     foreground: 'green',
     defenseValue: 2,
-    torsoPart: true,
+    bodyPart: 'torso',
     mixins: [Game.ItemMixins.Equippable]
 }, {
     disableRandomCreation: true
@@ -85,7 +85,7 @@ Game.ItemRepository.define('chainmail torso', {
     character: '[',
     foreground: 'white',
     defenseValue: 4,
-    torsoPart: true,
+    bodyPart: 'torso',
     mixins: [Game.ItemMixins.Equippable]
 }, {
     disableRandomCreation: true
@@ -96,7 +96,7 @@ Game.ItemRepository.define('platemail torso', {
     character: '[',
     foreground: 'aliceblue',
     defenseValue: 6,
-    torsoPart: true,
+    bodyPart: 'torso',
     mixins: [Game.ItemMixins.Equippable]
 }, {
     disableRandomCreation: true
@@ -107,7 +107,7 @@ Game.ItemRepository.define('default leg', {
     character: '{',
     foreground: 'aliceblue',
     defenseValue: 1,
-    legPart: true,
+    bodyPart: 'leg',
     mixins: [Game.ItemMixins.Equippable]
 }, {
     disableRandomCreation: true
