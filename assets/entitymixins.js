@@ -565,6 +565,17 @@ Game.EntityMixins.CorpseDropper = {
                         name: this._name + ' corpse',
                         foreground: this._foreground
                     }));
+            }
+            // Drop a body part if one is available
+            if (this.hasMixin(Game.EntityMixins.Equipper)) {
+                for (i = 0; i < this._bodySlots.length; i++) {
+                    // Redo this when I change how default parts work
+                    if (Object.keys(this._bodySlots[i].part).length != 0) {
+                        this._map.addItem(this._bodySlots[i].part);
+                        break;
+                    }
+                }
+                
             }    
         }
     }
@@ -575,7 +586,7 @@ Game.EntityMixins.Equipper = {
     init: function(template) {
         // Set up the body part slots
 
-        var bodySlots = template['bodySlots'] || 
+        let bodySlots = template['bodySlots'] || 
             [rightArm = {
                 name: 'Right Arm',
                 slot: 'arm',
@@ -601,7 +612,11 @@ Game.EntityMixins.Equipper = {
                 slot: 'torso',
                 part: {}
             }];
+        
+        let possibleParts = template['possibleParts'] || false;
+        
         this._bodySlots = bodySlots;
+        this._possibleParts = possibleParts
     },
 
     attachPart: function(item) {
@@ -644,6 +659,16 @@ Game.EntityMixins.Equipper = {
 
     getBodySlots: function() {
         return this._bodySlots;
+    },
+
+    getPossibleParts: function() {
+        return this._possibleParts;
+    },
+
+    getRandomPossiblePart: function() {
+        let randomIndex = Math.floor(Math.random() * this._possibleParts.length);
+        let randomPart = this._possibleParts[randomIndex];
+        return randomPart;
     },
 
 };

@@ -36,9 +36,9 @@ Game.EntityRepository.define('fungus', {
              Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
 
-Game.EntityRepository.define('bat', {
-    name: 'bat',
-    character: 'B',
+Game.EntityRepository.define('feral dog', {
+    name: 'feral dog',
+    character: 'd',
     foreground: 'white',
     maxHp: 5,
     attackValue: 4,
@@ -49,30 +49,34 @@ Game.EntityRepository.define('bat', {
              Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
 
-Game.EntityRepository.define('newt', {
-    name: 'newt',
-    character: ':',
+Game.EntityRepository.define('mutant', {
+    name: 'mutant',
+    character: 'm',
     foreground: 'yellow',
     maxHp: 3,
     attackValue: 2,
+    possibleParts: ['large claw', 'chainmail torso'],
     mixins: [Game.EntityMixins.TaskActor,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.CorpseDropper,
-             Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
+             Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
+             Game.EntityMixins.Equipper]
 });
 
-Game.EntityRepository.define('kobold', {
-    name: 'kobold',
-    character: 'k',
+Game.EntityRepository.define('crabman', {
+    name: 'crabman',
+    character: 'c',
     foreground: 'white',
     maxHp: 6,
     attackValue: 4,
     sightRadius: 5,
+    possibleParts: ['default leg', 'staff arm', 'large claw'],
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.CorpseDropper,
-             Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
+             Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer,
+             Game.EntityMixins.Equipper]
 });
 
 Game.EntityRepository.define('giant zombie', {

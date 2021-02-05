@@ -6,29 +6,28 @@ _           ____STAGE 1___
 
 - What to do with default parts?
 
-- REMAKING PARTS:
-    1. DONE? entitymixins.js getDefenseValue  BUT TEST
-    2. DONE? entitymixins.js getAttackValue  BUT TEST
-    3. DONE? entitymixins.js Equipper 
-    4. DONE ? entitymixins.js attachPart
-    5. DONE ? entitymixins.js removePart
-    6. DONE? items.js bodyParts
-    7. DONE? itemmixins.js equippable
-    8. DONE?????? itemmixins.js listeners  ??getAttackValue gives integer right???
+- BUG FIXING:
+    1. BUG entitymixins.js getDefenseValue  seems to be broken  Gave NaN for platemail
+    2. BUG? entitymixins.js getAttackValue  also broken??
+    3. BUG? itemmixins.js listeners it checks all values but it is on items
 
 
 
 _           ____STAGE 2___
 
 
+1. DONE? entitymixins.js CorspeDropper onDeath
+2. DONE map.js addEntity (creating random items from list)
+
+
 1.  entitymixins.js Equipper.removepart --> part goes into inventory or destroyed?
-2.  Screens.js playScreen --> Render player parts on screen
-3.  Map.js addEntity --> creatures spawn with parts
-4.  entitymixins.js Equipper.attachPart --> Can only use on part
-5.  Screens.js NEW --> Need to make a screen to show parts enemy drops
-6.  Set up default player parts
-7.  Update Inventory Screen
-8.  Add inputs for using abilities
+2.  Map.js addEntity --> creatures spawn with parts
+            --> After death entity drops part
+            --> Do all entities have bodySlots?
+3.  entitymixins.js Equipper.attachPart --> Can only use on part
+4.  Screens.js NEW --> Need to make a screen to show parts enemy drops
+5.  Set up default player parts
+6.  Add inputs for using abilities
 
 
 _           ____STAGE 3___

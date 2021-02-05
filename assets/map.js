@@ -147,14 +147,13 @@ Game.Map.prototype.getRandomFloorPosition = function(z) {
 };
 
 Game.Map.prototype.addEntityAtRandomPosition = function(entity, z) {
-    var position = this.getRandomFloorPosition(z);
+    let position = this.getRandomFloorPosition(z);
     entity.setX(position.x);
     entity.setY(position.y);
     entity.setZ(position.z);
     this.addEntity(entity);
 };
 
-//TODO I want create item HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Game.Map.prototype.addEntity = function(entity) {
     // Update the entity's map
     entity.setMap(this);
@@ -170,12 +169,14 @@ Game.Map.prototype.addEntity = function(entity) {
         this._player = entity;
     }
     //If the entity has parts, create the parts.
-    //if (entity.hasMixin(Game.EntityMixins.Equipper)) {
-        /* for entity.arms 
-            1.  register x in Map.items
-            2. entity.attachPart(x)   
-            for entity.torso
-        */
+    if (entity.hasMixin(Game.EntityMixins.Equipper)) {
+        //Check if there is a list of possible parts and then create one at random
+        if (entity.getPossibleParts()) {
+            let randomPart = entity.getRandomPossiblePart();
+            let bodyPart = Game.ItemRepository.create(randomPart);
+            entity.attachPart(bodyPart);
+        }
+    }     
 };
 
 Game.Map.prototype.removeEntity = function(entity) {

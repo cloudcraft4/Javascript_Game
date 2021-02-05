@@ -66,55 +66,30 @@ Game.Screen.playScreen = {
         stats += vsprintf('HP: %d/%d L: %d XP: %d', 
             [this._player.getHp(), this._player.getMaxHp(),
              this._player.getLevel(), this._player.getExperience()]);
-        display.drawText(0, screenHeight -1, stats);
+        display.drawText(0, screenHeight -2, stats);
         // Render hunger state
         var hungerState = this._player.getHungerState();
-        display.drawText(screenWidth - hungerState.length, screenHeight, hungerState);
+        display.drawText(screenWidth - hungerState.length, screenHeight - 2, hungerState);
         
-
-        //THIS TOTALLY DOES NOT WORK BECAUSE OF DEFAULT ITEMS NOT BEING
-        //IMPLIMENTED INTO THE GAME!
-
         // Render player parts
-        /*
-        
-        //ALSO THIS IS NOT TOTALLY THE RIGHT WAY TO DO THINGS BECAUSE I AM GOING
-        //TO NEED TO THINK ABOUT HOW TO USE THESE ABILITIES.  PROBABLY ADD EVERY
-        //ABILITY TO A NEW ARRAY SO THAT WHEN SOMEONE PRESSES A NUMBER IT CAN
-        //CHECK THAT AGAINST ARRAY
-
-        let armSlots = this._player.getArms();
-        console.log(this._player.getArms());
-        let legSlots = this._player.getLegs();
-        let torsoSlots = this._player.getTorso();
+        // ??Is this OK or do I want to make an array for handling using abilities???
+        let bodySlots = this._player.getBodySlots();
         let slotNum = 1;
         let slotBar = '';
-        for(let i = 0; i < armSlots.length; i++) {
-            slotBar += slotNum + ': ' + armSlot[i].name + ' ';
+        for(let i = 0; i < bodySlots.length; i++) {
+            if (Object.keys(bodySlots[i].part).length === 0) {
+                slotBar += slotNum + ': default';
+            } else {
+                slotBar += slotNum + ': ' + bodySlots[i].part._name;
+            };
+            if (i < bodySlots.length -1) {
+                slotBar += ', ';
+            };
             slotNum += 1;
-            console.log(slotBar);
-        }
-        for(let i = 0; i < legSlots.length; i++) {
-            slotBar += slotNum + ': ' + legSlot[i].name + ' ';
-            slotNum += 1;
-            console.log(slotBar);
-        }
-        for(let i = 0; i < torsoSlots.length; i++) {
-            slotBar += slotNum + ': ' + torsoSlot[i].name + ' ';
-            slotNum += 1;
-            console.log(slotBar);
-        }
-        */
-        
-        /*
-        // Render player parts
-        let parts = '%c{white}%b{black}';
-        parts += vsprintf('Monster Parts 1: %d 3: %d 5: %d', 
-            [this._player.getArms(), this._player.getLegs(), 
-            this._player.getTorso()]);
-            display.drawText(0, screenHeight - 1, parts);
-        */
+        };
+        display.drawText(0, screenHeight - 1, slotBar);
     },
+
     getScreenOffsets: function() {
         // Make sure we still have enough space to fit an entire game screen
         var topLeftX = Math.max(0, this._player.getX() - (Game.getScreenWidth() / 2));
