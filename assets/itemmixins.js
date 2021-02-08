@@ -50,6 +50,7 @@ Game.ItemMixins.Equippable = {
         // Number of times the item can be used
         this._maxUses = template['uses'] || 1;
         this._remainingUses = this._maxUses;
+        this._ability = template['ability'] || false;
     },
     getAttackValue: function() {
         return this._attackValue;                 
@@ -65,6 +66,9 @@ Game.ItemMixins.Equippable = {
     },
     getPart: function() {
         return this._bodyPart
+    },
+    getAbility: function() {
+        return this._ability
     },
     isBeam: function() {
         return this._beam;

@@ -238,6 +238,38 @@ Game.Screen.playScreen = {
                     this.showItemsSubScreen(Game.Screen.pickupScreen, items,
                         'There is nothing here to pick up.');
                 } 
+            } else if (inputData.keyCode === ROT.VK_1) {
+                // Checking if there is an ability attached to that slot and then using it
+                //DO I NEED RETURN???????????????????????????????
+                if (this._player.getAbility(0)) {
+                    this._player.getAbility(0);  
+                } else {
+                    console.log('Ability not found')
+                }
+            } else if (inputData.keyCode === ROT.VK_2) {
+                if (this._player.getAbility(1)) {
+                    this._player.getAbility(1);  
+                } else {
+                    console.log('Ability not found')
+                }
+            } else if (inputData.keyCode === ROT.VK_3) {
+                if (this._player.getAbility(2)) {
+                    this._player.getAbility(2);  
+                } else {
+                    console.log('Ability not found')
+                }
+            } else if (inputData.keyCode === ROT.VK_4) {
+                if (this._player.getAbility(3)) {
+                    this._player.getAbility(3);  
+                } else {
+                    console.log('Ability not found')
+                }
+            } else if (inputData.keyCode === ROT.VK_5) {
+                if (this._player.getAbility(4)) {
+                    this._player.getAbility(4);  
+                } else {
+                    console.log('Ability not found')
+                }
             } else {
                 // Not a valid key
                 return;
@@ -344,6 +376,7 @@ Game.Screen.ItemListScreen = function(template) {
     this._canSelectMultipleItems = template['canSelectMultipleItems'];
     // Whether a 'no item' option should appear.
     this._hasNoItemOption = template['hasNoItemOption'];
+    this._displaySlots = template['displaySlots'] || true;
 };
 
 Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
@@ -370,12 +403,13 @@ Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
 Game.Screen.ItemListScreen.prototype.render = function(display) {
     let letters = 'abcdefghijklmnopqrstuvwxyz';
     // Render the caption in the top row
-    display.drawText(0, 0, this._caption);
+    display.drawText(2, 0, this._caption);
     // Render the no item row if enabled
     if (this._hasNoItemOption) {
         display.drawText(0, 1, '0 - no item');
     }
     let row = 0;
+    let bodySlots = this._player.getBodySlots();
     for (let i = 0; i < this._items.length; i++) {
         // If we have an item, we want to render it.
         if (this._items[i]) {
@@ -391,7 +425,6 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
             var suffix = '';
             if (this._items[i].hasMixin('Equippable')) {
                 if (this._items[i].getPart()) {
-                    let bodySlots = this._player.getBodySlots();
                     for (let s = 0; s < bodySlots.length; s++) {
                         if (this._items[i] === bodySlots[s].part) {
                             if (this._items[i].getPart() === 'arm'){
@@ -411,10 +444,31 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
                     }
                 }
             };                          
-                // Render at the correct row and add 2.
-            display.drawText(0, 2 + row,  letter + ' ' + selectionState + ' ' +
+
+            // Render at the correct row and add 2.
+            display.drawText(2, 2 + row,  letter + ' ' + selectionState + ' ' +
                 this._items[i].describe() + suffix);
             row++;
+        }
+    }
+
+    if (this._displaySlots) {
+        let numbers = 1
+        row += 4;
+        display.drawText(5, 2 + row, 'BODY SLOTS');
+        row += 2;
+        for (let s = 0; s < bodySlots.length; s++) {
+            // Change this when redo default items
+            currentSlot = bodySlots[s].name;
+            if (Object.keys(bodySlots[s].part).length != 0) {
+                currentPart = bodySlots[s].part.describe();        
+            } else {
+                currentPart = 'default';
+            }
+            display.drawText(5, 2 + row,  numbers + ': ' + currentSlot + ' = ' +
+                currentPart);
+            row += 2;
+            numbers++;
         }
     }
 };
@@ -475,7 +529,7 @@ Game.Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData
 
 Game.Screen.inventoryScreen = new Game.Screen.ItemListScreen({
     caption: 'Inventory',
-    canSelect: false
+    canSelect: false,
 });
 
 Game.Screen.pickupScreen = new Game.Screen.ItemListScreen({
@@ -522,6 +576,37 @@ Game.Screen.eatScreen = new Game.Screen.ItemListScreen({
         return true;
     }
 });
+
+//THIS IS THE START OF THE SCREEN FOR PICKING UP PARTS AFTER AN ENEMY DIES
+//IT IS PRETTY ROUGH
+//IT WILL BE BORING TO DO THIS AFTER EVERY FIGHT.  ONLY AFTER "elite" ENEMIES
+//WILL YOU HAVE THIS CHOICE I GUESS.
+
+// THE ONLY THING THAT MIGHT BE DIFFICULT WITH ITEM SCREEN IS ALSO SHOWING
+//WHAT IS CURRENTLY EQUIPPED.  MAYBE EDIT THE ITEM SCREEN CODE DIRECTLY????
+
+//1.  Choose item you wish you pick (while it also shows you what you have)
+//2.  Choose what slot you want to place it in (bases on what is possible)
+
+/*
+Game.Screen.partsScreen = new Game.Screen.ItemListScreen({
+    caption: 'Choose a part to attach to your body if you wish',
+    canSelect: true,
+    canSelectMultipleItems: false,
+    isAcceptable: function(item) {
+        return item && item.hasMixin('Equippable');
+    },
+    ok: function(selectedItems) {
+        // Attach the selected part to the selected slot.  Delete old part
+            this._player.attachPart(item);
+            // NOT SURE HOW TO DO THIS.  ACTUALLY THE LIST IS IMPORTANT
+            this._player.removePart(oldItem);
+        }
+        return true;
+    }
+});
+*/
+
 
 Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
     caption: 'Choose the item you wish to attach to a body part',

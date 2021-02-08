@@ -213,7 +213,6 @@ Game.EntityMixins.Attacker = {
                     // REMOVE THIS WHEN REMAKE DEFAULT ITEMS
                     if (Object.keys(partsSlot[i].part).length != 0) {
                         modifier += partsSlot[i].part.getAttackValue();
-                        console.log('entitymixins getAttackValue modifier=' + modifier);
                     }
                 }
             }
@@ -242,6 +241,16 @@ Game.EntityMixins.Attacker = {
                 [this.getName(), damage]);
 
             target.takeDamage(this, damage);
+        }
+    },
+    // Check if the body part referenced has an associated ability
+    getAbility: function(number) {
+        let bodySlots = this.getBodySlots();
+        //REMAKE THIS WHEN CHANGE DEFAULT PARTS>>>>>>>>
+        if (Object.keys(bodySlots[number].part).length != 0) {
+            return bodySlots[number].part.getAbility()      
+        } else {
+            return false;
         }
     },
     listeners: {
