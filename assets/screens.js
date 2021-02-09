@@ -790,24 +790,24 @@ Game.Screen.TargetBasedScreen.prototype.executeOkFunction = function() {
 
 Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
     captionFunction: function(x, y) {
-        var z = this._player.getZ();
-        var map = this._player.getMap();
+        let z = this._player.getZ();
+        let map = this._player.getMap();
         // If the tile is explored, we can give a better capton
         if (map.isExplored(x, y, z)) {
             // If the tile isn't explored, we have to check if we can actually 
             // see it before testing if there's an entity or item.
             if (this._visibleCells[x + ',' + y]) {
-                var items = map.getItemsAt(x, y, z);
+                let items = map.getItemsAt(x, y, z);
                 // If we have items, we want to render the top most item
                 if (items) {
-                    var item = items[items.length - 1];
+                    let item = items[items.length - 1];
                     return String.format('%s - %s (%s)',
                         item.getRepresentation(),
                         item.describeA(true),
                         item.details());
                 // Else check if there's an entity
                 } else if (map.getEntityAt(x, y, z)) {
-                    var entity = map.getEntityAt(x, y, z);
+                    let entity = map.getEntityAt(x, y, z);
                     return String.format('%s - %s (%s)',
                         entity.getRepresentation(),
                         entity.describeA(true),
@@ -829,26 +829,29 @@ Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
     }
 });
 
+/*
+// This was repeated twice for some reason.  Pretty sure it was duplicated
+//KEEPING THIS HERE FOR A FEW DAYS JUST INCASE I AM MISSING SOMETHING
 Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
     captionFunction: function(x, y) {
-        var z = this._player.getZ();
-        var map = this._player.getMap();
+        let z = this._player.getZ();
+        let map = this._player.getMap();
         // If the tile is explored, we can give a better capton
         if (map.isExplored(x, y, z)) {
             // If the tile isn't explored, we have to check if we can actually 
             // see it before testing if there's an entity or item.
             if (this._visibleCells[x + ',' + y]) {
-                var items = map.getItemsAt(x, y, z);
+                let items = map.getItemsAt(x, y, z);
                 // If we have items, we want to render the top most item
                 if (items) {
-                    var item = items[items.length - 1];
+                    let item = items[items.length - 1];
                     return String.format('%s - %s (%s)',
                         item.getRepresentation(),
                         item.describeA(true),
                         item.details());
                 // Else check if there's an entity
                 } else if (map.getEntityAt(x, y, z)) {
-                    var entity = map.getEntityAt(x, y, z);
+                    let entity = map.getEntityAt(x, y, z);
                     return String.format('%s - %s (%s)',
                         entity.getRepresentation(),
                         entity.describeA(true),
@@ -869,6 +872,8 @@ Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
         }
     }
 });
+
+*/
 
 // Define our help screen
 Game.Screen.helpScreen = {

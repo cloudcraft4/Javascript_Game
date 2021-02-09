@@ -42,14 +42,10 @@ Game.ItemMixins.Equippable = {
         this._attackValue = template['attackValue'] || 0;
         this._defenseValue = template['defenseValue'] || 0;
         // Attributes that can be added to item
-        this._range = template['range'] || 0;
         this._bodyPart = template['bodyPart'] || false;
-        this._beam = template['beam'] || false;
-        this._aoe = template['aoe'] || false;
         this._description = template['description'] || 'Description Missing';
         // Number of times the item can be used
         this._maxUses = template['uses'] || 1;
-        this._remainingUses = this._maxUses;
         this._ability = template['ability'] || false;
     },
     getAttackValue: function() {
@@ -57,9 +53,6 @@ Game.ItemMixins.Equippable = {
     },
     getDefenseValue: function() {
         return this._defenceValue;
-    },
-    getRange: function() {
-        return this._range;
     },
     getDescription: function() {
         return this._description;
@@ -69,15 +62,6 @@ Game.ItemMixins.Equippable = {
     },
     getAbility: function() {
         return this._ability
-    },
-    isBeam: function() {
-        return this._beam;
-    },
-    isAoe: function() {
-        return this._aoe;
-    },
-    hasRemainingConsumptions: function() {
-        return this._remainingConsumptions > 0;
     },
     listeners: {
         'details': function() {

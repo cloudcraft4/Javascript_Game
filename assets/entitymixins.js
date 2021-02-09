@@ -226,18 +226,18 @@ Game.EntityMixins.Attacker = {
         this._attackValue += value;
         Game.sendMessage(this, "You look stronger!");
     },
-    attack: function(target) {
+    attack: function(target, message='strike') {
         // If the target is destructible, calculate the damage
         // based on attack and defense value
         if (target.hasMixin('Destructible')) {
-            var attack = this.getAttackValue();
-            var defense = target.getDefenseValue();
-            var max = Math.max(0, attack - defense);
-            var damage = 1 + Math.floor(Math.random() * max);
+            let attack = this.getAttackValue();
+            let defense = target.getDefenseValue();
+            let max = Math.max(0, attack - defense);
+            let damage = 1 + Math.floor(Math.random() * max);
 
-            Game.sendMessage(this, 'You strike the %s for %d damage!', 
+            Game.sendMessage(this, 'You ' + message + ' the %s for %d damage!', 
                 [target.getName(), damage]);
-            Game.sendMessage(target, 'The %s strikes you for %d damage!', 
+            Game.sendMessage(target, 'The %s ' + message + ' you for %d damage!', 
                 [this.getName(), damage]);
 
             target.takeDamage(this, damage);
