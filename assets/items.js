@@ -88,7 +88,7 @@ Game.ItemRepository.define('regenerating arm', {
     healValue: 20,
     //onUse: heal(self._player),
     maxUses: 1,
-    mixins: [Game.ItemMixins.Equippable, Game.ItemMixins.Healing],
+    mixins: [Game.ItemMixins.Healing, Game.ItemMixins.Equippable],
     description: 'Deals medium damage.  One time healing use.'
 }, {
     disableRandomCreation: true

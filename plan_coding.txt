@@ -1,66 +1,64 @@
-_           ____STAGE 1___
+
+_           ____CURRENT PROJECT___
+
+HANDLING ABILITIES:
 
 
-- Right now you can only attach ONE arm slots and ONE leg slots even if there are 
-    technically multiple
-
-- What to do with default parts?
-
-- BUG? itemmixins.js listeners it checks all values but it is on items
-
-
-
-_           ____STAGE 2___
-
-HANDLING WITH ABILITIES:
  - PARTIALLY DONE screens.js handle input.  DO I NEED RETURN????
- - STARTED entitymixins.js getAbility
 
+1 Create the screen for choosing parts
 - screens.js Game.Screen.chooseScreen
 
+2.  STARTED -- Targeting for abilities
 
-1. BUG Game.Playertemplate body parts are messed up.  NOT SURE WHAT TEMPLATE
+3.  Single Use parts
+
+4.  STARTED - Ranged parts
+
+5.  NOT WORKING - Healing Parts
+    ---> Current Problem 
+        itemmixins.js:103 Uncaught ReferenceError: heal is not defined
+
+
+
+
+
+_         ____BUGS / OUTSTANDING ISSUES_____
+
+
+1  FEATURE Right now you can only attach ONE arm slots and ONE leg slots even if 
+    there are technically multiple
+    - entitymixins.js Equipper.attachPart --> Can only use one part
+
+2.  Have default parts but do not handle switching back to default.
+
+3.  entitymixins.js Equipper.removepart --> part goes into inventory or destroyed?
+
+4  MAJOR BUG? itemmixins.js listeners it checks all values but it is on items
+    - This might be what is causing combat to be so easy
+
+5. MINOR BUG Game.Playertemplate body parts are messed up.  NOT SURE WHAT TEMPLATE
     IS FOR ANYWAY ACTUALLY
 
-1. DONE? entitymixins.js CorspeDropper onDeath
-2. DONE map.js addEntity (creating random items from list)
-
-
-NOW - Create the screen for choosing parts
-
-- 
-
-1.  entitymixins.js Equipper.removepart --> part goes into inventory or destroyed?
-
-3.  entitymixins.js Equipper.attachPart --> Can only use one part
-4.  Screens.js NEW --> Need to make a screen to show parts enemy drops
-5.  Set up default player parts
-6.  Add inputs for using abilities
-
-
-_           ____STAGE 3___
-
-1.  Targeting for abilities
-2.  Single Use parts
-3.  AOE parts
-4.  Healing Parts
-5.  Enemies use Parts
-6.  Overhaul enemy AI
+6. MAJOR BUG?  this.hasMixin seems to only check first item in list.  This is super weird and
+    causes problems (see itemmixins.js createOnUse).  BUt it works elsewhere?????
 
 
 
 
 
 
-_       __MISC__
 
-1.  Map Generation/ Digging:
+
+_           ____FUTURE ISSUES___
+
+
+1.  Enemies use Parts
+2.  Overhaul enemy AI
+3.  Map Generation/ Digging:
     Make digging harder or fix unconnected parts.  Not totally sure how to code
     fix.
-
-2.  Map Height is one square too high
-
-3.  Entities are randomly added and given experience.  But there should be some harder
+4.  Map Height is one square too high
+5.  Entities are randomly added and given experience.  But there should be some harder
     enemies that only show up at later level. So need to split that up.
-
-4.  Tiles
+6.  Graphical Tiles
