@@ -16,6 +16,11 @@ HANDLING WITH ABILITIES:
  - PARTIALLY DONE screens.js handle input.  DO I NEED RETURN????
  - STARTED entitymixins.js getAbility
 
+- screens.js Game.Screen.chooseScreen
+
+
+1. BUG Game.Playertemplate body parts are messed up.  NOT SURE WHAT TEMPLATE
+    IS FOR ANYWAY ACTUALLY
 
 1. DONE? entitymixins.js CorspeDropper onDeath
 2. DONE map.js addEntity (creating random items from list)

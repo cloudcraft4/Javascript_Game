@@ -675,6 +675,10 @@ Game.EntityMixins.Equipper = {
         return this._possibleParts;
     },
 
+    getPart: function(number) {
+        return this._bodySlots[number].part;
+    },
+
     getRandomPossiblePart: function() {
         let randomIndex = Math.floor(Math.random() * this._possibleParts.length);
         let randomPart = this._possibleParts[randomIndex];

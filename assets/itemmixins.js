@@ -1,5 +1,7 @@
 Game.ItemMixins = {};
 
+
+
 // Edible mixins
 Game.ItemMixins.Edible = {
     name: 'Edible',
@@ -45,9 +47,12 @@ Game.ItemMixins.Equippable = {
         this._bodyPart = template['bodyPart'] || false;
         this._description = template['description'] || 'Description Missing';
         // Number of times the item can be used
-        this._maxUses = template['uses'] || 1;
-        this._ability = template['ability'] || false;
+        this._maxUses = template['maxUses'] || 1;
+        this._onUse = this.createOnUse();
+        console.log(this._description);
+        console.log(this._onUse);
     },
+
     getAttackValue: function() {
         return this._attackValue;                 
     },
@@ -60,8 +65,8 @@ Game.ItemMixins.Equippable = {
     getPart: function() {
         return this._bodyPart
     },
-    getAbility: function() {
-        return this._ability
+    getOnUse: function() {
+        return this._onUse
     },
     listeners: {
         'details': function() {
@@ -88,4 +93,113 @@ Game.ItemMixins.Equippable = {
             return results;
         }
     }
+};
+
+Game.Item.prototype.createOnUse = function() {
+    console.log(this);
+    //This is failing.  It can find equippable but not healing.  Maybe
+    //because it is second.  Need to check out code for hasMixin
+    if (this.hasMixin('Healing')) {
+        return heal(this._player);
+    } else if (this.hasMixin('rangedAttack')){
+        console.log('ranged not done yet');
+        return false;
+    } else {
+        return false;
+    }
+};
+
+// Mixins to add onto parts
+Game.ItemMixins.Healing = {
+    name: 'Healing',
+    init: function(template) {
+        this._healValue = template['healValue'] || 20;
+        this._maxUses = template['uses'] || 1;
+        this._remainingUses = this._maxUses;
+    },
+    heal: function(entity = this._player) {
+        if (entity.hasMixin('Destructible')) {
+            if (this.hasRemainingUses()) {
+                currentHP = entity.getHp();
+                entity.setHp(currentHP + this.healValue);
+                this._remainingUses--;
+            }
+            //Destroy item if no more uses
+            if (this.hasRemainingUses() < 1) {
+                //Does this work?  What is "this"
+                this._player.removeItem(this);
+            }
+        }
+    },
+    hasRemainingUses: function() {
+        return this._remainingUses > 0;
+    },
+};
+
+//IS THIS A GOOD IDEA OR ADD TO BASIC ATTACK???????
+Game.ItemMixins.rangedAttack = {
+    name: 'rangedAttack',
+    init: function(template) {
+        this._rangedDamage = template['rangedDamage'] || 20;
+        this._areaSize = template['areaSize'] || 0;
+        this._sizeDamageReduction = template['sizeDamageReduction'] || 0;
+        this._beam = template['beam'] || false;
+        this._maxUses = template['uses'] || 1;
+        this._remainingUses = this._maxUses;
+        // I have not implimented this yet
+        this._piercing = template['piercing'] || false;
+    },
+    pickTarget: function(entity) {
+        //Allow user to target enemy
+        //NEED TO CALCULATE IF BLOCKED (OR PIERCING)
+        let targetPosition = [];
+        if (this.hasRemainingUses()) {
+            //screen.js getScreenOffsets not sure what it does but this is
+            //a normal part of calling this program.  It is part of PlayScreen.
+            //It seems to be part of making sure the there is not too much rendered
+            //to screen or something.
+            let offsets = this.getScreenOffsets();
+            Game.Screen.chooseScreen.setup(this._player,
+                this._player.getX(), this._player.getY(),
+                offsets.x, offsets.y);
+            this.setSubScreen(Game.Screen.lookScreen);
+            // MODIFY TargetBasedScreen and get new okFunction
+        }
+        //ALL THAT HAPPENS IS SHOWING SCREEN.  NO CODE FOR CHOOSING!!!!!!
+        return targetPosition;
+    },
+    //This is probably close to working. NOT TESTED
+    damageTarget: function(targetPosition) {
+        if (targetPosition = entity) {
+            target = targetPosition
+            let message = 'shoot a fireball at';
+            this.attack(target, message);
+            // Damage everything in an area if attack has areaSize
+            // CODE Game.getNeighborPositions in Tile DOES THIS ALREADY.  But
+            // ONly for direct neightbors
+            if (this.areaSize) {
+                for (let xPos = 0; xPos < this.areaSize; xPos++) {
+                    let xTarget = targetPosition.x - (xPos - this.areaSize);
+                    for (let yPos = 0; yPos < this.areaSize; yPos++) {
+                        let yTarget = targetPosition.y - (yPos - this.areaSize);
+                        //Checks to make sure we are not dealing double damage
+                        if (xTarget !== targetPosition.x && 
+                            yTarget !== targetPosition.y) {
+                            //Attempts to do damage to target entity
+                            if (this.getEntityAt(xTarget, yTarget, this._player.getZ())) {
+                                targetEntity = this.getEntityAt(xTarget, yTarget, this._player.getZ());
+                                this.attack(targetEntity, message);
+                            }
+                        }
+                    }
+                }
+            }
+            if (this.beam) {
+                // damage things in a beam
+            }
+        }
+    },
+    hasRemainingUses: function() {
+        return this._remainingUses > 0;
+    },
 };

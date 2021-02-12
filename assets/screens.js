@@ -241,32 +241,45 @@ Game.Screen.playScreen = {
             } else if (inputData.keyCode === ROT.VK_1) {
                 // Checking if there is an ability attached to that slot and then using it
                 //DO I NEED RETURN???????????????????????????????
-                if (this._player.getAbility(0)) {
-                    this._player.getAbility(0);  
+                let part = this._player.getPart(0);
+                console.log(part);
+                console.log(part.getOnUse());
+                if (part.getOnUse()) {
+                    let usePart = part.getOnUse();
+                    usePart();  
                 } else {
                     console.log('Ability not found')
                 }
+            
+            /* HERE BECAUSE I HAVE NOT HANDLED MULTIPLE OBJECTS 
+
             } else if (inputData.keyCode === ROT.VK_2) {
                 if (this._player.getAbility(1)) {
                     this._player.getAbility(1);  
                 } else {
                     console.log('Ability not found')
                 }
+            */
             } else if (inputData.keyCode === ROT.VK_3) {
-                if (this._player.getAbility(2)) {
-                    this._player.getAbility(2);  
+                let part = this._player.getPart(2);
+                if (part.getOnUse()) {
+                    let usePart = part.getOnUse();
+                    usePart();    
                 } else {
                     console.log('Ability not found')
                 }
-            } else if (inputData.keyCode === ROT.VK_4) {
+            /*} else if (inputData.keyCode === ROT.VK_4) {
                 if (this._player.getAbility(3)) {
                     this._player.getAbility(3);  
                 } else {
                     console.log('Ability not found')
                 }
+            */
             } else if (inputData.keyCode === ROT.VK_5) {
-                if (this._player.getAbility(4)) {
-                    this._player.getAbility(4);  
+                let part = this._player.getPart(4);
+                if (part.getOnUse()) {
+                    let usePart = part.getOnUse();
+                    usePart();  
                 } else {
                     console.log('Ability not found')
                 }
@@ -829,10 +842,18 @@ Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
     }
 });
 
-/*
-// This was repeated twice for some reason.  Pretty sure it was duplicated
-//KEEPING THIS HERE FOR A FEW DAYS JUST INCASE I AM MISSING SOMETHING
-Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
+
+Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
+    
+    //I DID SELECT HERE BUT NOT SURE THIS IS RIGHT>>>>>
+    //THIS CODE IS FROM OTHER KINDS OF SCREENS>>>>
+    //I need to see how this code is used.
+    canSelect: true,
+    
+    //This is copied directly from above
+    //It is drawing line and displaying object.
+    //All this is fine I think.
+
     captionFunction: function(x, y) {
         let z = this._player.getZ();
         let map = this._player.getMap();
@@ -870,10 +891,12 @@ Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
                 Game.Tile.nullTile.getRepresentation(),
                 Game.Tile.nullTile.getDescription());
         }
+    },
+    ok: function(selectedItems) {
+        return "FILL THIS OUT HERE";
     }
 });
 
-*/
 
 // Define our help screen
 Game.Screen.helpScreen = {

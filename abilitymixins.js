@@ -39,13 +39,19 @@ Game.AbilityMixins.rangedAttack = {
     },
     pickTarget: function(entity) {
         //Allow user to target enemy
+        //NEED TO CALCULATE IF BLOCKED (OR PIERCING)
         let targetPosition = [],
         if (this.hasRemainingUses()) {
+            //screen.js getScreenOffsets not sure what it does but this is
+            //a normal part of calling this program.  It is part of PlayScreen.
+            //It seems to be part of making sure the there is not too much rendered
+            //to screen or something.
             let offsets = this.getScreenOffsets();
-            Game.Screen.lookScreen.setup(this._player,
+            Game.Screen.chooseScreen.setup(this._player,
                 this._player.getX(), this._player.getY(),
                 offsets.x, offsets.y);
             this.setSubScreen(Game.Screen.lookScreen);
+            // MODIFY TargetBasedScreen and get new okFunction
         }
         //ALL THAT HAPPENS IS SHOWING SCREEN.  NO CODE FOR CHOOSING!!!!!!
         return targetPosition;

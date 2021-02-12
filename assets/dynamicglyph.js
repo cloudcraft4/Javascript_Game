@@ -71,6 +71,11 @@ Game.DynamicGlyph.prototype.getName = function() {
 Game.DynamicGlyph.prototype.describe = function() {
     return this._name;
 };
+
+Game.DynamicGlyph.prototype.getMixins = function() {
+    return this._attachedMixins;
+};
+
 Game.DynamicGlyph.prototype.describeA = function(capitalize) {
     // Optional parameter to capitalize the a/an.
     var prefixes = capitalize ? ['A', 'An'] : ['a', 'an'];

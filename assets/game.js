@@ -29,7 +29,7 @@ var Game =  {
 		return this._display;
 	},
 	getScreenWidth: function() {
-    return this._screenWidth;
+        return this._screenWidth;
 	},
 	getScreenHeight: function() {
 	    return this._screenHeight;

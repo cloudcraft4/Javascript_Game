@@ -165,8 +165,17 @@ Game.Map.prototype.addEntity = function(entity) {
        this._scheduler.add(entity, true);
     } 
     // If the entity is the player, set the player.
+    //
+    //    NOT TEST/ WORKING YET
+    // 
     if (entity.hasMixin(Game.EntityMixins.PlayerActor)) {
         this._player = entity;
+        let defaultArm = Game.ItemRepository.create('regenerating arm');
+        entity.attachPart(defaultArm);
+        let defaultLeg = Game.ItemRepository.create('default leg');
+        entity.attachPart(defaultLeg);
+        let defaultTorso = Game.ItemRepository.create('default torso');
+        entity.attachPart(defaultTorso);
     }
     //If the entity has parts, create the parts.
     if (entity.hasMixin(Game.EntityMixins.Equipper)) {
@@ -257,15 +266,3 @@ Game.Map.prototype.getPlayer = function() {
     return this._player;
 };
 
-/*
-Game.Map.prototype.addToEntity = function(entity, items) {
-    // If we already have items attached to entity, simply append the item to the 
-    // list of the entities.
-    var key = entity
-    if (this._entities[key]) {
-        this._entities[key].push(item);
-    } else {
-        this._entities[key] = [item];
-    }
-};
-*/

@@ -31,6 +31,42 @@ Game.ItemRepository.define('rock', {
 });
 
 // Weapons
+Game.ItemRepository.define('default arm', {
+    name: 'default arm',
+    character: ')',
+    foreground: 'gray',
+    attackValue: 0,
+    bodyPart: 'arm',
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'This default arm is used whenever you don\'t have a better option.'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('default leg', {
+    name: 'default leg',
+    character: ')',
+    foreground: 'gray',
+    attackValue: 0,
+    bodyPart: 'leg',
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'This default arm is used whenever you don\'t have a better option.'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('default torso', {
+    name: 'default torso',
+    character: ')',
+    foreground: 'gray',
+    defenseValue: 0,
+    bodyPart: 'torso',
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'This default arm is used whenever you don\'t have a better option.'
+}, {
+    disableRandomCreation: true
+});
+
 Game.ItemRepository.define('large claw', {
     name: 'large claw',
     character: ')',
@@ -43,15 +79,17 @@ Game.ItemRepository.define('large claw', {
     disableRandomCreation: true
 });
 
-Game.ItemRepository.define('blade arm', {
-    name: 'blade arm',
+Game.ItemRepository.define('regenerating arm', {
+    name: 'regenerating arm',
     character: ')',
     foreground: 'white',
     attackValue: 10,
     bodyPart: 'arm',
-    maxUses: 10,
-    mixins: [Game.ItemMixins.Equippable],
-    description: 'Deals medium damage to adjacent creatures.  Breaks after ten uses.'
+    healValue: 20,
+    //onUse: heal(self._player),
+    maxUses: 1,
+    mixins: [Game.ItemMixins.Equippable, Game.ItemMixins.Healing],
+    description: 'Deals medium damage.  One time healing use.'
 }, {
     disableRandomCreation: true
 });
