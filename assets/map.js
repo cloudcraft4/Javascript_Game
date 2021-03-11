@@ -172,10 +172,13 @@ Game.Map.prototype.addEntity = function(entity) {
         this._player = entity;
         let defaultArm = Game.ItemRepository.create('regenerating arm');
         entity.attachPart(defaultArm);
+        defaultArm._owner = entity;
         let defaultLeg = Game.ItemRepository.create('default leg');
         entity.attachPart(defaultLeg);
+        defaultLeg._owner = entity;
         let defaultTorso = Game.ItemRepository.create('default torso');
         entity.attachPart(defaultTorso);
+        defaultTorso._owner = entity;
     }
     //If the entity has parts, create the parts.
     if (entity.hasMixin(Game.EntityMixins.Equipper)) {
@@ -184,6 +187,7 @@ Game.Map.prototype.addEntity = function(entity) {
             let randomPart = entity.getRandomPossiblePart();
             let bodyPart = Game.ItemRepository.create(randomPart);
             entity.attachPart(bodyPart);
+            randomPart._owner = entity;
         }
     }     
 };

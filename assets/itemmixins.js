@@ -48,11 +48,16 @@ Game.ItemMixins.Equippable = {
         this._description = template['description'] || 'Description Missing';
         // Number of times the item can be used
         this._maxUses = template['maxUses'] || 1;
-        this._onUse = this.createOnUse();
-        console.log(this._description);
-        console.log(this._onUse);
+        this._onUse = template['onUse'] || false;
+        //This is something that I need to properly impliment.  Whenever the item
+        //is attached to a entity on creation this should be set (NOT DONE YET)
+        //It also needs to be set on equipping (already done but not tested)
+        this._owner = false;
     },
 
+    getOwner: function() {
+        return this._owner;                 
+    },
     getAttackValue: function() {
         return this._attackValue;                 
     },
@@ -65,8 +70,13 @@ Game.ItemMixins.Equippable = {
     getPart: function() {
         return this._bodyPart
     },
-    getOnUse: function() {
-        return this._onUse
+    useAbility: function() {
+        if (this._onUse) {
+            switch (this._onUse) {
+                case 'heal': this.heal(); break;
+                default: console.log(this._onUse + ' not found in switch');
+            }
+        } else {console.log('This item does not have an ability')}
     },
     listeners: {
         'details': function() {
@@ -95,19 +105,6 @@ Game.ItemMixins.Equippable = {
     }
 };
 
-Game.Item.prototype.createOnUse = function() {
-    console.log(this);
-    //This is failing.  It can find equippable but not healing.  Maybe
-    //because it is second.  Need to check out code for hasMixin
-    if (this.hasMixin('Healing')) {
-        return heal(this._player);
-    } else if (this.hasMixin('rangedAttack')){
-        console.log('ranged not done yet');
-        return false;
-    } else {
-        return false;
-    }
-};
 
 // Mixins to add onto parts
 Game.ItemMixins.Healing = {
@@ -117,7 +114,8 @@ Game.ItemMixins.Healing = {
         this._maxUses = template['uses'] || 1;
         this._remainingUses = this._maxUses;
     },
-    heal: function(entity = this._player) {
+    heal: function(entity = this.getOwner()) {
+        console.log(this.getOwner());
         if (entity.hasMixin('Destructible')) {
             if (this.hasRemainingUses()) {
                 currentHP = entity.getHp();
@@ -127,7 +125,7 @@ Game.ItemMixins.Healing = {
             //Destroy item if no more uses
             if (this.hasRemainingUses() < 1) {
                 //Does this work?  What is "this"
-                this._player.removeItem(this);
+                entity.removeItem(this);
             }
         }
     },

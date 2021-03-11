@@ -242,11 +242,8 @@ Game.Screen.playScreen = {
                 // Checking if there is an ability attached to that slot and then using it
                 //DO I NEED RETURN???????????????????????????????
                 let part = this._player.getPart(0);
-                console.log(part);
-                console.log(part.getOnUse());
-                if (part.getOnUse()) {
-                    let usePart = part.getOnUse();
-                    usePart();  
+                if (part._onUse) {
+                    part.useAbility(); 
                 } else {
                     console.log('Ability not found')
                 }
@@ -641,6 +638,7 @@ Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
             var item = selectedItems[keys[0]];
             //this._player.unequip(item);
             this._player.attachPart(item);
+            item._owner = this._player;
             Game.sendMessage(this._player, "You has attached %s.", [item.describeA()]);
         }
         return true;
