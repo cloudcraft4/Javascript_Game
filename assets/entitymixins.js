@@ -462,15 +462,20 @@ Game.EntityMixins.InventoryHolder = {
         return false;
     },
     
-
     removeItem: function(i) {
-        // If we can equip items, then make sure we unequip the item we are removing.
+        //THIS IS OUT OF DATE CODE AND NEEDS TO BE FIXED/REMOVED
+        //DELETE THIS WHEN SURE IT WILL NOT BREAK ANYTHING
+        /*
         if (this._items[i] && this.hasMixin(Game.EntityMixins.Equipper)) {
-            this.removePart(this._items[i]);
+            let oldItem = this._items[i];
+            Game.sendMessage(entity, 'The ' + oldItem._name + 'is destroyed');
+            this.removePart(oldItem);
         }
+        */
         // Simply clear the inventory slot.
         this._items[i] = null;
     },
+
     canAddItem: function() {
         // Check if we have an empty slot.
         for (var i = 0; i < this._items.length; i++) {
@@ -480,6 +485,7 @@ Game.EntityMixins.InventoryHolder = {
         }
         return false;
     },
+    
     pickupItems: function(indices) {
         // Allows the user to pick up items from the map, where indices is
         // the indices for the array returned by map.getItemsAt
@@ -594,8 +600,8 @@ Game.EntityMixins.CorpseDropper = {
 Game.EntityMixins.Equipper = {
     name: 'Equipper',
     init: function(template) {
-        // Set up the body part slots
 
+        // Set up the body part slots
         let bodySlots = template['bodySlots'] || 
             [rightArm = {
                 name: 'Right Arm',
@@ -627,6 +633,10 @@ Game.EntityMixins.Equipper = {
         
         this._bodySlots = bodySlots;
         this._possibleParts = possibleParts
+        //When entity is given parts these are set to the appropriate value
+        this._defaultLeg = false;
+        this._defaultArm = false;
+        this._defaultTorso = false;
     },
 
     attachPart: function(item) {
@@ -653,11 +663,12 @@ Game.EntityMixins.Equipper = {
             //PULL UP SCREEN ASKING WHAT SLOT TO REMOVE
             //TEMPORARILY THIS JUST AUTOMATICALLY REMOVES THEM
             if (item.getPart() === 'arm') {
-                this._bodySlots[0].part = {};
+                this._bodySlots[0].part = this.getDefaultPart('arm');
+                console.log(this.getDefaultPart('arm'));
             } else if (item.getPart() === 'leg') {
-                this._bodySlots[2].part = {};
+                this._bodySlots[2].part = this.getDefaultPart('leg');
             } else if (item.getPart() === 'torso') {
-                this._bodySlots[4].part = {};
+                this._bodySlots[4].part = this.getDefaultPart('torso');
             } else {
                 console.log('Error: Item isPart() but is not arm, leg or torso.');
                 console.log('Typo likely of item =' + item.name +' in item.js');
@@ -685,6 +696,19 @@ Game.EntityMixins.Equipper = {
         return randomPart;
     },
 
+    getDefaultPart: function(partSlot) {
+        switch(partSlot) {
+            case 'leg':
+                return this._defaultLeg;
+            case 'arm':
+                return this._defaultArm;
+            case 'torso':
+                return this._defaultTorso;
+            default:
+                console.log('Error: The ' + partSlot + ' not found');
+                break;
+        }
+    },
 };
 
 Game.EntityMixins.ExperienceGainer = {

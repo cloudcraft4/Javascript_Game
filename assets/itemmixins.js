@@ -73,10 +73,23 @@ Game.ItemMixins.Equippable = {
     useAbility: function() {
         if (this._onUse) {
             switch (this._onUse) {
-                case 'heal': this.heal(); break;
+                case 'heal': 
+                    this.heal(); 
+                    this.checkUses();
+                    break;
                 default: console.log(this._onUse + ' not found in switch');
             }
         } else {console.log('This item does not have an ability')}
+    },
+    //Check to see if item has uses left.  If not remove and replace with default
+    //THIS DOES NOT WORK YET>>>  ITEM & ENTITY NOT DEFINED
+    //ALSO HEAL DUPLICATES THIS SO DELETE IT
+    checkUses: function() {
+        let entity = this._owner;
+        console.log('checkUses was called');
+        if (this.hasRemainingUses() <= 0) {
+            entity.removePart(this);
+        }
     },
     listeners: {
         'details': function() {
@@ -118,14 +131,20 @@ Game.ItemMixins.Healing = {
         console.log(this.getOwner());
         if (entity.hasMixin('Destructible')) {
             if (this.hasRemainingUses()) {
-                currentHP = entity.getHp();
-                entity.setHp(currentHP + this.healValue);
-                this._remainingUses--;
-            }
-            //Destroy item if no more uses
-            if (this.hasRemainingUses() < 1) {
-                //Does this work?  What is "this"
-                entity.removeItem(this);
+                let currentHP = entity.getHp();
+                let maxHP = entity.getMaxHp();
+                //Heal entity if it has been damaged
+                if (currentHP + this.healValue <= maxHP) {
+                    entity.setHp(currentHP + this.healValue);
+                    this._remainingUses--;
+                    Game.sendMessage(entity, "Your wounds heal");
+                } else if (currentHP < maxHP) {
+                    entity.setHp(maxHP);
+                    this._remainingUses--;
+                    Game.sendMessage(entity, "Your wounds heal");
+                } else {
+                    Game.sendMessage(entity, "Nothing happens because you are not hurt");
+                };
             }
         }
     },

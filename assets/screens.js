@@ -240,7 +240,6 @@ Game.Screen.playScreen = {
                 } 
             } else if (inputData.keyCode === ROT.VK_1) {
                 // Checking if there is an ability attached to that slot and then using it
-                //DO I NEED RETURN???????????????????????????????
                 let part = this._player.getPart(0);
                 if (part._onUse) {
                     part.useAbility(); 
@@ -633,13 +632,12 @@ Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
             //this._player.unwield();
             Game.sendMessage(this._player, "You have not selected anything.")
         } else {
-            // Make sure to unequip the item first in case it is the armor.
-            // So far I do not have multiple use items so this not needed...
             var item = selectedItems[keys[0]];
-            //this._player.unequip(item);
             this._player.attachPart(item);
             item._owner = this._player;
             Game.sendMessage(this._player, "You has attached %s.", [item.describeA()]);
+            //Remove item from the inventory since it is not equipped
+            this._player.removeItem(Object.keys(selectedItems));
         }
         return true;
     }

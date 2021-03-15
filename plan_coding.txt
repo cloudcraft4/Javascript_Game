@@ -15,10 +15,12 @@ HANDLING ABILITIES:
 
 4.  STARTED - Ranged parts
 
-5.  NOT WORKING - Healing Parts
-    ---> Current Problem 
-        itemmixins.js:103 Uncaught ReferenceError: heal is not defined
+5.  MINOR PROBLEM - Inventory Screen
+    It fails even if there are no items.  However it is how I show equipment
 
+
+
+==> Rename removePart to unequipPart to differentiate it from removeItem?
 
 
 

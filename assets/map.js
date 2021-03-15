@@ -165,20 +165,31 @@ Game.Map.prototype.addEntity = function(entity) {
        this._scheduler.add(entity, true);
     } 
     // If the entity is the player, set the player.
-    //
-    //    NOT TEST/ WORKING YET
-    // 
     if (entity.hasMixin(Game.EntityMixins.PlayerActor)) {
         this._player = entity;
-        let defaultArm = Game.ItemRepository.create('regenerating arm');
+        let defaultArm = Game.ItemRepository.create('default arm');
+        let defaultLeg = Game.ItemRepository.create('default leg');
+        let defaultTorso = Game.ItemRepository.create('default torso');
+
+        //TEMPORARTY CODE FOR TESTING
+        let tempArm = Game.ItemRepository.create('regenerating arm');
+        entity.addItem(tempArm);
+        
+        //PROBABLY MAKE THIS A METHOD SO CODE DOES NOT HAVE TO BE DUPLICATED??
+        //Attach the arm and set as default
         entity.attachPart(defaultArm);
         defaultArm._owner = entity;
-        let defaultLeg = Game.ItemRepository.create('default leg');
+        entity._defaultArm = defaultArm;
+
+        //Attach the leg and set as default
         entity.attachPart(defaultLeg);
-        defaultLeg._owner = entity;
-        let defaultTorso = Game.ItemRepository.create('default torso');
+        defaultLeg._owner = entity;      
+        entity._defaultArm = defaultArm;
+        
+        //Attach the torso and set as default
         entity.attachPart(defaultTorso);
         defaultTorso._owner = entity;
+        entity._defaultTorso = defaultTorso;
     }
     //If the entity has parts, create the parts.
     if (entity.hasMixin(Game.EntityMixins.Equipper)) {
