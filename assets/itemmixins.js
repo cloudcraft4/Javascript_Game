@@ -56,18 +56,15 @@ Game.ItemMixins.Equippable = {
     },
 
     //LIKELY NOT WORKING YET...  Game.Screen.playScreen not sure about
-    //Also return x, y I am not sure about too.  Don't use it even if
-    //it works fine as well
-    //Where even is x and y defined???
+    //Also unlock happens right after doing OK function.  Is that ok?
     chooseTarget: function() {
         let offsets = Game.Screen.getScreenOffsets();
         let player = Game.Screen.playScreen._player;
         Game.Screen.chooseScreen.setup(player,
             player.getX(), player.getY(),
             offsets.x, offsets.y);
-        Game.Screen.playScreen.setSubScreen(Game.Screen.chooseScreen);
-        
-        return x, y; 
+        let target = Game.Screen.playScreen.setSubScreen(Game.Screen.chooseScreen);
+        return target; 
     },    
     getOwner: function() {
         return this._owner;                 

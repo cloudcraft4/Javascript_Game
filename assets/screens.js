@@ -875,8 +875,8 @@ Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
     },
     //Return the x and y cooridinates for the calling function
     okFunction: function(x, y) {
-        //Would this just return it to the screen? ...I don't think so
-        return x, y;
+        //Set the x and y values to an object that can be returned
+        return {targetX:x, targetY:y};
         //(this._cursorX + this._offsetX, this._cursorY + this._offsetY)
     }
 });
