@@ -72,7 +72,6 @@ Game.Screen.playScreen = {
         display.drawText(screenWidth - hungerState.length, screenHeight - 2, hungerState);
         
         // Render player parts
-        // ??Is this OK or do I want to make an array for handling using abilities???
         let bodySlots = this._player.getBodySlots();
         let slotNum = 1;
         let slotBar = '';
@@ -219,7 +218,7 @@ Game.Screen.playScreen = {
                         'You have nothing to wield.');
                 return;
             } else if (inputData.keyCode === ROT.VK_X) {
-                // Show the drop screen
+                // Show the examine screen
                 this.showItemsSubScreen(Game.Screen.examineScreen, this._player.getItems(),
                    'You have nothing to examine.');
                 return;
@@ -431,6 +430,8 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
 
             // Check what slot the body part is attached to and show this by
             // having a suffix in the inventory screen. 
+            
+            //OLD CODE THAT LIKELY CAN BE DELETED
             var suffix = '';
             if (this._items[i].hasMixin('Equippable')) {
                 if (this._items[i].getPart()) {
@@ -715,7 +716,7 @@ Game.Screen.TargetBasedScreen = function(template) {
     this._isAcceptableFunction = template['okFunction'] || function(x, y) {
         return false;
     };
-    // The defaut caption function simply returns an empty string.
+    // The default caption function simply returns an empty string.
     this._captionFunction = template['captionFunction'] || function(x, y) {
         return '';
     }
@@ -734,7 +735,7 @@ Game.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY,
     this._offsetX = offsetX;
     this._offsetY = offsetY;
     // Cache the FOV
-    var visibleCells = {};
+    let visibleCells = {};
     this._player.getMap().getFov(this._player.getZ()).compute(
         this._player.getX(), this._player.getY(), 
         this._player.getSightRadius(), 
@@ -840,16 +841,7 @@ Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
 
 
 Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
-    
-    //I DID SELECT HERE BUT NOT SURE THIS IS RIGHT>>>>>
-    //THIS CODE IS FROM OTHER KINDS OF SCREENS>>>>
-    //I need to see how this code is used.
-    canSelect: true,
-    
-    //This is copied directly from above
-    //It is drawing line and displaying object.
-    //All this is fine I think.
-
+    //We want a description of the square the cursor is on
     captionFunction: function(x, y) {
         let z = this._player.getZ();
         let map = this._player.getMap();
@@ -858,16 +850,9 @@ Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
             // If the tile isn't explored, we have to check if we can actually 
             // see it before testing if there's an entity or item.
             if (this._visibleCells[x + ',' + y]) {
-                let items = map.getItemsAt(x, y, z);
-                // If we have items, we want to render the top most item
-                if (items) {
-                    let item = items[items.length - 1];
-                    return String.format('%s - %s (%s)',
-                        item.getRepresentation(),
-                        item.describeA(true),
-                        item.details());
-                // Else check if there's an entity
-                } else if (map.getEntityAt(x, y, z)) {
+                
+                // Check if there's an entity
+                if (map.getEntityAt(x, y, z)) {
                     let entity = map.getEntityAt(x, y, z);
                     return String.format('%s - %s (%s)',
                         entity.getRepresentation(),
@@ -875,7 +860,7 @@ Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
                         entity.details());
                 }
             }
-            // If there was no entity/item or the tile wasn't visible, then use
+            // If there was no entity or the tile wasn't visible, then use
             // the tile information.
             return String.format('%s - %s',
                 map.getTile(x, y, z).getRepresentation(),
@@ -888,8 +873,11 @@ Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
                 Game.Tile.nullTile.getDescription());
         }
     },
-    ok: function(selectedItems) {
-        return "FILL THIS OUT HERE";
+    //Return the x and y cooridinates for the calling function
+    okFunction: function(x, y) {
+        //Would this just return it to the screen? ...I don't think so
+        return x, y;
+        //(this._cursorX + this._offsetX, this._cursorY + this._offsetY)
     }
 });
 

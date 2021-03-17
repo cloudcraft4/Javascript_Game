@@ -55,6 +55,20 @@ Game.ItemMixins.Equippable = {
         this._owner = false;
     },
 
+    //LIKELY NOT WORKING YET...  Game.Screen.playScreen not sure about
+    //Also return x, y I am not sure about too.  Don't use it even if
+    //it works fine as well
+    //Where even is x and y defined???
+    chooseTarget: function() {
+        let offsets = Game.Screen.getScreenOffsets();
+        let player = Game.Screen.playScreen._player;
+        Game.Screen.chooseScreen.setup(player,
+            player.getX(), player.getY(),
+            offsets.x, offsets.y);
+        Game.Screen.playScreen.setSubScreen(Game.Screen.chooseScreen);
+        
+        return x, y; 
+    },    
     getOwner: function() {
         return this._owner;                 
     },
@@ -158,17 +172,17 @@ Game.ItemMixins.rangedAttack = {
     name: 'rangedAttack',
     init: function(template) {
         this._rangedDamage = template['rangedDamage'] || 20;
-        this._areaSize = template['areaSize'] || 0;
-        this._sizeDamageReduction = template['sizeDamageReduction'] || 0;
+        this._areaSize = template['areaSize'] || false;
+        //Not sure what this was going to be for...
+            //this._sizeDamageReduction = template['sizeDamageReduction'] || 0;
         this._beam = template['beam'] || false;
         this._maxUses = template['uses'] || 1;
         this._remainingUses = this._maxUses;
-        // I have not implimented this yet
         this._piercing = template['piercing'] || false;
     },
     pickTarget: function(entity) {
+        
         //Allow user to target enemy
-        //NEED TO CALCULATE IF BLOCKED (OR PIERCING)
         let targetPosition = [];
         if (this.hasRemainingUses()) {
             //screen.js getScreenOffsets not sure what it does but this is
@@ -184,6 +198,7 @@ Game.ItemMixins.rangedAttack = {
         }
         //ALL THAT HAPPENS IS SHOWING SCREEN.  NO CODE FOR CHOOSING!!!!!!
         return targetPosition;
+
     },
     //This is probably close to working. NOT TESTED
     damageTarget: function(targetPosition) {

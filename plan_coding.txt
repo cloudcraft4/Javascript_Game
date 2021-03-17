@@ -3,22 +3,17 @@ _           ____CURRENT PROJECT___
 
 HANDLING ABILITIES:
 
-
- - PARTIALLY DONE screens.js handle input.  DO I NEED RETURN????
-
 1 Create the screen for choosing parts
 - screens.js Game.Screen.chooseScreen
 
-2.  STARTED -- Targeting for abilities
+2.  STARTED --> Targeting for abilities
 
-3.  Single Use parts
+3.  STARTED - Ranged parts
 
-4.  STARTED - Ranged parts
-
-5.  MINOR PROBLEM - Inventory Screen
+4.  MINOR PROBLEM - Inventory Screen
     It fails even if there are no items.  However it is how I show equipment
 
-
+5.  Remove item does not work since it thinks I have no items in inventory
 
 ==> Rename removePart to unequipPart to differentiate it from removeItem?
 
@@ -32,22 +27,15 @@ _         ____BUGS / OUTSTANDING ISSUES_____
     there are technically multiple
     - entitymixins.js Equipper.attachPart --> Can only use one part
 
-2.  Have default parts but do not handle switching back to default.
+2.  entitymixins.js Equipper.removepart --> part goes into inventory or destroyed?
 
-3.  entitymixins.js Equipper.removepart --> part goes into inventory or destroyed?
-
-4  MAJOR BUG? itemmixins.js listeners it checks all values but it is on items
+3  MAJOR BUG? itemmixins.js listeners it checks all values but it is on items
     - This might be what is causing combat to be so easy
 
-5. MINOR BUG Game.Playertemplate body parts are messed up.  NOT SURE WHAT TEMPLATE
-    IS FOR ANYWAY ACTUALLY
-
-6. MAJOR BUG?  this.hasMixin seems to only check first item in list.  This is super weird and
+4. MAJOR BUG?  this.hasMixin seems to only check first item in list.  This is super weird and
     causes problems (see itemmixins.js createOnUse).  BUt it works elsewhere?????
 
-
-
-
+5.  Remove Item generation from map creation
 
 
 
@@ -61,6 +49,19 @@ _           ____FUTURE ISSUES___
     Make digging harder or fix unconnected parts.  Not totally sure how to code
     fix.
 4.  Map Height is one square too high
-5.  Entities are randomly added and given experience.  But there should be some harder
-    enemies that only show up at later level. So need to split that up.
-6.  Graphical Tiles
+5.  Graphical Tiles
+6.  Fix stupid down stairs everywhere
+
+
+
+_           ____OVERALL PLAN___
+
+1.  Level Progression:
+    - Enemies harder and items better
+
+2.  Level layout
+    Maybe two different groups of levels with different map generation and enemies
+
+    Level 1-3 First two similar, Last is harder
+    Level 4-6 First two similar, Last is harder
+    Level 7 Boss Level
