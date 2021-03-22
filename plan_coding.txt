@@ -27,15 +27,12 @@ _         ____BUGS / OUTSTANDING ISSUES_____
     there are technically multiple
     - entitymixins.js Equipper.attachPart --> Can only use one part
 
-2.  entitymixins.js Equipper.removepart --> part goes into inventory or destroyed?
-
-3  MAJOR BUG? itemmixins.js listeners it checks all values but it is on items
+2  MAJOR BUG? itemmixins.js listeners it checks all values but it is on items
     - This might be what is causing combat to be so easy
 
-4. MAJOR BUG?  this.hasMixin seems to only check first item in list.  This is super weird and
+3. MAJOR BUG?  this.hasMixin seems to only check first item in list.  This is super weird and
     causes problems (see itemmixins.js createOnUse).  BUt it works elsewhere?????
 
-5.  Remove Item generation from map creation
 
 
 
@@ -44,6 +41,7 @@ _           ____FUTURE ISSUES___
 
 
 1.  Enemies use Parts
+    - Also split up that certain enemies can have these types of parts
 2.  Overhaul enemy AI
 3.  Map Generation/ Digging:
     Make digging harder or fix unconnected parts.  Not totally sure how to code
@@ -51,17 +49,33 @@ _           ____FUTURE ISSUES___
 4.  Map Height is one square too high
 5.  Graphical Tiles
 6.  Fix stupid down stairs everywhere
+7.  Need cool down for abilities.  Likely tied to number of enemies killed?
+8. Level Progression: Enemies harder and items better as you go futher down
 
 
 
-_           ____OVERALL PLAN___
+_           ____LEVEL BRAINSTORMING___
 
-1.  Level Progression:
-    - Enemies harder and items better
-
-2.  Level layout
+1.  Level layout update
     Maybe two different groups of levels with different map generation and enemies
 
     Level 1-3 First two similar, Last is harder
     Level 4-6 First two similar, Last is harder
     Level 7 Boss Level
+
+2.  Perhaps most levels caverns not rooms.  This might be an issue with level generation
+
+
+_           ____ENEMY BRAINSTORMING___
+
+1.  Exploder (keep far away at all costs!)
+2.  Disabler (has ability that makes part unusable for so many turns)
+3.  Ranged Attacker (get close)
+4.  Melee Attacker (keep at a distance)
+5.  Elite Enemies vs. Common Enemies.  Elites are only ones with part drops.
+
+_           ____PART BRAINSTORMING___
+
+-  Three Categories:  Ranged, Melee, and Single use
+-  Synergies-  Like elemental????
+-  Single Use needs a lot of design help to make it viable...  but healing is an issue

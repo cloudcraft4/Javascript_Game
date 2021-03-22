@@ -88,6 +88,12 @@ Game.ItemMixins.Equippable = {
                     this.heal(); 
                     this.checkUses();
                     break;
+                case 'rangedAttack':
+                    let targetPosition = this.pickTarget();
+                    console.log('Congradulations you have made it to rangedAttack')
+                    damageTarget(targetPosition);
+                    this.checkUses();
+                    break;
                 default: console.log(this._onUse + ' not found in switch');
             }
         } else {console.log('This item does not have an ability')}
@@ -186,11 +192,13 @@ Game.ItemMixins.rangedAttack = {
             //a normal part of calling this program.  It is part of PlayScreen.
             //It seems to be part of making sure the there is not too much rendered
             //to screen or something.
-            let offsets = this.getScreenOffsets();
-            Game.Screen.chooseScreen.setup(this._player,
-                this._player.getX(), this._player.getY(),
+            let player = Game.Screen.playScreen._player;
+            let program = Game.Screen;
+            let offsets = program.playScreen.getScreenOffsets();
+            program.chooseScreen.setup(player,
+                player.getX(), player.getY(),
                 offsets.x, offsets.y);
-            this.setSubScreen(Game.Screen.lookScreen);
+            program.playScreen.setSubScreen(program.lookScreen);
             // MODIFY TargetBasedScreen and get new okFunction
         }
         //ALL THAT HAPPENS IS SHOWING SCREEN.  NO CODE FOR CHOOSING!!!!!!

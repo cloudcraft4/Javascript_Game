@@ -25,14 +25,16 @@ Game.Map.Cave = function(tiles, player) {
             this.addItemAtRandomPosition(Game.ItemRepository.createRandom(), z);
         }
     }
+    /*  CURRENTLY PARTS ARE NOT SPAWNED ON THE FLOOR.  KEEPING THIS HERE IN CASE WE CHANGE
+    OUR MINDS ON THIS
     // Add weapons and armor to the map in random positions and floors
-    // Need to overhaul this.
     var templates = ['large claw', 'regenerating arm', 'staff arm', 
         'tunic torso', 'chainmail torso', 'platemail torso'];
     for (var i = 0; i < templates.length; i++) {
         this.addItemAtRandomPosition(Game.ItemRepository.create(templates[i]),
             Math.floor(this._depth * Math.random()));
     }
+    */
     // Add a hole to the final cavern on the last level.
     var holePosition = this.getRandomFloorPosition(this._depth - 1);
     this._tiles[this._depth - 1][holePosition.x][holePosition.y] = 

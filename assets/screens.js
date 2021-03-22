@@ -256,13 +256,14 @@ Game.Screen.playScreen = {
                 }
             */
             } else if (inputData.keyCode === ROT.VK_3) {
+                // Checking if there is an ability attached to that slot and then using it
                 let part = this._player.getPart(2);
-                if (part.getOnUse()) {
-                    let usePart = part.getOnUse();
-                    usePart();    
+                if (part._onUse) {
+                    part.useAbility(); 
                 } else {
                     console.log('Ability not found')
                 }
+            
             /*} else if (inputData.keyCode === ROT.VK_4) {
                 if (this._player.getAbility(3)) {
                     this._player.getAbility(3);  
@@ -271,10 +272,10 @@ Game.Screen.playScreen = {
                 }
             */
             } else if (inputData.keyCode === ROT.VK_5) {
+                // Checking if there is an ability attached to that slot and then using it
                 let part = this._player.getPart(4);
-                if (part.getOnUse()) {
-                    let usePart = part.getOnUse();
-                    usePart();  
+                if (part._onUse) {
+                    part.useAbility(); 
                 } else {
                     console.log('Ability not found')
                 }

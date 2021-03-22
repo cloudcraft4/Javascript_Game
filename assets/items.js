@@ -67,6 +67,19 @@ Game.ItemRepository.define('default torso', {
     disableRandomCreation: true
 });
 
+Game.ItemRepository.define('fireball arm', {
+    name: 'fireball arm',
+    character: ')',
+    foreground: 'gray',
+    attackValue: 5,
+    bodyPart: 'arm',
+    onUse: 'rangedAttack',
+    mixins: [Game.ItemMixins.rangedAttack, Game.ItemMixins.Equippable],
+    description: 'This is made of fireballs. Weird...'
+}, {
+    disableRandomCreation: true
+});
+
 Game.ItemRepository.define('large claw', {
     name: 'large claw',
     character: ')',
@@ -74,7 +87,7 @@ Game.ItemRepository.define('large claw', {
     attackValue: 5,
     bodyPart: 'arm',
     mixins: [Game.ItemMixins.Equippable],
-    description: 'This default arm is used whenever you don\'t have a better option.'
+    description: 'An unweildy but gigantic claw'
 }, {
     disableRandomCreation: true
 });

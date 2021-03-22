@@ -172,7 +172,7 @@ Game.Map.prototype.addEntity = function(entity) {
         let defaultTorso = Game.ItemRepository.create('default torso');
 
         //TEMPORARTY CODE FOR TESTING
-        let tempArm = Game.ItemRepository.create('regenerating arm');
+        let tempArm = Game.ItemRepository.create('fireball arm');
         entity.addItem(tempArm);
         
         //PROBABLY MAKE THIS A METHOD SO CODE DOES NOT HAVE TO BE DUPLICATED??
