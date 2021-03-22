@@ -91,7 +91,7 @@ Game.ItemMixins.Equippable = {
                 case 'rangedAttack':
                     let targetPosition = this.pickTarget();
                     console.log('Congradulations you have made it to rangedAttack')
-                    damageTarget(targetPosition);
+                    this.damageTarget(targetPosition);
                     this.checkUses();
                     break;
                 default: console.log(this._onUse + ' not found in switch');
@@ -170,7 +170,6 @@ Game.ItemMixins.Healing = {
     },
 };
 
-//IS THIS A GOOD IDEA OR ADD TO BASIC ATTACK???????
 Game.ItemMixins.rangedAttack = {
     name: 'rangedAttack',
     init: function(template) {
@@ -188,52 +187,56 @@ Game.ItemMixins.rangedAttack = {
         //Allow user to target enemy
         let targetPosition = [];
         if (this.hasRemainingUses()) {
-            //screen.js getScreenOffsets not sure what it does but this is
-            //a normal part of calling this program.  It is part of PlayScreen.
-            //It seems to be part of making sure the there is not too much rendered
-            //to screen or something.
+            //Set up the screen to choose the target position
             let player = Game.Screen.playScreen._player;
             let program = Game.Screen;
             let offsets = program.playScreen.getScreenOffsets();
             program.chooseScreen.setup(player,
                 player.getX(), player.getY(),
                 offsets.x, offsets.y);
-            program.playScreen.setSubScreen(program.lookScreen);
-            // MODIFY TargetBasedScreen and get new okFunction
+            program.playScreen.setSubScreen(program.chooseScreen);
         }
-        //ALL THAT HAPPENS IS SHOWING SCREEN.  NO CODE FOR CHOOSING!!!!!!
         return targetPosition;
 
     },
-    //This is probably close to working. NOT TESTED
     damageTarget: function(targetPosition) {
-        if (targetPosition = entity) {
-            target = targetPosition
+        //targetPosition is an object = {targetX:x, targetY:y}
+        let targetX = targetPosition.targetX;
+        let targetY = targetPosition.targetY;
+        let target = this.getEntityAt(targetX, targetY, Game.Screen.playScreen._player.getZ());
+        if (Boolean(target)) {
+            //The order of this is bad...  Here I damage target first then
+            //do thing to area.  I should not bother with this I think?
             let message = 'shoot a fireball at';
             this.attack(target, message);
-            // Damage everything in an area if attack has areaSize
-            // CODE Game.getNeighborPositions in Tile DOES THIS ALREADY.  But
-            // ONly for direct neightbors
-            if (this.areaSize) {
-                for (let xPos = 0; xPos < this.areaSize; xPos++) {
-                    let xTarget = targetPosition.x - (xPos - this.areaSize);
-                    for (let yPos = 0; yPos < this.areaSize; yPos++) {
-                        let yTarget = targetPosition.y - (yPos - this.areaSize);
-                        //Checks to make sure we are not dealing double damage
-                        if (xTarget !== targetPosition.x && 
-                            yTarget !== targetPosition.y) {
-                            //Attempts to do damage to target entity
-                            if (this.getEntityAt(xTarget, yTarget, this._player.getZ())) {
-                                targetEntity = this.getEntityAt(xTarget, yTarget, this._player.getZ());
-                                this.attack(targetEntity, message);
-                            }
+
+            //I NEED TO Create getAreaSize() METHOD!!!!!!!!!!!!!!!!!!!
+        if (this.getAreaSize()) {
+            let areaSize = this.getAreaSize();
+            for (let xPos = 0; xPos < areaSize; xPos++) {
+                let xTarget = targetPosition.x - (xPos - this.areaSize);
+                for (let yPos = 0; yPos < this.areaSize; yPos++) {
+                    let areaY = targetY - (yPos - areaSize);
+                    //Checks to make sure we are not dealing double damage
+                    if (areaX !== targetX && 
+                        areaY !== targetY) {
+                        //Attempts to do damage to target entity
+                        if (this.getEntityAt(areaX, areaY, this._player.getZ())) {
+                            targetEntity = this.getEntityAt(areaX, areaY, this._player.getZ()));
+                            this.attack(targetEntity, message);
                         }
                     }
                 }
             }
-            if (this.beam) {
+        }
+            //I NEED TO Create this GETTER METHOD????
+            if (this.isBeam()) {
                 // damage things in a beam
             }
+        }
+        //Does this even work?? The ! part
+        if (!Boolean(target) && !this.getAreaSize() && !this.isBeam()) {
+            //message about hitting nothing
         }
     },
     hasRemainingUses: function() {

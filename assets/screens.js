@@ -801,6 +801,7 @@ Game.Screen.TargetBasedScreen.prototype.executeOkFunction = function() {
 
 Game.Screen.lookScreen = new Game.Screen.TargetBasedScreen({
     captionFunction: function(x, y) {
+        console.log(this);
         let z = this._player.getZ();
         let map = this._player.getMap();
         // If the tile is explored, we can give a better capton
