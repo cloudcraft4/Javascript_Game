@@ -7,14 +7,12 @@ Game.PlayerTemplate = {
     attackValue: 10,
     sightRadius: 6,
     inventorySlots: 22,
-    arms: {rightArm: 'large claw',
-           leftArm: 'large claw'       
+    arms: {rightArm: 'default arm',
+            leftArm: 'default arm'      
     },
-    legs: {rightLeg: 'default leg',
-            leftLeg: 'default leg'       
-    },
-    torso: {mainTorso: 'tunic torso',     
-    },
+    legs: {mainLegs: 'default legs'},
+    head: {mainHead: 'defaul head'},
+    torso: {mainTorso: 'defaul torso',},
     mixins: [Game.EntityMixins.PlayerActor,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.InventoryHolder, Game.EntityMixins.FoodConsumer,
@@ -36,9 +34,9 @@ Game.EntityRepository.define('fungus', {
              Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
 
-Game.EntityRepository.define('feral dog', {
-    name: 'feral dog',
-    character: 'd',
+Game.EntityRepository.define('cleaning robot', {
+    name: 'cleaning robot',
+    character: 'c',
     foreground: 'white',
     maxHp: 5,
     attackValue: 4,
@@ -49,13 +47,13 @@ Game.EntityRepository.define('feral dog', {
              Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
 
-Game.EntityRepository.define('mutant', {
-    name: 'mutant',
+Game.EntityRepository.define('malfunctioning robot', {
+    name: 'malfunctioning robot',
     character: 'm',
     foreground: 'yellow',
     maxHp: 3,
     attackValue: 2,
-    possibleParts: ['large claw', 'chainmail torso'],
+    possibleParts: ['sec arm', 'sec torso'],
     mixins: [Game.EntityMixins.TaskActor,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.CorpseDropper,
@@ -63,14 +61,14 @@ Game.EntityRepository.define('mutant', {
              Game.EntityMixins.Equipper]
 });
 
-Game.EntityRepository.define('crabman', {
-    name: 'crabman',
-    character: 'c',
+Game.EntityRepository.define('security robot', {
+    name: 'security robot',
+    character: 's',
     foreground: 'white',
     maxHp: 6,
     attackValue: 4,
     sightRadius: 5,
-    possibleParts: ['default leg', 'staff arm', 'large claw'],
+    possibleParts: ['sec leg', 'sec arm', 'sec torso'],
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
@@ -79,9 +77,9 @@ Game.EntityRepository.define('crabman', {
              Game.EntityMixins.Equipper]
 });
 
-Game.EntityRepository.define('giant zombie', {
-    name: 'giant zombie', 
-    character: 'Z',
+Game.EntityRepository.define('foreman robot', {
+    name: 'foreman robot', 
+    character: 'F',
     foreground: 'teal',
     maxHp: 30,
     attackValue: 8,

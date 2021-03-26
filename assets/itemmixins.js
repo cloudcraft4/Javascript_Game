@@ -89,18 +89,21 @@ Game.ItemMixins.Equippable = {
                     this.checkUses();
                     break;
                 case 'rangedAttack':
-                    let targetPosition = this.pickTarget();
-                    console.log('Congradulations you have made it to rangedAttack')
-                    this.damageTarget(targetPosition);
-                    this.checkUses();
+                    //This is what needs to happen after choosing target
+                    let afterTargeting = function() {
+                        this.damageTarget(targetPosition);
+                        this.checkUses();
+                    };
+                    //
+                    //  WORKING ON THIS WHEN I AM NOT BORED OF IT
+                    //
+                    //this.pickTarget(afterTargeting);
                     break;
                 default: console.log(this._onUse + ' not found in switch');
             }
         } else {console.log('This item does not have an ability')}
     },
     //Check to see if item has uses left.  If not remove and replace with default
-    //THIS DOES NOT WORK YET>>>  ITEM & ENTITY NOT DEFINED
-    //ALSO HEAL DUPLICATES THIS SO DELETE IT
     checkUses: function() {
         let entity = this._owner;
         console.log('checkUses was called');
@@ -182,62 +185,79 @@ Game.ItemMixins.rangedAttack = {
         this._remainingUses = this._maxUses;
         this._piercing = template['piercing'] || false;
     },
-    pickTarget: function(entity) {
+    getAreaSize: function() {
+        return this._areaSize;                 
+    },
+    isBeam: function() {
+        return this._beam;                 
+    },
+    pickTarget: function(afterTargeting) {
         
         //Allow user to target enemy
-        let targetPosition = [];
+        //let targetPosition = [];
         if (this.hasRemainingUses()) {
             //Set up the screen to choose the target position
             let player = Game.Screen.playScreen._player;
-            let program = Game.Screen;
-            let offsets = program.playScreen.getScreenOffsets();
-            program.chooseScreen.setup(player,
+            let offsets = Game.Screen.playScreen.getScreenOffsets();
+            Game.Screen.chooseScreen.setup(player,
                 player.getX(), player.getY(),
-                offsets.x, offsets.y);
-            program.playScreen.setSubScreen(program.chooseScreen);
+                offsets.x, offsets.y, afterTargeting);
+            Game.Screen.playScreen.setSubScreen(Game.Screen.chooseScreen);
         }
-        return targetPosition;
 
+        //This needs to return the coordinates but it is not
     },
+
     damageTarget: function(targetPosition) {
         //targetPosition is an object = {targetX:x, targetY:y}
         let targetX = targetPosition.targetX;
         let targetY = targetPosition.targetY;
-        let target = this.getEntityAt(targetX, targetY, Game.Screen.playScreen._player.getZ());
+        let player = Game.Screen.playScreen._player;
+        let map = player.getMap();
+        let target = map.getEntityAt(targetX, targetY, player.getZ());
+        
         if (Boolean(target)) {
-            //The order of this is bad...  Here I damage target first then
-            //do thing to area.  I should not bother with this I think?
+            //Do damage to target first in case damage amount is different
+            //However at the present we do not consider strength of part
             let message = 'shoot a fireball at';
             this.attack(target, message);
-
-            //I NEED TO Create getAreaSize() METHOD!!!!!!!!!!!!!!!!!!!
+        }
         if (this.getAreaSize()) {
             let areaSize = this.getAreaSize();
-            for (let xPos = 0; xPos < areaSize; xPos++) {
-                let xTarget = targetPosition.x - (xPos - this.areaSize);
-                for (let yPos = 0; yPos < this.areaSize; yPos++) {
+            //Calculate positions around target.  areaSize of 1 = one in
+            //every direction for a total of nine spots.
+            
+            //I MIGHT want to eventually make it round rather than square.
+            for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
+                let areaX = targetX - (xPos - areaSize); 
+                for (let yPos = 0; yPos <= (areaSize * 2); yPos++) { 
                     let areaY = targetY - (yPos - areaSize);
                     //Checks to make sure we are not dealing double damage
                     if (areaX !== targetX && 
                         areaY !== targetY) {
                         //Attempts to do damage to target entity
-                        if (this.getEntityAt(areaX, areaY, this._player.getZ())) {
-                            targetEntity = this.getEntityAt(areaX, areaY, this._player.getZ()));
+                        if (map.getEntityAt(areaX, areaY, player.getZ())) {
+                            targetEntity = map.getEntityAt(areaX, areaY, player.getZ());
                             this.attack(targetEntity, message);
                         }
                     }
                 }
             }
         }
-            //I NEED TO Create this GETTER METHOD????
-            if (this.isBeam()) {
-                // damage things in a beam
-            }
+        //I NEED TO Create this GETTER METHOD????
+        if (this.isBeam()) {
+            // damage things in a beam
+            console.log('This is a beam but there is no code')
         }
+        
         //Does this even work?? The ! part
+        //Also do I need the Boolean() part? 
+        /*
         if (!Boolean(target) && !this.getAreaSize() && !this.isBeam()) {
             //message about hitting nothing
+            console.log('Nothing happened')
         }
+        */
     },
     hasRemainingUses: function() {
         return this._remainingUses > 0;

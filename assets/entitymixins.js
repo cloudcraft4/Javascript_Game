@@ -613,18 +613,18 @@ Game.EntityMixins.Equipper = {
                 slot: 'arm',
                 part: {}
             },
-            rightLeg = {
-                name: 'Right Leg',
-                slot: 'leg',
+            mainLegs = {
+                name: 'Legs',
+                slot: 'legs',
                 part: {}
             },
-            leftLeg = {
-                name: 'Left Leg',
-                slot: 'leg',
+            mainHead = {
+                name: 'Head',
+                slot: 'head',
                 part: {}
             },
             mainTorso = {
-                name: 'Main Chassi',
+                name: 'Torso',
                 slot: 'torso',
                 part: {}
             }];
@@ -645,7 +645,7 @@ Game.EntityMixins.Equipper = {
             //TEMPORARILY THIS JUST AUTOMATICALLY SLOTS THEM
             if (item.getPart() === 'arm') {
                 this._bodySlots[0].part = item;
-            } else if (item.getPart() === 'leg') {
+            } else if (item.getPart() === 'legs') {
                 this._bodySlots[2].part = item;
             } else if (item.getPart() === 'torso') {
                 this._bodySlots[4].part = item;
@@ -665,10 +665,12 @@ Game.EntityMixins.Equipper = {
             if (item.getPart() === 'arm') {
                 this._bodySlots[0].part = this.getDefaultPart('arm');
                 console.log(this.getDefaultPart('arm'));
-            } else if (item.getPart() === 'leg') {
-                this._bodySlots[2].part = this.getDefaultPart('leg');
+            } else if (item.getPart() === 'legs') {
+                this._bodySlots[2].part = this.getDefaultPart('legs');
             } else if (item.getPart() === 'torso') {
                 this._bodySlots[4].part = this.getDefaultPart('torso');
+            } else if (item.getPart() === 'head') {
+                this._bodySlots[4].part = this.getDefaultPart('head');
             } else {
                 console.log('Error: Item isPart() but is not arm, leg or torso.');
                 console.log('Typo likely of item =' + item.name +' in item.js');
@@ -704,6 +706,8 @@ Game.EntityMixins.Equipper = {
                 return this._defaultArm;
             case 'torso':
                 return this._defaultTorso;
+            case 'head':
+                return this._defaultHead;
             default:
                 console.log('Error: The ' + partSlot + ' not found');
                 break;

@@ -170,9 +170,10 @@ Game.Map.prototype.addEntity = function(entity) {
         let defaultArm = Game.ItemRepository.create('default arm');
         let defaultLeg = Game.ItemRepository.create('default leg');
         let defaultTorso = Game.ItemRepository.create('default torso');
+        let defaultHead = Game.ItemRepository.create('default head');
 
         //TEMPORARTY CODE FOR TESTING
-        let tempArm = Game.ItemRepository.create('fireball arm');
+        let tempArm = Game.ItemRepository.create('dynamite arm');
         entity.addItem(tempArm);
         
         //PROBABLY MAKE THIS A METHOD SO CODE DOES NOT HAVE TO BE DUPLICATED??
@@ -184,12 +185,17 @@ Game.Map.prototype.addEntity = function(entity) {
         //Attach the leg and set as default
         entity.attachPart(defaultLeg);
         defaultLeg._owner = entity;      
-        entity._defaultArm = defaultArm;
+        entity._defaultLeg = defaultLeg;
         
         //Attach the torso and set as default
         entity.attachPart(defaultTorso);
         defaultTorso._owner = entity;
         entity._defaultTorso = defaultTorso;
+        
+        //Attach the head and set as default
+        entity.attachPart(defaultHead);
+        defaultHead._owner = entity;
+        entity._defaultHead = defaultHead;
     }
     //If the entity has parts, create the parts.
     if (entity.hasMixin(Game.EntityMixins.Equipper)) {

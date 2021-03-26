@@ -6,8 +6,8 @@ Game.Screen.startScreen = {
     exit: function() { console.log("Exited start screen."); },
     render: function(display) {
         // Render our prompt to the screen
-        display.drawText(1,1, "%c{yellow}Javascript Roguelike");
-        display.drawText(1,2, "Press [Enter] to start!");
+        display.drawText(1,1, "JavascriptRoguelike");
+        display.drawText(1,2, "Press[Enter]tostart!");
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
@@ -447,6 +447,9 @@ Game.Screen.ItemListScreen.prototype.render = function(display) {
                             } else if (this._items[i].getPart() === 'torso'){
                                 suffix = ' (Torso Slot)';
                                 break;
+                            } else if (this._items[i].getPart() === 'head'){
+                                suffix = ' (Head Slot)';
+                                break;
                             } else {
                                 console.log('Error: Item is equippable but not an arm, leg or torso');
                                 break;
@@ -714,7 +717,10 @@ Game.Screen.gainStatScreen = {
 Game.Screen.TargetBasedScreen = function(template) {
     template = template || {};
     // By default, our ok return does nothing and does not consume a turn.
-    this._isAcceptableFunction = template['okFunction'] || function(x, y) {
+    this._isAcceptableFunction = template['isAcceptable'] || function(x, y) {
+        return false;
+    };
+    this._okFunction = template['ok'] || function(x, y) {
         return false;
     };
     // The default caption function simply returns an empty string.
@@ -723,7 +729,10 @@ Game.Screen.TargetBasedScreen = function(template) {
     }
 };
 
-Game.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY, offsetX, offsetY) {
+Game.Screen.TargetBasedScreen.prototype.setup = function(player, startX, startY, 
+    offsetX, offsetY, afterTarget=false) {
+
+    this._afterTarget = afterTarget;
     this._player = player;
     // Store original position. Subtract the offset to make life easy so we don't
     // always have to remove it.
@@ -794,6 +803,7 @@ Game.Screen.TargetBasedScreen.prototype.executeOkFunction = function() {
     // Switch back to the play screen.
     Game.Screen.playScreen.setSubScreen(undefined);
     // Call the OK function and end the player's turn if it return true.
+    console.log(this)
     if (this._okFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY)) {
         this._player.getMap().getEngine().unlock();
     }
@@ -876,10 +886,13 @@ Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
         }
     },
     //Return the x and y cooridinates for the calling function
-    okFunction: function(x, y) {
-        //Set the x and y values to an object that can be returned
-        return {targetX:x, targetY:y};
-        //(this._cursorX + this._offsetX, this._cursorY + this._offsetY)
+    ok: function(x, y) {
+        //This is a temorary fix.  Once this is working I will just pass along the actual
+        //ok function rather than this silly work around
+        console.log('inside ok Function in choosescreen');
+        console.log('afterTargeting function =  ' + this._afterTarget);
+        this._afterTarget(x, y);
+        
     }
 });
 
