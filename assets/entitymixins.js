@@ -648,6 +648,8 @@ Game.EntityMixins.Equipper = {
             } else if (item.getPart() === 'legs') {
                 this._bodySlots[2].part = item;
             } else if (item.getPart() === 'torso') {
+                this._bodySlots[3].part = item;
+            } else if (item.getPart() === 'head') {
                 this._bodySlots[4].part = item;
             } else {
                 console.log('Error: Item isPart() but is not arm, leg or torso.');
@@ -668,7 +670,7 @@ Game.EntityMixins.Equipper = {
             } else if (item.getPart() === 'legs') {
                 this._bodySlots[2].part = this.getDefaultPart('legs');
             } else if (item.getPart() === 'torso') {
-                this._bodySlots[4].part = this.getDefaultPart('torso');
+                this._bodySlots[3].part = this.getDefaultPart('torso');
             } else if (item.getPart() === 'head') {
                 this._bodySlots[4].part = this.getDefaultPart('head');
             } else {

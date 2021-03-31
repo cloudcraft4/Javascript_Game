@@ -39,6 +39,8 @@ Game.ItemRepository.define('default arm', {
     foreground: 'gray',
     attackValue: 0,
     bodyPart: 'arm',
+    maxCooldown: 0,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'This default arm is used whenever you don\'t have a better option.'
 }, {
@@ -51,6 +53,8 @@ Game.ItemRepository.define('default arm', {
     foreground: 'gray',
     attackValue: 0,
     bodyPart: 'arm',
+    maxCooldown: 0,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'This default arm is used whenever you don\'t have a better option.'
 }, {
@@ -63,6 +67,8 @@ Game.ItemRepository.define('default legs', {
     foreground: 'gray',
     attackValue: 0,
     bodyPart: 'legs',
+    maxCooldown: 0,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'This default arm is used whenever you don\'t have a better option.'
 }, {
@@ -75,6 +81,8 @@ Game.ItemRepository.define('default torso', {
     foreground: 'gray',
     defenseValue: 0,
     bodyPart: 'torso',
+    maxCooldown: 0,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'This default arm is used whenever you don\'t have a better option.'
 }, {
@@ -87,6 +95,8 @@ Game.ItemRepository.define('default head', {
     foreground: 'gray',
     defenseValue: 0,
     bodyPart: 'head',
+    maxCooldown: 0,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'This default head is used whenever you don\'t have a better option.'
 }, {
@@ -101,6 +111,8 @@ Game.ItemRepository.define('demolition head', {
     foreground: 'yellow',
     defenseValue: 3,
     bodyPart: 'head',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     //Immunity to explosions (if not torso)?  Healing when things die from explosions?
 }, {
@@ -112,23 +124,30 @@ Game.ItemRepository.define('dynamite arm', {
     class: 'demolitions',
     character: ')',
     foreground: 'gray',
-    attackValue: 5,
+    attackValue: 10,
     bodyPart: 'arm',
     onUse: 'rangedAttack',
+    rangedDamage: 20,
+    areaSize: 2,
+    maxUses: 1,
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.rangedAttack, Game.ItemMixins.Equippable],
-    description: 'This is made of fireballs. Weird...
+    description: 'Throw this arm to do massive damage'
     //AOE ranged attack
 }, {
     disableRandomCreation: true
 });
 
-Game.ItemRepository.define('demolition arm2'), {
+Game.ItemRepository.define('demolition arm2', {
     name: 'ddemolition arm2',
     class: 'demolitions',
     character: ')',
     foreground: 'gray',
     attackValue: 5,
     bodyPart: 'arm',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'An unweildy but gigantic claw'
     // ??? Generic attack??
@@ -137,13 +156,15 @@ Game.ItemRepository.define('demolition arm2'), {
 });
 
 
-Game.ItemRepository.define('demolition torso'), {
+Game.ItemRepository.define('demolition torso', {
     name: 'demolition torso',
     class: 'demolitions',
     character: ')',
     foreground: 'gray',
     attackValue: 5,
     bodyPart: 'torso',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'An unweildy but gigantic claw'
     //Immunity to explosions???  Health somehow
@@ -158,6 +179,8 @@ Game.ItemRepository.define('demolition legs', {
     foreground: 'white',
     attackValue: 10,
     bodyPart: 'legs',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable],
     description: 'Deals medium damage.  One time healing use.'
     // ??  Exposion causing propulsion or something??
@@ -173,6 +196,8 @@ Game.ItemRepository.define('sec head', {
     foreground: 'green',
     defenseValue: 2,
     bodyPart: 'head',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     //Increase status effect chances???  Not great... 
     // Something about yelling Alarm?
@@ -187,6 +212,8 @@ Game.ItemRepository.define('sec torso', {
     foreground: 'green',
     defenseValue: 2,
     bodyPart: 'torso',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     //Something with stun?  Stun resist plus defense?
 }, {
@@ -200,6 +227,8 @@ Game.ItemRepository.define('sec arm1', {
     foreground: 'white',
     attackValue: 4,
     bodyPart: 'arm',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     //Electricity hit?  (spread to other enemies)
 }, {
@@ -213,6 +242,8 @@ Game.ItemRepository.define('sec arm2', {
     foreground: 'white',
     attackValue: 4,
     bodyPart: 'arm',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     //Hit with a chance to stun
 }, {
@@ -226,6 +257,8 @@ Game.ItemRepository.define('sec legs', {
     foreground: 'aliceblue',
     defenseValue: 6,
     bodyPart: 'legs',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     // ??
 }, {
@@ -240,6 +273,8 @@ Game.ItemRepository.define('manu head', {
     foreground: 'green',
     defenseValue: 2,
     bodyPart: 'head',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     // Heal on installing parts?
 }, {
@@ -253,6 +288,8 @@ Game.ItemRepository.define('manufacturing torso', {
     foreground: 'green',
     defenseValue: 2,
     bodyPart: 'torso',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
     // ??  Create weak parts??  Recycle old parts for chance of new one???
 }, {
@@ -266,8 +303,10 @@ Game.ItemRepository.define('manufacturing arm1', {
     foreground: 'white',
     attackValue: 4,
     bodyPart: 'arm',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
-    // Create sentry bot?
+    // Create sentry bot?  
 }, {
     disableRandomCreation: true
 });
@@ -279,8 +318,10 @@ Game.ItemRepository.define('manufacturing arm2', {
     foreground: 'white',
     attackValue: 4,
     bodyPart: 'arm',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
-    // Generic hitting plus something
+    // Generic hitting plus something.  Create something...  Diff version of sentry bot?
 }, {
     disableRandomCreation: true
 });
@@ -292,26 +333,29 @@ Game.ItemRepository.define('manufacturing legs', {
     foreground: 'aliceblue',
     defenseValue: 6,
     bodyPart: 'legs',
+    maxCooldown: 5,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Equippable]
-    //  Create caltrops/spikes/ oil slick...   Slowdown for enemies or unstable (less defense)
+    //  Create caltrops/spikes/ oil slick...   Slowdown for enemies or unstable (less defense).
+    //!!! Or Legs are generic attack as something diff !!!
 }, {
     disableRandomCreation: true
 });
 
-/* HERE IS HOW HEALING ITEMS WORK
-Game.ItemRepository.define('healing', {
-    name: 'demo legs',
-    class: 'demolitions',
+Game.ItemRepository.define('repair arm', {
+    name: 'repair arm',
+    class: 'repair',
     character: '[',
     foreground: 'white',
     attackValue: 10,
-    bodyPart: 'legs,
+    bodyPart: 'arm',
     healValue: 20,
     onUse: 'heal',
     maxUses: 1,
+    maxCooldown: 0,
+    currentCooldown: 0,
     mixins: [Game.ItemMixins.Healing, Game.ItemMixins.Equippable],
-    description: 'Deals medium damage.  One time healing use.'
+    description: 'Contains enough repair nanites for a single use.'
 }, {
     disableRandomCreation: true
 });
-*/
