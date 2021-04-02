@@ -221,6 +221,7 @@ Game.ItemMixins.areaEffect = {
             }
         }
     },
+}
 
 Game.ItemMixins.rangedAttack = {
     name: 'rangedAttack',

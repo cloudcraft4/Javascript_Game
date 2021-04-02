@@ -168,7 +168,7 @@ Game.Map.prototype.addEntity = function(entity) {
     if (entity.hasMixin(Game.EntityMixins.PlayerActor)) {
         this._player = entity;
         let defaultArm = Game.ItemRepository.create('default arm');
-        let defaultLeg = Game.ItemRepository.create('default leg');
+        let defaultLeg = Game.ItemRepository.create('default legs');
         let defaultTorso = Game.ItemRepository.create('default torso');
         let defaultHead = Game.ItemRepository.create('default head');
 

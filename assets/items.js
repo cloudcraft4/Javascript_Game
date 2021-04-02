@@ -113,10 +113,9 @@ Game.ItemRepository.define('demolition head', {
     healValue: 2,
     maxCoolDown: 5,
     currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable, Game.partAbility.demolitionHead,
-        Game.ItemMixins.Healing]
-    description: 'When enemies are destroyed by explosions you are able to heal.'
-
+    mixins: [Game.ItemMixins.Equippable, Game.PartAbility.demolitionHead,
+        Game.ItemMixins.Healing],
+    description: 'When enemies are destroyed by explosions you are able to heal.',
 }, {
     disableRandomCreation: true
 });
@@ -168,7 +167,7 @@ Game.ItemRepository.define('demolition torso', {
     explosionResistance: 50,
     defenseValue: 3,
     bodyPart: 'torso',
-    mixins: [Game.ItemMixins.Equippable, Game.partAbility.demolitionTorso],
+    mixins: [Game.ItemMixins.Equippable, Game.PartAbility.demolitionTorso],
     description: 'Gives Immunity to self explosions and resistance to explosions from enemies'
     //Immunity to explosions???  Health somehow
 }, {

@@ -53,7 +53,7 @@ Game.EntityRepository.define('malfunctioning robot', {
     foreground: 'yellow',
     maxHp: 3,
     attackValue: 2,
-    possibleParts: ['sec arm', 'sec torso'],
+    possibleParts: ['sec arm1', 'sec torso'],
     mixins: [Game.EntityMixins.TaskActor,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.CorpseDropper,
@@ -68,7 +68,7 @@ Game.EntityRepository.define('security robot', {
     maxHp: 6,
     attackValue: 4,
     sightRadius: 5,
-    possibleParts: ['sec leg', 'sec arm', 'sec torso'],
+    possibleParts: ['sec legs', 'sec arm1', 'sec torso'],
     tasks: ['hunt', 'wander'],
     mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
@@ -94,9 +94,9 @@ Game.EntityRepository.define('foreman robot', {
     disableRandomCreation: true
 });
 
-Game.EntityRepository.define('slime', {
-    name: 'slime',
-    character: 's',
+Game.EntityRepository.define('drone', {
+    name: 'drone',
+    character: 'd',
     foreground: 'lightGreen',
     maxHp: 10,
     attackValue: 5,

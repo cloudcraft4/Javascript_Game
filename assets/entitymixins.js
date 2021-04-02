@@ -32,7 +32,7 @@ Game.EntityMixins.PlayerActor = {
     deathAbility: function() {
         let partsSlot = this.getBodySlots();
         for (let i = 0; i < partsSlot.length; i++) {
-            if (Booleen(partsSlot[i].part._maxCoolDown)) {
+            if (Boolean(partsSlot[i].part._maxCoolDown)) {
                 if (partsSlot[i].part._currentCoolDown > 0) {
                     partsSlot[i].part._currentCoolDown -= 1;
                 }

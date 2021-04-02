@@ -1,6 +1,8 @@
 Game.PartAbility = {};
 
-Game.partAbility.demolitionArmOne = {
+
+
+Game.PartAbility.demolitionArmOne = {
     //REQUIRES: Game.ItemMixins.rangedAttack, (eventually) Game.ItemMixins.areaEffect
 
     //TARGETING NOT WORKING YET.  NOT MUCH TO DO JUST I HAVE
@@ -23,12 +25,11 @@ Game.partAbility.demolitionArmOne = {
         //
         //  WORKING ON THIS WHEN I AM NOT BORED OF IT
         //
-        this.pickTarget(afterTargeting);
-        
+        this.pickTarget(afterTargeting);        
     },
 }
 
-Game.partAbility.demolitionArmTwo = {
+Game.PartAbility.demolitionArmTwo = {
 
     //REQUIRES: Game.ItemMixins.areaEffect
     name: 'demolitionArmTwo',
@@ -45,7 +46,7 @@ Game.partAbility.demolitionArmTwo = {
     },
 }
 
-Game.partAbility.demolitionTorso = {
+Game.PartAbility.demolitionTorso = {
 
     name: 'demolitionTorso',
     init: function(template) {
@@ -59,7 +60,7 @@ Game.partAbility.demolitionTorso = {
 }
 
 
-Game.partAbility.demolitionHead = {
+Game.PartAbility.demolitionHead = {
     //REQUIRES: Game.ItemMixins.Healing
 
     name: 'demolitionHead',
@@ -76,4 +77,42 @@ Game.partAbility.demolitionHead = {
         self.heal();
     },
     
+}
+
+Game.PartAbility.manufactoringArm = {
+    //REQUIRES: NOTHING YET...
+
+    name: 'manufactoringArm',
+    init: function(template) {
+        this._maxCoolDown = template['maxCoolDown'] || 5;
+        this._currentCoolDown = template['currentCoolDown'] || 0;
+        this._hasBot = false;
+    },
+    useAbility: function() {
+        if (this._hasBot === false) {
+            //Need to modify how drones work.  Right now it will attack player
+            //Also when it dies it does not switch this._hasBot to false
+            createBot('drone');
+            this._hasBot = true;
+        }
+    },
+    createBot: function(bot) {
+        // Generate a random position nearby.
+        var xOffset = Math.floor(Math.random() * 3) - 1;
+        var yOffset = Math.floor(Math.random() * 3) - 1;
+
+        // Check if we can spawn an entity at that position.
+        if (!this.getMap().isEmptyFloor(this.getX() + xOffset, this.getY() + yOffset,
+            this.getZ())) {
+            // If we cant, do nothing
+            return;
+        }
+        // Create the entity
+        let minion = Game.EntityRepository.create(bot);
+        minion.setX(this.getX() + xOffset);
+        minion.setY(this.getY() + yOffset)
+        minion.setZ(this.getZ());
+        this.getMap().addEntity(minion);
+        
+    },
 }
