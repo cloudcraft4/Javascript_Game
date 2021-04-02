@@ -5,9 +5,9 @@ Game.PartAbility = {};
 Game.PartAbility.demolitionArmOne = {
     //REQUIRES: Game.ItemMixins.rangedAttack, (eventually) Game.ItemMixins.areaEffect
 
-    //TARGETING NOT WORKING YET.  NOT MUCH TO DO JUST I HAVE
-    //NOT GOT AROUND TO IT.  NEED TO HANDLE WHAT TO DO AFTER
-    //TARGET
+    //TARGETING NOT WORKING YET.
+    //
+    //
     name: 'demolitionArmOne',
     init: function(template) {
         // Set up the cool downs for the part
@@ -16,15 +16,13 @@ Game.PartAbility.demolitionArmOne = {
         this._maxUses = template['maxUses'] || 1;
     },
     useAbility: function(entity) {
-        
         //This is what needs to happen after choosing target
-        let afterTargeting = function() {
-            this.damageTarget(targetPosition);
-            this.checkUses();
+        let afterTargeting = function(targetX, targetY, item) {
+            console.log(item);
+            item.damageTarget(targetX, targetY);
+            item.checkUses();
         };
-        //
-        //  WORKING ON THIS WHEN I AM NOT BORED OF IT
-        //
+        
         this.pickTarget(afterTargeting);        
     },
 }

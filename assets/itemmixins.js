@@ -55,8 +55,8 @@ Game.ItemMixins.Equippable = {
         this._owner = false;
     },
 
-    //LIKELY NOT WORKING YET...  Game.Screen.playScreen not sure about
-    //Also unlock happens right after doing OK function.  Is that ok?
+    //Note I have pickTarget later.  DELETE THIS ENTIRELY?
+    /*
     chooseTarget: function() {
         let offsets = Game.Screen.getScreenOffsets();
         let player = Game.Screen.playScreen._player;
@@ -66,6 +66,7 @@ Game.ItemMixins.Equippable = {
         let target = Game.Screen.playScreen.setSubScreen(Game.Screen.chooseScreen);
         return target; 
     },    
+    */
     getOwner: function() {
         return this._owner;                 
     },
@@ -249,19 +250,16 @@ Game.ItemMixins.rangedAttack = {
             //Set up the screen to choose the target position
             let player = Game.Screen.playScreen._player;
             let offsets = Game.Screen.playScreen.getScreenOffsets();
+            let item = this;
             Game.Screen.chooseScreen.setup(player,
                 player.getX(), player.getY(),
-                offsets.x, offsets.y, afterTargeting);
+                offsets.x, offsets.y, afterTargeting, item);
             Game.Screen.playScreen.setSubScreen(Game.Screen.chooseScreen);
         }
-
-        //This needs to return the coordinates but it is not
     },
 
-    damageTarget: function(targetPosition) {
+    damageTarget: function(targetX, targetY) {
         //targetPosition is an object = {targetX:x, targetY:y}
-        let targetX = targetPosition.targetX;
-        let targetY = targetPosition.targetY;
         let player = Game.Screen.playScreen._player;
         let map = player.getMap();
         let target = map.getEntityAt(targetX, targetY, player.getZ());
@@ -270,14 +268,14 @@ Game.ItemMixins.rangedAttack = {
             //Do damage to target first in case damage amount is different
             //However at the present we do not consider strength of part
             let message = 'shoot a fireball at';
-            this.attack(target, message);
+            player.attack(target, message);
         }
         if (this.getAreaSize()) {
             let areaSize = this.getAreaSize();
             //Calculate positions around target.  areaSize of 1 = one in
             //every direction for a total of nine spots.
             
-            //I MIGHT want to eventually make it round rather than square.
+            //I MIGHT want to eventually make it roungit d rather than square.
             for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
                 let areaX = targetX - (xPos - areaSize); 
                 for (let yPos = 0; yPos <= (areaSize * 2); yPos++) { 
@@ -288,7 +286,8 @@ Game.ItemMixins.rangedAttack = {
                         //Attempts to do damage to target entity
                         if (map.getEntityAt(areaX, areaY, player.getZ())) {
                             targetEntity = map.getEntityAt(areaX, areaY, player.getZ());
-                            this.attack(targetEntity, message);
+                            let message = 'the exposion also hit';
+                            player.attack(targetEntity, message);
                         }
                     }
                 }

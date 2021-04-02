@@ -33,6 +33,9 @@ _         ____BUGS / OUTSTANDING ISSUES_____
 3. MAJOR BUG?  this.hasMixin seems to only check first item in list.  This is super weird and
     causes problems (see itemmixins.js createOnUse).  BUt it works elsewhere?????
 
+4.  PickTarget and ChooseTarget??????? under itemmixins
+     chooseTarget not used I am pretty sure
+
 
 
 
