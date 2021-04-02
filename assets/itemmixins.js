@@ -49,9 +49,9 @@ Game.ItemMixins.Equippable = {
         // Number of times the item can be used
         this._maxUses = template['maxUses'] || 1;
         this._onUse = template['onUse'] || false;
-        //This is something that I need to properly impliment.  Whenever the item
-        //is attached to a entity on creation this should be set (NOT DONE YET)
-        //It also needs to be set on equipping (already done but not tested)
+        // Let the item know what entity has it installed.
+        // This is set on equipping and creation.
+        // There may be a few instances on creation where this is not set yet!!
         this._owner = false;
     },
 
@@ -81,6 +81,9 @@ Game.ItemMixins.Equippable = {
     getPart: function() {
         return this._bodyPart
     },
+
+    /*  NO LONGER APPLICABLE.  LEAVING THIS HERE UNTIL NEW WAY TESTED
+
     useAbility: function() {
         if (this._onUse) {
             switch (this._onUse) {
@@ -103,6 +106,8 @@ Game.ItemMixins.Equippable = {
             }
         } else {console.log('This item does not have an ability')}
     },
+    */
+
     //Check to see if item has uses left.  If not remove and replace with default
     checkUses: function() {
         let entity = this._owner;
@@ -173,10 +178,54 @@ Game.ItemMixins.Healing = {
     },
 };
 
+//THIS IS NOT TESTED YET!!!
+//WHEN THIS IS WORKING WE WILL NEED TO TAKE IT OUT OF rangedAttack
+
+//MAYBE I WANT TO COLLECT ALL DAMAGE STUFF INTO ONE THING???
+//RANGED WOULD BE A BIG EXCEPTION THOUGH CUZ ITS WEIRD
+Game.ItemMixins.areaEffect = {
+    name: 'areaEffect',
+    init: function(template) {
+        this._areaSize = template['areaSize'] || 1;
+        this._abilityDamage = template['abilityDamage'] || 20;        
+    },
+    getAreaSize: function() {
+        return this._areaSize;                 
+    },
+    //I will want to eventually overhaul this to make it just find
+    //everyone in area and do SOMETHING to them.  For various
+    //AOE effects.
+    effectArea: function(targetX, targetY) {
+        let areaSize = this.getAreaSize();
+    
+        //Calculate positions around target.  areaSize of 1 = one in
+        //every direction for a total of nine spots.
+        //I MIGHT want to eventually make it round rather than square.
+
+        //NOTE:  This does not damage target!
+
+        for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
+            let areaX = targetX - (xPos - areaSize); 
+            for (let yPos = 0; yPos <= (areaSize * 2); yPos++) { 
+                let areaY = targetY - (yPos - areaSize);
+                //Checks to make sure we are not dealing double damage
+                if (areaX !== targetX && 
+                    areaY !== targetY) {
+                    //Attempts to do damage to target entity
+                    if (map.getEntityAt(areaX, areaY, player.getZ())) {
+                        targetEntity = map.getEntityAt(areaX, areaY, player.getZ());
+                        this.attack(targetEntity, message);
+                        //CHECK IF CREATURE DIES AND THEN CHECK OTHER HEALING
+                    }
+                }
+            }
+        }
+    },
+
 Game.ItemMixins.rangedAttack = {
     name: 'rangedAttack',
     init: function(template) {
-        this._rangedDamage = template['rangedDamage'] || 20;
+        this._abilityDamage = template['abiltyDamage'] || 20;
         this._areaSize = template['areaSize'] || false;
         //Not sure what this was going to be for...
             //this._sizeDamageReduction = template['sizeDamageReduction'] || 0;

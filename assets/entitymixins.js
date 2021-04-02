@@ -25,7 +25,20 @@ Game.EntityMixins.PlayerActor = {
         // Clear the message queue
         this.clearMessages();
         this._acting = false;
-    }
+    },
+    //I am not totally sure this is where it goes but for now I guess
+    //this will work
+    //NOT TESTED
+    deathAbility: function() {
+        let partsSlot = this.getBodySlots();
+        for (let i = 0; i < partsSlot.length; i++) {
+            if (Booleen(partsSlot[i].part._maxCoolDown)) {
+                if (partsSlot[i].part._currentCoolDown > 0) {
+                    partsSlot[i].part._currentCoolDown -= 1;
+                }
+            }
+        }
+    },
 };
 
 Game.EntityMixins.FungusActor = {
@@ -324,6 +337,8 @@ Game.EntityMixins.Destructible = {
             // Raise events
             this.raiseEvent('onDeath', attacker);
             attacker.raiseEvent('onKill', this);
+            //Handle ability cool downs and other on death abilities
+            Game.Screen.playScreen._player.deathAbility();
             this.kill();
         }
     },

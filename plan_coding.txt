@@ -47,9 +47,7 @@ _           ____FUTURE ISSUES___
     Make digging harder or fix unconnected parts.  Not totally sure how to code
     fix.
 4.  Map Height is one square too high
-5.  Graphical Tiles
 6.  Fix stupid down stairs everywhere
-7.  Need cool down for abilities.  Likely tied to number of enemies killed?
 8. Level Progression: Enemies harder and items better as you go futher down
 
 
