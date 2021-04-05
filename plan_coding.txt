@@ -36,6 +36,9 @@ _         ____BUGS / OUTSTANDING ISSUES_____
 4.  PickTarget and ChooseTarget??????? under itemmixins
      chooseTarget not used I am pretty sure
 
+5.  Targeting attacks sort of work but they do normal damage rather than something based
+    on the actual ability.
+
 
 
 
