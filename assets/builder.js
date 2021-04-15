@@ -7,17 +7,30 @@ Game.Builder = function(width, height, depth) {
     // Instantiate the arrays to be multi-dimension
     for (var z = 0; z < depth; z++) {
         // Create a new cave at each level
-        this._tiles[z] = this._generateLevel();
-        // Setup the regions array for each depth
-        this._regions[z] = new Array(width);
-        for (var x = 0; x < width; x++) {
-            this._regions[z][x] = new Array(height);
-            // Fill with zeroes
-            for (var y = 0; y < height; y++) {
-                this._regions[z][x][y] = 0;
+        if (z < (depth - 4)) {
+            this._tiles[z] = this._generateLevelRooms();
+            // Setup the regions array for each depth
+            this._regions[z] = new Array(width);
+            for (var x = 0; x < width; x++) {
+                this._regions[z][x] = new Array(height);
+                // Fill with zeroes
+                for (var y = 0; y < height; y++) {
+                    this._regions[z][x][y] = 0;
+                }
+            }
+        } else {
+            this._tiles[z] = this._generateLevel();
+            // Setup the regions array for each depth
+            this._regions[z] = new Array(width);
+            for (var x = 0; x < width; x++) {
+                this._regions[z][x] = new Array(height);
+                // Fill with zeroes
+                for (var y = 0; y < height; y++) {
+                    this._regions[z][x][y] = 0;
+                }
             }
         }
-    }
+    }        
     for (var z = 0; z < this._depth; z++) {
         this._setupRegions(z);
     }
@@ -54,6 +67,28 @@ Game.Builder.prototype._generateLevel = function() {
     // Smoothen it one last time and then update our map
     generator.create(function(x,y,v) {
          if (v === 1) {
+            map[x][y] = Game.Tile.floorTile;
+        } else {
+            map[x][y] = Game.Tile.wallTile;
+        }
+    });
+    return map;
+};
+
+//STILL FIGURING OUT HOW THE LEVEL GENERATION WORKS
+Game.Builder.prototype._generateLevelRooms = function() {
+    // Create the empty map
+    var map = new Array(this._width);
+    for (var w = 0; w < this._width; w++) {
+        map[w] = new Array(this._height);
+    }
+    // Setup the cave generator
+    var generator = new ROT.Map.Uniform(this._width, this._height, 
+        {roomWidth:[5,20], roomHeight:[5,20], roomDugPercentage:0.05});
+
+    // Smoothen it one last time and then update our map
+    generator.create(function(x,y,v) {
+         if (v === 0) {
             map[x][y] = Game.Tile.floorTile;
         } else {
             map[x][y] = Game.Tile.wallTile;

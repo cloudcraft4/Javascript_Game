@@ -1,14 +1,6 @@
 Game.ItemRepository = new Game.Repository('items', Game.Item);
 
-/*
-Game.ItemRepository.define('apple', {
-    name: 'apple',
-    character: '%',
-    foreground: 'red',
-    foodValue: 100,
-    mixins: [Game.ItemMixins.Edible]
-});
-
+/*  FOOD IS NOT CURRENTLY BEING USED
 Game.ItemRepository.define('melon', {
     name: 'melon',
     character: '%',
