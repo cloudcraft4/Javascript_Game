@@ -97,7 +97,7 @@ Game.ItemRepository.define('default head', {
 
 //Demolitions
 Game.ItemRepository.define('demolition head', {
-    name: 'demolition head',
+    name: 'Demolition Head',
     class: 'demolitions',
     character: ')',
     foreground: 'yellow',
@@ -119,12 +119,10 @@ Game.ItemRepository.define('dynamite arm', {
     foreground: 'gray',
     attackValue: 10,
     bodyPart: 'arm',
-    onUse: 'rangedAttack',
+    onUse: true,
     damage: 20,
     areaSize: 2,
     maxUses: 1,
-    maxCoolDown: 5,
-    currentCoolDown: 0,
     mixins: [Game.ItemMixins.rangedAttack, Game.ItemMixins.Equippable, 
         Game.PartAbility.demolitionArmOne],
     description: 'Throw this arm to do massive damage'
@@ -134,16 +132,18 @@ Game.ItemRepository.define('dynamite arm', {
 });
 
 Game.ItemRepository.define('demolition arm2', {
-    name: 'ddemolition arm2',
+    name: 'Demolition Arm2',
     class: 'demolitions',
     character: ')',
     foreground: 'gray',
-    abilityDamage: 5,
+    abilityDamage: 8,
     bodyPart: 'arm',
     maxCoolDown: 1,
     currentCoolDown: 0,
+    onUse: true,
     areaSize: 1,
-    mixins: [Game.ItemMixins.Equippable, Game.ItemMixins.areaEffect],
+    mixins: [Game.ItemMixins.Equippable, Game.ItemMixins.areaEffect,
+        Game.PartAbility.demolitionArmTwo],
     description: 'Causes explosions around self.  Will not cause self damage'
     // Causes explosions around self.  Will not cause self damage
 }, {

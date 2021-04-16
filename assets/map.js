@@ -175,6 +175,7 @@ Game.Map.prototype.addEntity = function(entity) {
         //TEMPORARTY CODE FOR TESTING
         entity.addItem(Game.ItemRepository.create('dynamite arm'));
         entity.addItem(Game.ItemRepository.create('demolition head'));
+        entity.addItem(Game.ItemRepository.create('demolition arm2'));
         
         //PROBABLY MAKE THIS A METHOD SO CODE DOES NOT HAVE TO BE DUPLICATED??
         //Attach the arm and set as default

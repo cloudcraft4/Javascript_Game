@@ -76,10 +76,18 @@ Game.Screen.playScreen = {
         let slotNum = 1;
         let slotBar = '';
         for(let i = 0; i < bodySlots.length; i++) {
-            if (Object.keys(bodySlots[i].part).length === 0) {
+            let iPart = bodySlots[i].part;
+            //REMOVE THIS ONCE I HANDLE SECOND ARM
+            if (Object.keys(iPart).length === 0) {
                 slotBar += slotNum + ': default';
-            } else {
-                slotBar += slotNum + ': ' + bodySlots[i].part._name;
+            //Checking if ability has a cooldown that is > 0
+            //If so, display cooldown in addition to other info
+            } else if (Boolean(iPart._currentCoolDown)) { 
+                slotBar += slotNum + ': ' + iPart._name + 
+                ' ' + iPart._currentCoolDown;
+            //Display number plus item name
+            } else { 
+                slotBar += slotNum + ': ' + iPart._name;
             };
             if (i < bodySlots.length -1) {
                 slotBar += ', ';

@@ -53,20 +53,10 @@ Game.ItemMixins.Equippable = {
         // This is set on equipping and creation.
         // There may be a few instances on creation where this is not set yet!!
         this._owner = false;
+        this._maxCoolDown = template['maxCoolDown'] || false;
+        this._currentCoolDown = template['currentCoolDown'] || false;
     },
 
-    //Note I have pickTarget later.  DELETE THIS ENTIRELY?
-    /*
-    chooseTarget: function() {
-        let offsets = Game.Screen.getScreenOffsets();
-        let player = Game.Screen.playScreen._player;
-        Game.Screen.chooseScreen.setup(player,
-            player.getX(), player.getY(),
-            offsets.x, offsets.y);
-        let target = Game.Screen.playScreen.setSubScreen(Game.Screen.chooseScreen);
-        return target; 
-    },    
-    */
     getOwner: function() {
         return this._owner;                 
     },
@@ -82,32 +72,6 @@ Game.ItemMixins.Equippable = {
     getPart: function() {
         return this._bodyPart
     },
-
-    /*  NO LONGER APPLICABLE.  LEAVING THIS HERE UNTIL NEW WAY TESTED
-
-    useAbility: function() {
-        if (this._onUse) {
-            switch (this._onUse) {
-                case 'heal': 
-                    this.heal(); 
-                    this.checkUses();
-                    break;
-                case 'rangedAttack':
-                    //This is what needs to happen after choosing target
-                    let afterTargeting = function() {
-                        this.damageTarget(targetPosition);
-                        this.checkUses();
-                    };
-                    //
-                    //  WORKING ON THIS WHEN I AM NOT BORED OF IT
-                    //
-                    //this.pickTarget(afterTargeting);
-                    break;
-                default: console.log(this._onUse + ' not found in switch');
-            }
-        } else {console.log('This item does not have an ability')}
-    },
-    */
 
     //Check to see if item has uses left.  If not remove and replace with default
     checkUses: function() {
@@ -179,6 +143,7 @@ Game.ItemMixins.Healing = {
 
 //Direct damage is small but area damage is huge.  The reason is that it
 //Is using hitting damage for target hit but ability damage for area
+//MAYBE THIS IS TRUE???  NOT SURE NEED TO LOOK AT IT
 
 //WHEN THIS IS WORKING WE WILL NEED TO TAKE IT OUT OF rangedAttack
 
@@ -197,16 +162,14 @@ Game.ItemMixins.areaEffect = {
     //everyone in area and do SOMETHING to them.  For various
     //AOE effects.
     effectArea: function(targetX, targetY) {
+        let player = Game.Screen.playScreen._player;
         let areaSize = this.getAreaSize();
-    
-        //Calculate positions around target.  areaSize of 1 = one in
-        //every direction for a total of nine spots.
-        //I MIGHT want to eventually make it round rather than square.
-
+        let map = player.getMap();
+ 
         //NOTE:  This does not damage target!
 
-        //BUG!!!!!  - Does not work if targeting empty square...  WHY?
-
+        //Calculate positions around target.  areaSize of 1 = one in
+        //every direction for a total of nine spots.
         for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
             let areaX = targetX - (xPos - areaSize); 
             for (let yPos = 0; yPos <= (areaSize * 2); yPos++) { 
@@ -217,8 +180,9 @@ Game.ItemMixins.areaEffect = {
                     //Attempts to do damage to target entity
                     if (map.getEntityAt(areaX, areaY, player.getZ())) {
                         targetEntity = map.getEntityAt(areaX, areaY, player.getZ());
-                        this.attack(targetEntity, message);
-                        //CHECK IF CREATURE DIES AND THEN CHECK OTHER HEALING
+                        let message = 'the exposion also hit';
+                        let cause = 'explosion';
+                        player.attack(targetEntity, message, cause);
                     }
                 }
             }
@@ -274,10 +238,9 @@ Game.ItemMixins.rangedAttack = {
         }
         if (this.getAreaSize()) {
             let areaSize = this.getAreaSize();
-            //Calculate positions around target.  areaSize of 1 = one in
-            //every direction for a total of nine spots.
-            
-            //I MIGHT want to eventually make it roungit d rather than square.
+
+            //Duplicate of effectArea
+            //May want add all to a more generic attack group
             for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
                 let areaX = targetX - (xPos - areaSize); 
                 for (let yPos = 0; yPos <= (areaSize * 2); yPos++) { 
@@ -296,22 +259,14 @@ Game.ItemMixins.rangedAttack = {
                 }
             }
         }
-        //I NEED TO Create this GETTER METHOD????
+        //Damage everything in a line.  Currently unused
         if (this.isBeam()) {
             // damage things in a beam
             console.log('This is a beam but there is no code')
         }
-        
-        //Does this even work?? The ! part
-        //Also do I need the Boolean() part? 
-        /*
-        if (!Boolean(target) && !this.getAreaSize() && !this.isBeam()) {
-            //message about hitting nothing
-            console.log('Nothing happened')
-        }
-        */
-    },
-    hasRemainingUses: function() {
+     },
+ 
+     hasRemainingUses: function() {
         return this._remainingUses > 0;
     },
 };

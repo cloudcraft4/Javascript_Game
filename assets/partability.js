@@ -5,24 +5,18 @@ Game.PartAbility = {};
 Game.PartAbility.demolitionArmOne = {
     //REQUIRES: Game.ItemMixins.rangedAttack, (eventually) Game.ItemMixins.areaEffect
 
-    //TARGETING NOT WORKING YET.
-    //
-    //
     name: 'demolitionArmOne',
     init: function(template) {
-        // Set up the cool downs for the part
-        this._maxCoolDown = template['maxCoolDown'] || 5;
-        this._currentCoolDown = template['currentCoolDown'] || 0;
-        this._maxUses = template['maxUses'] || 1;
+        //Cooldowns and maxUses set up under equipable
+        //this._maxUses = template['maxUses'] || 1;
     },
-    useAbility: function(entity) {
+    useAbility: function() {
         //This is what needs to happen after choosing target
         let afterTargeting = function(targetX, targetY, item) {
             item.damageTarget(targetX, targetY);
             item._remainingUses--;
             item.checkUses();
         };
-        
         this.pickTarget(afterTargeting);        
     },
 }
@@ -32,15 +26,18 @@ Game.PartAbility.demolitionArmTwo = {
     //REQUIRES: Game.ItemMixins.areaEffect
     name: 'demolitionArmTwo',
     init: function(template) {
-        // Set up the cool downs for the part
-        this._maxCoolDown = template['maxCoolDown'] || 1;
-        this._currentCoolDown = template['currentCoolDown'] || 0;
+        //So far nothing to do here
     },
-    useAbility: function(entity) {
-        //EVENTUALLY --> effectArea(effectType, target, areaSize);
-        let targetX = Game.Screen.playScreen._player.getX();
-        let targetY = Game.Screen.playScreen._player.getY();
-        effectArea(targetX, targetY);
+    useAbility: function() {
+        console.log('Called use ability on demo arm2');
+        if (this._currentCoolDown <= 0) {
+            //EVENTUALLY --> effectArea(effectType, target, areaSize);
+            let targetX = Game.Screen.playScreen._player.getX();
+            let targetY = Game.Screen.playScreen._player.getY();
+            this.effectArea(targetX, targetY);
+            //Reset the Cool Down timer
+            this._currentCoolDown = this._maxCoolDown;
+        }            
     },
 }
 
@@ -64,10 +61,6 @@ Game.PartAbility.demolitionHead = {
     name: 'demolitionHead',
     init: function(template) {
         this._explosionHealing = true;
-        //This is here just in case I need to lower power level of
-        //the ability by saying it can only be occasionally used
-        this._maxCoolDown = template['maxCoolDown'] || 5;
-        this._currentCoolDown = template['currentCoolDown'] || 0;
     },
     deathAbility: function(cause) {
         if (cause === 'explosion') {
@@ -82,8 +75,6 @@ Game.PartAbility.manufactoringArm = {
 
     name: 'manufactoringArm',
     init: function(template) {
-        this._maxCoolDown = template['maxCoolDown'] || 5;
-        this._currentCoolDown = template['currentCoolDown'] || 0;
         this._hasBot = false;
     },
     useAbility: function() {
