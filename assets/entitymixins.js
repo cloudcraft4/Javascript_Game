@@ -26,16 +26,18 @@ Game.EntityMixins.PlayerActor = {
         this.clearMessages();
         this._acting = false;
     },
-    //I am not totally sure this is where it goes but for now I guess
-    //this will work
-    //NOT TESTED
-    deathAbility: function() {
+    //Everytime something dies this is called
+    deathTrigger: function(cause) {
         let partsSlot = this.getBodySlots();
         for (let i = 0; i < partsSlot.length; i++) {
             if (Boolean(partsSlot[i].part._maxCoolDown)) {
                 if (partsSlot[i].part._currentCoolDown > 0) {
                     partsSlot[i].part._currentCoolDown -= 1;
                 }
+            }
+            //Check each part to see if there is a deathAbility to run
+            if (Boolean(partsSlot[i].part.deathAbility)) {
+                partsSlot[i].part.deathAbility(cause);
             }
         }
     },
@@ -239,7 +241,7 @@ Game.EntityMixins.Attacker = {
         this._attackValue += value;
         Game.sendMessage(this, "You look stronger!");
     },
-    attack: function(target, message='strike') {
+    attack: function(target, message='strike', cause=false) {
         // If the target is destructible, calculate the damage
         // based on attack and defense value
         if (target.hasMixin('Destructible')) {
@@ -253,7 +255,7 @@ Game.EntityMixins.Attacker = {
             Game.sendMessage(target, 'The %s ' + message + ' you for %d damage!', 
                 [this.getName(), damage]);
 
-            target.takeDamage(this, damage);
+            target.takeDamage(this, damage, cause);
         }
     },
     // Check if the body part referenced has an associated ability
@@ -329,7 +331,7 @@ Game.EntityMixins.Destructible = {
         this._hp += value;
         Game.sendMessage(this, "You look healthier!");
     },
-    takeDamage: function(attacker, damage) {
+    takeDamage: function(attacker, damage, cause) {
         this._hp -= damage;
         // If have 0 or less HP, then remove ourseles from the map
         if (this._hp <= 0) {
@@ -338,7 +340,8 @@ Game.EntityMixins.Destructible = {
             this.raiseEvent('onDeath', attacker);
             attacker.raiseEvent('onKill', this);
             //Handle ability cool downs and other on death abilities
-            Game.Screen.playScreen._player.deathAbility();
+                //WHAT HAPPENS IF PERSON KILLED IN PLAYER????
+            Game.Screen.playScreen._player.deathTrigger(cause);
             this.kill();
         }
     },
@@ -681,7 +684,6 @@ Game.EntityMixins.Equipper = {
             //TEMPORARILY THIS JUST AUTOMATICALLY REMOVES THEM
             if (item.getPart() === 'arm') {
                 this._bodySlots[0].part = this.getDefaultPart('arm');
-                console.log(this.getDefaultPart('arm'));
             } else if (item.getPart() === 'legs') {
                 this._bodySlots[2].part = this.getDefaultPart('legs');
             } else if (item.getPart() === 'torso') {

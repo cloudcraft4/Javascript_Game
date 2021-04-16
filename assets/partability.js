@@ -18,8 +18,8 @@ Game.PartAbility.demolitionArmOne = {
     useAbility: function(entity) {
         //This is what needs to happen after choosing target
         let afterTargeting = function(targetX, targetY, item) {
-            console.log(item);
             item.damageTarget(targetX, targetY);
+            item._remainingUses--;
             item.checkUses();
         };
         
@@ -69,10 +69,10 @@ Game.PartAbility.demolitionHead = {
         this._maxCoolDown = template['maxCoolDown'] || 5;
         this._currentCoolDown = template['currentCoolDown'] || 0;
     },
-    //I NEED TO FIGURE OUT HOW I WANT TO DO THIS.  MAYBE AFTER DEATH
-    //CYCLE THROUGH EVERY PART AND LOOK FOR THE onDeath FUNCTION???
-    deathAbility: function() {
-        self.heal();
+    deathAbility: function(cause) {
+        if (cause === 'explosion') {
+            this.heal();
+        }
     },
     
 }

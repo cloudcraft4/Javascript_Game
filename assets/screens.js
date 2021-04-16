@@ -804,7 +804,6 @@ Game.Screen.TargetBasedScreen.prototype.executeOkFunction = function() {
     // Switch back to the play screen.
     Game.Screen.playScreen.setSubScreen(undefined);
     // Call the OK function and end the player's turn if it return true.
-    console.log(this)
     if (this._okFunction(this._cursorX + this._offsetX, this._cursorY + this._offsetY)) {
         this._player.getMap().getEngine().unlock();
     }

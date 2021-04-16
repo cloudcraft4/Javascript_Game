@@ -112,7 +112,6 @@ Game.ItemMixins.Equippable = {
     //Check to see if item has uses left.  If not remove and replace with default
     checkUses: function() {
         let entity = this._owner;
-        console.log('checkUses was called');
         if (this.hasRemainingUses() <= 0) {
             entity.removePart(this);
         }
@@ -154,7 +153,6 @@ Game.ItemMixins.Healing = {
         this._remainingUses = this._maxUses;
     },
     heal: function(entity = this.getOwner()) {
-        console.log(this.getOwner());
         if (entity.hasMixin('Destructible')) {
             if (this.hasRemainingUses()) {
                 let currentHP = entity.getHp();
@@ -169,7 +167,7 @@ Game.ItemMixins.Healing = {
                     this._remainingUses--;
                     Game.sendMessage(entity, "Your wounds heal");
                 } else {
-                    Game.sendMessage(entity, "Nothing happens because you are not hurt");
+                    Game.sendMessage(entity, "You do not heal because you are not hurt");
                 };
             }
         }
@@ -179,7 +177,9 @@ Game.ItemMixins.Healing = {
     },
 };
 
-//THIS IS NOT TESTED YET!!!
+//Direct damage is small but area damage is huge.  The reason is that it
+//Is using hitting damage for target hit but ability damage for area
+
 //WHEN THIS IS WORKING WE WILL NEED TO TAKE IT OUT OF rangedAttack
 
 //MAYBE I WANT TO COLLECT ALL DAMAGE STUFF INTO ONE THING???
@@ -204,6 +204,8 @@ Game.ItemMixins.areaEffect = {
         //I MIGHT want to eventually make it round rather than square.
 
         //NOTE:  This does not damage target!
+
+        //BUG!!!!!  - Does not work if targeting empty square...  WHY?
 
         for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
             let areaX = targetX - (xPos - areaSize); 
@@ -287,7 +289,8 @@ Game.ItemMixins.rangedAttack = {
                         if (map.getEntityAt(areaX, areaY, player.getZ())) {
                             targetEntity = map.getEntityAt(areaX, areaY, player.getZ());
                             let message = 'the exposion also hit';
-                            player.attack(targetEntity, message);
+                            let cause = 'explosion';
+                            player.attack(targetEntity, message, cause);
                         }
                     }
                 }
