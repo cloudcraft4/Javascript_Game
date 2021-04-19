@@ -120,7 +120,6 @@ Game.EntityMixins.TaskActor = {
                 return;
             }
         }
-
         // Generate the path and move to the first tile.
         var source = this;
         var z = source.getZ();

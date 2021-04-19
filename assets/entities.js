@@ -102,8 +102,7 @@ Game.EntityRepository.define('drone', {
     attackValue: 5,
     sightRadius: 3,
     tasks: ['hunt', 'wander'],
-    mixins: [Game.EntityMixins.TaskActor, Game.EntityMixins.Sight,
-             Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
-             Game.EntityMixins.CorpseDropper,
+    mixins: [Game.EntityMixins.Sight,
+             Game.EntityMixins.Destructible, Game.EntityMixins.Attacker,
              Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });

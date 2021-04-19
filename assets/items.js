@@ -299,7 +299,8 @@ Game.ItemRepository.define('manufacturing arm1', {
     bodyPart: 'arm',
     maxCoolDown: 5,
     currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
+    onUse: true,
+    mixins: [Game.ItemMixins.Equippable, Game.PartAbility.manufactoringArm]
     // Create sentry bot?  
 }, {
     disableRandomCreation: true

@@ -10,7 +10,7 @@ Game.PartAbility.demolitionArmOne = {
         //Cooldowns and maxUses set up under equipable
         //this._maxUses = template['maxUses'] || 1;
     },
-    useAbility: function() {
+    useAbility: function(entity) {
         //This is what needs to happen after choosing target
         let afterTargeting = function(targetX, targetY, item) {
             item.damageTarget(targetX, targetY);
@@ -28,7 +28,7 @@ Game.PartAbility.demolitionArmTwo = {
     init: function(template) {
         //So far nothing to do here
     },
-    useAbility: function() {
+    useAbility: function(entity) {
         console.log('Called use ability on demo arm2');
         if (this._currentCoolDown <= 0) {
             //EVENTUALLY --> effectArea(effectType, target, areaSize);
@@ -77,31 +77,31 @@ Game.PartAbility.manufactoringArm = {
     init: function(template) {
         this._hasBot = false;
     },
-    useAbility: function() {
+    useAbility: function(entity) {
         if (this._hasBot === false) {
             //Need to modify how drones work.  Right now it will attack player
             //Also when it dies it does not switch this._hasBot to false
-            createBot('drone');
+            this.createBot(entity, 'drone');
             this._hasBot = true;
         }
     },
-    createBot: function(bot) {
+    createBot: function(entity, bot) {
         // Generate a random position nearby.
         var xOffset = Math.floor(Math.random() * 3) - 1;
         var yOffset = Math.floor(Math.random() * 3) - 1;
 
         // Check if we can spawn an entity at that position.
-        if (!this.getMap().isEmptyFloor(this.getX() + xOffset, this.getY() + yOffset,
-            this.getZ())) {
+        if (!entity.getMap().isEmptyFloor(entity.getX() + xOffset, entity.getY() + yOffset,
+            entity.getZ())) {
             // If we cant, do nothing
             return;
         }
         // Create the entity
         let minion = Game.EntityRepository.create(bot);
-        minion.setX(this.getX() + xOffset);
-        minion.setY(this.getY() + yOffset)
-        minion.setZ(this.getZ());
-        this.getMap().addEntity(minion);
+        minion.setX(entity.getX() + xOffset);
+        minion.setY(entity.getY() + yOffset)
+        minion.setZ(entity.getZ());
+        entity.getMap().addEntity(minion);
         
     },
 }

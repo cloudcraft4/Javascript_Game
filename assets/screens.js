@@ -249,8 +249,9 @@ Game.Screen.playScreen = {
                 // Checking if there is an ability attached to that slot and then using it
                 let part = this._player.getPart(0);
                 if (part._onUse) {
-                    part.useAbility(); 
+                    part.useAbility(this._player); 
                 } else {
+                    console.log(part);
                     console.log('Ability not found')
                 }
             
@@ -267,7 +268,7 @@ Game.Screen.playScreen = {
                 // Checking if there is an ability attached to that slot and then using it
                 let part = this._player.getPart(2);
                 if (part._onUse) {
-                    part.useAbility(); 
+                    part.useAbility(this._player); 
                 } else {
                     console.log('Ability not found')
                 }
@@ -283,7 +284,7 @@ Game.Screen.playScreen = {
                 // Checking if there is an ability attached to that slot and then using it
                 let part = this._player.getPart(4);
                 if (part._onUse) {
-                    part.useAbility(); 
+                    part.useAbility(this._player); 
                 } else {
                     console.log('Ability not found')
                 }
