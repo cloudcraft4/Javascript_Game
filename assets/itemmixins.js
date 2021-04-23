@@ -250,7 +250,7 @@ Game.ItemMixins.rangedAttack = {
                         areaY !== targetY) {
                         //Attempts to do damage to target entity
                         if (map.getEntityAt(areaX, areaY, player.getZ())) {
-                            targetEntity = map.getEntityAt(areaX, areaY, player.getZ());
+                            let targetEntity = map.getEntityAt(areaX, areaY, player.getZ());
                             let message = 'the exposion also hit';
                             let cause = 'explosion';
                             player.attack(targetEntity, message, cause);

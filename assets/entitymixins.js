@@ -30,6 +30,7 @@ Game.EntityMixins.PlayerActor = {
     deathTrigger: function(cause) {
         let partsSlot = this.getBodySlots();
         for (let i = 0; i < partsSlot.length; i++) {
+            //Go through each part and decrease cooldown by one
             if (Boolean(partsSlot[i].part._maxCoolDown)) {
                 if (partsSlot[i].part._currentCoolDown > 0) {
                     partsSlot[i].part._currentCoolDown -= 1;
@@ -88,6 +89,8 @@ Game.EntityMixins.TaskActor = {
     init: function(template) {
         // Load tasks
         this._tasks = template['tasks'] || ['wander']; 
+        //Checking if the entity is friendly to player
+        this._isAlly = template['isAlly'] || false; 
     },
     act: function() {
         // Iterate through all our tasks
@@ -108,39 +111,136 @@ Game.EntityMixins.TaskActor = {
             throw new Error('Tried to perform undefined task ' + task);
         }
     },
-    hunt: function() {
-        var player = this.getMap().getPlayer();
-
-        // If we are adjacent to the player, then attack instead of hunting.
-        var offsets = Math.abs(player.getX() - this.getX()) + 
-            Math.abs(player.getY() - this.getY());
-        if (offsets === 1) {
-            if (this.hasMixin('Attacker')) {
-                this.attack(player);
-                return;
-            }
-        }
-        // Generate the path and move to the first tile.
-        var source = this;
-        var z = source.getZ();
-        var path = new ROT.Path.AStar(player.getX(), player.getY(), function(x, y) {
-            // If an entity is present at the tile, can't move there.
-            var entity = source.getMap().getEntityAt(x, y, z);
-            if (entity && entity !== player && entity !== source) {
-                return false;
-            }
-            return source.getMap().getTile(x, y, z).isWalkable();
-        }, {topology: 4});
-        // Once we've gotten the path, we want to move to the second cell that is
-        // passed in the callback (the first is the entity's strting point)
-        var count = 0;
-        path.compute(source.getX(), source.getY(), function(x, y) {
-            if (count == 1) {
-                source.tryMove(x, y, z);
-            }
-            count++;
-        });
+    follow: function() {
+        console.log('I am trying to follow');
     },
+
+    hunt: function() {
+        //Check whether to target player or enemy
+        if (Boolean(this._isAlly)) {
+            //It does this EVERY turn.  It is very CPU intensive.  Need to rethink
+            //how I do this.
+            var target = this.getClosestEntity();
+        } else {var target = this.getMap().getPlayer()}
+         
+        //If Ally has no target then just follow player
+        if (Boolean(target)) {
+            // If we are adjacent to the player, then attack instead of hunting.
+            var offsets = Math.abs(target.getX() - this.getX()) + 
+                Math.abs(target.getY() - this.getY());
+            if (offsets === 1) {
+                if (this.hasMixin('Attacker')) {
+                    this.attack(target);
+                    return;
+                }
+            }
+            // Generate the path and move to the first tile.
+            var source = this;
+            var z = source.getZ();
+            var path = new ROT.Path.AStar(target.getX(), target.getY(), function(x, y) {
+                // If an entity is present at the tile, can't move there.
+                var entity = source.getMap().getEntityAt(x, y, z);
+                if (entity && entity !== target && entity !== source) {
+                    return false;
+                }
+                return source.getMap().getTile(x, y, z).isWalkable();
+            }, {topology: 4});
+            // Once we've gotten the path, we want to move to the second cell that is
+            // passed in the callback (the first is the entity's strting point)
+            var count = 0;
+            path.compute(source.getX(), source.getY(), function(x, y) {
+                if (count == 1) {
+                    source.tryMove(x, y, z);
+                }
+                count++;
+            });
+        } else {
+            this.follow();
+        }
+    },
+
+    getClosestEntity: function() {
+    //NEW, BETTER CODE
+
+        const playerX = Game.Screen.playScreen._player.getX();
+        const playerY = Game.Screen.playScreen._player.getY();
+        const playerZ = Game.Screen.playScreen._player.getZ();
+        const map = Game.Screen.playScreen._player.getMap();
+        const sourceX = this.getX();
+        const sourceY = this.getY();
+        let targetEntity = false;
+        let areaSize = 1;
+
+        while (targetEntity == false && areaSize <= 5) {
+            for (let xPos = sourceX - areaSize; xPos <= (sourceX + areaSize); xPos++) {
+                
+                //Check every tile on top and bottom of square    
+                if (Math.abs(xPos) === areaSize) {
+                    for (let yPos = sourceY - areaSize; yPos <= (sourceY + areaSize); yPos++) {
+                        //If there is no entity it will again be set as false
+                        targetEntity = map.getEntityAt(xPos, yPos, playerZ);
+                    }
+                //Check the two sides of the square
+                } else {
+                    let yPos = ???;
+                    //Check left side of square
+                    targetEntity = map.getEntityAt(xPs, yPos, playerZ);
+                    //Check right side of square if nothing on left
+                    if (targetEntity == false) {
+                        yPos = sourceY + areaSize;
+                        targetEntity = map.getEntityAt(xPos, yPos, playerZ); 
+                    }           
+                }
+            }
+            areaSize++;
+        };
+        
+        return targetEntity;
+    },
+
+                /*  OLD BAD CODE (BUT IT DOES MOSTLY WORK)
+
+        console.log('Running the code');
+        const playerX = Game.Screen.playScreen._player.getX();
+        const playerY = Game.Screen.playScreen._player.getY();
+        const playerZ = Game.Screen.playScreen._player.getZ();
+        const map = Game.Screen.playScreen._player.getMap();
+        const sourceX = this.getX();
+        const sourceY = this.getY();
+        let targetEntity = false;
+ 
+        //Inellegant solution: run through code multiple times, with
+        //each iteration increasing the size up to a possible of 5.
+
+        outerLoop:        
+        //Calculate positions around target.  areaSize of 1 = one in
+        //every direction for a total of nine spots.
+        for (var areaSize = 1; areaSize <= 5; areaSize++) {
+            for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
+                let areaX = sourceX - (xPos - areaSize); 
+                for (let yPos = 0; yPos <= (areaSize * 2); yPos++) { 
+                    let areaY = sourceY - (yPos - areaSize);
+                    //Checks to make sure we are not targeting self or player
+                    if ((areaX !== sourceX && areaY !== sourceY) ||
+                    (areaX !== playerX && areaY !== playerY)) {
+                        //Attempts to do damage to target entity
+                        if (map.getEntityAt(areaX, areaY, playerZ)) {
+                            targetEntity = map.getEntityAt(areaX, areaY, playerZ);
+                            console.log(targetEntity.getName());
+                            //Stop process as soon as we find the first entity
+                            break outerLoop;
+                        }
+                    }
+                }
+            }
+        };
+        return targetEntity;
+    },
+    */
+
+    
+    
+
     wander: function() {
         // Flip coin to determine if moving by 1 in the positive or negative direction
         var moveOffset = (Math.round(Math.random()) === 1) ? 1 : -1;

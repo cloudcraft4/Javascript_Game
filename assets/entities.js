@@ -97,12 +97,13 @@ Game.EntityRepository.define('foreman robot', {
 Game.EntityRepository.define('drone', {
     name: 'drone',
     character: 'd',
-    foreground: 'lightGreen',
+    foreground: 'blue',
     maxHp: 10,
     attackValue: 5,
     sightRadius: 3,
-    tasks: ['hunt', 'wander'],
-    mixins: [Game.EntityMixins.Sight,
+    isAlly: true,
+    tasks: ['hunt'],
+    mixins: [Game.EntityMixins.Sight, Game.EntityMixins.TaskActor,
              Game.EntityMixins.Destructible, Game.EntityMixins.Attacker,
              Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
 });
