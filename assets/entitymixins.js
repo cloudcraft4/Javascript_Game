@@ -162,31 +162,38 @@ Game.EntityMixins.TaskActor = {
     getClosestEntity: function() {
     //NEW, BETTER CODE
 
-        const playerX = Game.Screen.playScreen._player.getX();
-        const playerY = Game.Screen.playScreen._player.getY();
-        const playerZ = Game.Screen.playScreen._player.getZ();
-        const map = Game.Screen.playScreen._player.getMap();
-        const sourceX = this.getX();
+        let playerX = Game.Screen.playScreen._player.getX();
+        let playerY = Game.Screen.playScreen._player.getY();
+        let playerZ = Game.Screen.playScreen._player.getZ();
+        let map = Game.Screen.playScreen._player.getMap();
+        let sourceX = this.getX();
+        console.log('getX = ' + sourceX);
         const sourceY = this.getY();
         let targetEntity = false;
         let areaSize = 1;
 
-        while (targetEntity == false && areaSize <= 5) {
+
+        //DOES NOT WORK.  ALWAYS ENDS WITH FALSE
+        while (targetEntity == false && areaSize <= 8) {
             for (let xPos = sourceX - areaSize; xPos <= (sourceX + areaSize); xPos++) {
                 
                 //Check every tile on top and bottom of square    
                 if (Math.abs(xPos) === areaSize) {
                     for (let yPos = sourceY - areaSize; yPos <= (sourceY + areaSize); yPos++) {
-                        //If there is no entity it will again be set as false
-                        targetEntity = map.getEntityAt(xPos, yPos, playerZ);
+                        //Check if there is an entity at this spot
+                        if (targetEntity == false && !(xPos !== playerX && yPos !== playerY)) {
+                            targetEntity = map.getEntityAt(xPos, yPos, playerZ);
+                        }
                     }
                 //Check the two sides of the square
                 } else {
-                    let yPos = ???;
-                    //Check left side of square
-                    targetEntity = map.getEntityAt(xPs, yPos, playerZ);
+                    let yPos = sourceY - areaSize;
+                    //Check left side of square for entity
+                    if (targetEntity == false && !(xPos !== playerX && yPos !== playerY)) {
+                        targetEntity = map.getEntityAt(xPos, yPos, playerZ);
+                    }
                     //Check right side of square if nothing on left
-                    if (targetEntity == false) {
+                    if (targetEntity == false && !(xPos !== playerX && yPos !== playerY)) {
                         yPos = sourceY + areaSize;
                         targetEntity = map.getEntityAt(xPos, yPos, playerZ); 
                     }           
@@ -194,11 +201,11 @@ Game.EntityMixins.TaskActor = {
             }
             areaSize++;
         };
-        
+        console.log('targetEntity = ' + targetEntity);
         return targetEntity;
     },
 
-                /*  OLD BAD CODE (BUT IT DOES MOSTLY WORK)
+    /*  OLD BAD CODE (BUT IT DOES MOSTLY WORK)
 
         console.log('Running the code');
         const playerX = Game.Screen.playScreen._player.getX();
