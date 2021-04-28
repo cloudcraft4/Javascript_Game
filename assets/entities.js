@@ -101,6 +101,7 @@ Game.EntityRepository.define('drone', {
     maxHp: 10,
     attackValue: 5,
     sightRadius: 3,
+    mapCreation: false,
     isAlly: true,
     tasks: ['hunt'],
     mixins: [Game.EntityMixins.Sight, Game.EntityMixins.TaskActor,

@@ -32,9 +32,9 @@ Game.EntityMixins.PlayerActor = {
         for (let i = 0; i < partsSlot.length; i++) {
             //Go through each part and decrease cooldown by one
             if (Boolean(partsSlot[i].part._maxCoolDown)) {
-                if (partsSlot[i].part._currentCoolDown > 0) {
+                if (partsSlot[i].part._currentCoolDown > 0) {            
                     partsSlot[i].part._currentCoolDown -= 1;
-                }
+                }           
             }
             //Check each part to see if there is a deathAbility to run
             if (Boolean(partsSlot[i].part.deathAbility)) {
@@ -117,20 +117,22 @@ Game.EntityMixins.TaskActor = {
 
     hunt: function() {
         //Check whether to target player or enemy
-        if (Boolean(this._isAlly)) {
+        if (this._isAlly) {
             //It does this EVERY turn.  It is very CPU intensive.  Need to rethink
             //how I do this.
             var target = this.getClosestEntity();
         } else {var target = this.getMap().getPlayer()}
          
         //If Ally has no target then just follow player
-        if (Boolean(target)) {
+        if (target) {
             // If we are adjacent to the player, then attack instead of hunting.
             var offsets = Math.abs(target.getX() - this.getX()) + 
                 Math.abs(target.getY() - this.getY());
+            console.log('My target it ' + target.getName() + ' and offest is ' + offsets);
             if (offsets === 1) {
                 if (this.hasMixin('Attacker')) {
                     this.attack(target);
+                    console.log(this.getName() + ' has hit ' + target.getName());
                     return;
                 }
             }
@@ -160,92 +162,46 @@ Game.EntityMixins.TaskActor = {
     },
 
     getClosestEntity: function() {
-    //NEW, BETTER CODE
-
+        //Return the coordinates of the closest entity
         let playerX = Game.Screen.playScreen._player.getX();
         let playerY = Game.Screen.playScreen._player.getY();
         let playerZ = Game.Screen.playScreen._player.getZ();
         let map = Game.Screen.playScreen._player.getMap();
         let sourceX = this.getX();
-        console.log('getX = ' + sourceX);
-        const sourceY = this.getY();
+        let sourceY = this.getY();
         let targetEntity = false;
         let areaSize = 1;
 
-
-        //DOES NOT WORK.  ALWAYS ENDS WITH FALSE
-        while (targetEntity == false && areaSize <= 8) {
+        //Look at every tile in an ever widening square for entities (up to size 8)
+        while (!targetEntity && areaSize <= 8) {
             for (let xPos = sourceX - areaSize; xPos <= (sourceX + areaSize); xPos++) {
                 
-                //Check every tile on top and bottom of square    
-                if (Math.abs(xPos) === areaSize) {
+                //Check every tile on left and right of square    
+                if (Math.abs(sourceX - xPos) === areaSize) {
                     for (let yPos = sourceY - areaSize; yPos <= (sourceY + areaSize); yPos++) {
                         //Check if there is an entity at this spot
-                        if (targetEntity == false && !(xPos !== playerX && yPos !== playerY)) {
+                        if (!targetEntity && (xPos !== playerX && yPos !== playerY)) {
                             targetEntity = map.getEntityAt(xPos, yPos, playerZ);
                         }
                     }
-                //Check the two sides of the square
+                //Check the top and bottom of the square
                 } else {
-                    let yPos = sourceY - areaSize;
-                    //Check left side of square for entity
-                    if (targetEntity == false && !(xPos !== playerX && yPos !== playerY)) {
+                    let yPos = sourceY + areaSize;
+                    //Check the top of square for entity
+                    if (!targetEntity && (xPos !== playerX && yPos !== playerY)) {
                         targetEntity = map.getEntityAt(xPos, yPos, playerZ);
                     }
-                    //Check right side of square if nothing on left
-                    if (targetEntity == false && !(xPos !== playerX && yPos !== playerY)) {
-                        yPos = sourceY + areaSize;
+                    //Check the bottom of square if nothing on top
+                    yPos = sourceY - areaSize;
+                    if (!targetEntity && (xPos !== playerX && yPos !== playerY)) {
                         targetEntity = map.getEntityAt(xPos, yPos, playerZ); 
                     }           
                 }
             }
             areaSize++;
         };
-        console.log('targetEntity = ' + targetEntity);
         return targetEntity;
     },
-
-    /*  OLD BAD CODE (BUT IT DOES MOSTLY WORK)
-
-        console.log('Running the code');
-        const playerX = Game.Screen.playScreen._player.getX();
-        const playerY = Game.Screen.playScreen._player.getY();
-        const playerZ = Game.Screen.playScreen._player.getZ();
-        const map = Game.Screen.playScreen._player.getMap();
-        const sourceX = this.getX();
-        const sourceY = this.getY();
-        let targetEntity = false;
- 
-        //Inellegant solution: run through code multiple times, with
-        //each iteration increasing the size up to a possible of 5.
-
-        outerLoop:        
-        //Calculate positions around target.  areaSize of 1 = one in
-        //every direction for a total of nine spots.
-        for (var areaSize = 1; areaSize <= 5; areaSize++) {
-            for (let xPos = 0; xPos <= (areaSize * 2); xPos++) {
-                let areaX = sourceX - (xPos - areaSize); 
-                for (let yPos = 0; yPos <= (areaSize * 2); yPos++) { 
-                    let areaY = sourceY - (yPos - areaSize);
-                    //Checks to make sure we are not targeting self or player
-                    if ((areaX !== sourceX && areaY !== sourceY) ||
-                    (areaX !== playerX && areaY !== playerY)) {
-                        //Attempts to do damage to target entity
-                        if (map.getEntityAt(areaX, areaY, playerZ)) {
-                            targetEntity = map.getEntityAt(areaX, areaY, playerZ);
-                            console.log(targetEntity.getName());
-                            //Stop process as soon as we find the first entity
-                            break outerLoop;
-                        }
-                    }
-                }
-            }
-        };
-        return targetEntity;
-    },
-    */
-
-    
     
 
     wander: function() {
@@ -587,16 +543,6 @@ Game.EntityMixins.InventoryHolder = {
     },
     
     removeItem: function(i) {
-        //THIS IS OUT OF DATE CODE AND NEEDS TO BE FIXED/REMOVED
-        //DELETE THIS WHEN SURE IT WILL NOT BREAK ANYTHING
-        /*
-        if (this._items[i] && this.hasMixin(Game.EntityMixins.Equipper)) {
-            let oldItem = this._items[i];
-            Game.sendMessage(entity, 'The ' + oldItem._name + 'is destroyed');
-            this.removePart(oldItem);
-        }
-        */
-        // Simply clear the inventory slot.
         this._items[i] = null;
     },
 
