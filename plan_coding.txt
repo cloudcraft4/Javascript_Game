@@ -1,40 +1,37 @@
-Current Reminders:
+****************************CURRENT PROJECT****************************
 
--- I was working on ally AI.  I think it follows player but does not know how
-    to target and attack enemies.
--- I created possible parts for enities (which shows what items they can drop).  
-    Does this actually work??  I don't remember
--- I remember that there was a major issue with how damage is calculated.  Enemies
-    do far less damage than they should be.  My guess was that it had to do with the
-    code that handles multiple parts.
+UPGRADE ROT!
 
-
-_           ____CURRENT PROJECT___
-
-HANDLING ABILITIES:
-
-1 Create the screen for choosing parts
-- screens.js Game.Screen.chooseScreen
-
-2.  STARTED --> Targeting for abilities
-
-3.  STARTED - Ranged parts
-
-4.  MINOR PROBLEM - Inventory Screen
-    It fails even if there are no items.  However it is how I show equipment
-
-5.  Remove item does not work since it thinks I have no items in inventory
-
-==> Rename removePart to unequipPart to differentiate it from removeItem?
-
-6. Possibly upgrade rotjs0.6 to rot2.2?  I could really use the new generation stuff for caves
-    
-    -- .extend() is failing but it is part of utilities.js so it should be good.  Why is it not
+-- .extend() is failing but it is part of utilities.js so it should be good.  Why is it not
         good????
 
 
+OVERHAUL CREATURES:
+
+1. I have made templates for some creatures but nothing else is done with them
+
+2. Redo the Player template as well
+
+3. Figure out what is done with template
 
 
+OVERHAUL COMBAT:
+
+1.  I have figured out the math for the combat but nothing is implimented 
+    (There is commented text talking about it)
+
+2.  NOTE:  I have code for the rolling of D20 but it is not actually connect (randomfunctions.js)
+
+3.  I previously started targeting for abilities but do not remember where I am at.
+
+
+OVERHAUL ITEMS:
+
+
+
+
+
+*************************OLD STUFF TO GO THROUGHT SOMETIME*************************
 
 _         ____BUGS / OUTSTANDING ISSUES_____
 
@@ -56,21 +53,16 @@ _         ____BUGS / OUTSTANDING ISSUES_____
     on the actual ability.
 
 
-
-
-
 _           ____FUTURE ISSUES___
 
 
-1.  Enemies use Parts
-    - Also split up that certain enemies can have these types of parts
-2.  Overhaul enemy AI
-3.  Map Generation/ Digging:
+1.  Overhaul enemy AI
+2.  Map Generation/ Digging:
     Make digging harder or fix unconnected parts.  Not totally sure how to code
     fix.
-4.  Map Height is one square too high
-6.  Fix stupid down stairs everywhere
-8. Level Progression: Enemies harder and items better as you go futher down
+3.  Map Height is one square too high
+4.  Fix stupid down stairs everywhere
+5. Level Progression: Enemies harder and items better as you go futher down
 
 
 
@@ -85,17 +77,3 @@ _           ____LEVEL BRAINSTORMING___
 
 2.  Perhaps most levels caverns not rooms.  This might be an issue with level generation
 
-
-_           ____ENEMY BRAINSTORMING___
-
-1.  Exploder (keep far away at all costs!)
-2.  Disabler (has ability that makes part unusable for so many turns)
-3.  Ranged Attacker (get close)
-4.  Melee Attacker (keep at a distance)
-5.  Elite Enemies vs. Common Enemies.  Elites are only ones with part drops.
-
-_           ____PART BRAINSTORMING___
-
--  Three Categories:  Ranged, Melee, and Single use
--  Synergies-  Like elemental????
--  Single Use needs a lot of design help to make it viable...  but healing is an issue
