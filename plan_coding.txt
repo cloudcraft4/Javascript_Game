@@ -1,3 +1,13 @@
+Current Reminders:
+
+-- I was working on ally AI.  I think it follows player but does not know how
+    to target and attack enemies.
+-- I created possible parts for enities (which shows what items they can drop).  
+    Does this actually work??  I don't remember
+-- I remember that there was a major issue with how damage is calculated.  Enemies
+    do far less damage than they should be.  My guess was that it had to do with the
+    code that handles multiple parts.
+
 
 _           ____CURRENT PROJECT___
 
@@ -16,6 +26,12 @@ HANDLING ABILITIES:
 5.  Remove item does not work since it thinks I have no items in inventory
 
 ==> Rename removePart to unequipPart to differentiate it from removeItem?
+
+6. Possibly upgrade rotjs0.6 to rot2.2?  I could really use the new generation stuff for caves
+    
+    -- .extend() is failing but it is part of utilities.js so it should be good.  Why is it not
+        good????
+
 
 
 

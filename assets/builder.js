@@ -75,7 +75,6 @@ Game.Builder.prototype._generateLevel = function() {
     return map;
 };
 
-//STILL FIGURING OUT HOW THE LEVEL GENERATION WORKS
 Game.Builder.prototype._generateLevelRooms = function() {
     // Create the empty map
     var map = new Array(this._width);

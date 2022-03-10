@@ -84,7 +84,6 @@ Game.ItemMixins.Equippable = {
         'details': function() {
             var results = [];
             // I THINK this works.  Have not tested much yet
-            // Not totally sure I need the 'attackValue != 0' part
             if (this._bodyParts) {
                 let bodyParts = this._bodyParts;
                 let attackValue = 0;

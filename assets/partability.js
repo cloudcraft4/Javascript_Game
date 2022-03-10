@@ -1,7 +1,6 @@
 Game.PartAbility = {};
 
 
-
 Game.PartAbility.demolitionArmOne = {
     //REQUIRES: Game.ItemMixins.rangedAttack, (eventually) Game.ItemMixins.areaEffect
 
@@ -54,7 +53,6 @@ Game.PartAbility.demolitionTorso = {
     //THIS PART NOT IMPLIMENTED EITHER
 }
 
-
 Game.PartAbility.demolitionHead = {
     //REQUIRES: Game.ItemMixins.Healing
 
@@ -66,8 +64,7 @@ Game.PartAbility.demolitionHead = {
         if (cause === 'explosion') {
             this.heal();
         }
-    },
-    
+    },    
 }
 
 Game.PartAbility.manufactoringArm = {
@@ -101,7 +98,6 @@ Game.PartAbility.manufactoringArm = {
         minion.setX(entity.getX() + xOffset);
         minion.setY(entity.getY() + yOffset)
         minion.setZ(entity.getZ());
-        entity.getMap().addEntity(minion);
-        
+        entity.getMap().addEntity(minion);        
     },
 }

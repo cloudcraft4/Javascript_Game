@@ -61,6 +61,10 @@ var Game =  {
     }
 };
 
+
+//Pretty sure this breaks when switching to new rot version.. but who gives a rip?
+//From the documentation it really looks like it should work on even old browsers
+//So manybe this function was removed because it is redundant
 window.onload = function() {
     // Check if rot.js can work on this browser
     if (!ROT.isSupported()) {

@@ -25,8 +25,8 @@ Game.Map.Cave = function(tiles, player) {
             this.addItemAtRandomPosition(Game.ItemRepository.createRandom(), z);
         }
     }
-    /*  CURRENTLY PARTS ARE NOT SPAWNED ON THE FLOOR.  KEEPING THIS HERE IN CASE WE CHANGE
-    OUR MINDS ON THIS
+    /*  CURRENTLY PARTS ARE NOT SPAWNED ON THE FLOOR.  KEEPING THIS HERE IN CASE I CHANGE
+    MY MIND ON THIS
     // Add weapons and armor to the map in random positions and floors
     var templates = ['large claw', 'regenerating arm', 'staff arm', 
         'tunic torso', 'chainmail torso', 'platemail torso'];

@@ -45,7 +45,7 @@ Game.Entity.prototype.setPosition = function(x, y, z) {
 Game.Entity.prototype.getX = function() {
     return this._x;
 };
-Game.Entity.prototype.getY   = function() {
+Game.Entity.prototype.getY = function() {
     return this._y;
 };
 Game.Entity.prototype.getZ = function() {

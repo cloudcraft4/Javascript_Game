@@ -306,6 +306,18 @@ Game.EntityMixins.Attacker = {
     attack: function(target, message='strike', cause=false) {
         // If the target is destructible, calculate the damage
         // based on attack and defense value
+
+// New calculation:  roll D20 and add modifiers.  If total exceed enemy AC then it is a hit.  Attack modifiers most often
+// ability modifier (STR for melee and DEX for ranged) and proficiency bonus.  You add proficiency bonus if you have it for that
+// weapon or spell.  Natural 20 is automatic hit and is a critical and Natural 1 is automatic miss.
+
+// Damage:  You roll dice based on what weapon it is and add ability modifier to that number.  Spells may or may not use a 
+// modifier depending on which one it is.
+// Critical Hit: roll twice as many dice and then add modifier (modifier only added once)
+
+// Resistances/Vulnerability:  After calculating damage either halve it for restistance or double it for vulnerability.  Multiple
+// sources of resistance do nothing extra.  Example fireball against creature with magic and fire resistance.  
+
         if (target.hasMixin('Destructible')) {
             let attack = this.getAttackValue();
             let defense = target.getDefenseValue();

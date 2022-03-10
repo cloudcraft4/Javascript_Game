@@ -3,7 +3,6 @@
 
 //Since items are spawned per enemy I am actually having second
 //thoughts about using this.
-//It was more important when items were spawned on the floor.
 
 let itemlist = [
     'medic arm',

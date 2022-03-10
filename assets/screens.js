@@ -188,14 +188,31 @@ Game.Screen.playScreen = {
         }
         if (inputType === 'keydown') {
             // Movement
+            //DOES NOT WORK ON OLD ROT
             if (inputData.keyCode === ROT.VK_LEFT) {
                 this.move(-1, 0, 0);
+            //} else if (inputData.keyCode === ROT.VK_NUMPAD4) {
+            //    this.move(-1, 0, 0);
             } else if (inputData.keyCode === ROT.VK_RIGHT) {
                 this.move(1, 0, 0);
+            //} else if (inputData.keyCode === ROT.VK_NUMPAD6) {
+            //    this.move(1, 0, 0);
             } else if (inputData.keyCode === ROT.VK_UP) {
                 this.move(0, -1, 0);
+            //} else if (inputData.keyCode === VK_NUMPAD8) {
+            //    this.move(0, -1, 0);
             } else if (inputData.keyCode === ROT.VK_DOWN) {
                 this.move(0, 1, 0);
+            //} else if (inputData.keyCode === ROT.VK_NUMPAD2) {
+            //    this.move(0, 1, 0);
+            //} else if (inputData.keyCode === ROT.VK_NUMPAD1) {
+            //    this.move(-1, 1, 0);
+            //} else if (inputData.keyCode === ROT.VK_NUMPAD3) {
+            //    this.move(-1, -1, 0);
+            //} else if (inputData.keyCode === ROT.VK_NUMPAD7) {
+            //    this.move(1, 1, 0);
+            //} else if (inputData.keyCode === ROT.VK_NUMPAD9) {
+            //    this.move(1, -1, 0);
             } else if (inputData.keyCode === ROT.VK_I) {
                 // Show the inventory screen
                 this.showItemsSubScreen(Game.Screen.inventoryScreen, this._player.getItems(),
