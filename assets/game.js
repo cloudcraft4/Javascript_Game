@@ -62,9 +62,19 @@ var Game =  {
 };
 
 
-//Pretty sure this breaks when switching to new rot version.. but who gives a rip?
-//From the documentation it really looks like it should work on even old browsers
-//So manybe this function was removed because it is redundant
+//Got rid of ROT.isSupported() because it is apparenly not part of new ROT
+window.onload = function() {
+    // Initialize the game
+    Game.init();
+    // Add the container to our HTML page
+    document.body.appendChild(Game.getDisplay().getContainer());
+    // Load the start screen
+    Game.switchScreen(Game.Screen.startScreen);
+};
+
+
+
+/* OLD STUFF IN CASE I HAVE TO GO BACK
 window.onload = function() {
     // Check if rot.js can work on this browser
     if (!ROT.isSupported()) {
@@ -78,3 +88,4 @@ window.onload = function() {
         Game.switchScreen(Game.Screen.startScreen);
     }
 };
+*/

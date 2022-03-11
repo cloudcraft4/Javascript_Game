@@ -11,8 +11,10 @@ Game.Screen.startScreen = {
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
+        console.log("StartScreen heard: " + inputData.keyCode)
         if (inputType === 'keydown') {
-            if (inputData.keyCode === ROT.VK_RETURN) {
+            console.log("Some kind of key was pressed");
+            if (inputData.keyCode === 13) {
                 Game.switchScreen(Game.Screen.playScreen);
             }
         }
@@ -188,47 +190,46 @@ Game.Screen.playScreen = {
         }
         if (inputType === 'keydown') {
             // Movement
-            //DOES NOT WORK ON OLD ROT
-            if (inputData.keyCode === ROT.VK_LEFT) {
+            if (inputData.keyCode === 37) {
                 this.move(-1, 0, 0);
-            //} else if (inputData.keyCode === ROT.VK_NUMPAD4) {
-            //    this.move(-1, 0, 0);
-            } else if (inputData.keyCode === ROT.VK_RIGHT) {
+            } else if (inputData.keyCode === 98) {
+               this.move(-1, 0, 0);
+            } else if (inputData.keyCode === 39) {
                 this.move(1, 0, 0);
-            //} else if (inputData.keyCode === ROT.VK_NUMPAD6) {
-            //    this.move(1, 0, 0);
-            } else if (inputData.keyCode === ROT.VK_UP) {
+            } else if (inputData.keyCode === 102) {
+               this.move(1, 0, 0);
+            } else if (inputData.keyCode === 38) {
                 this.move(0, -1, 0);
-            //} else if (inputData.keyCode === VK_NUMPAD8) {
-            //    this.move(0, -1, 0);
-            } else if (inputData.keyCode === ROT.VK_DOWN) {
+            } else if (inputData.keyCode === 104) {
+               this.move(0, -1, 0);
+            } else if (inputData.keyCode === 40) {
                 this.move(0, 1, 0);
-            //} else if (inputData.keyCode === ROT.VK_NUMPAD2) {
-            //    this.move(0, 1, 0);
-            //} else if (inputData.keyCode === ROT.VK_NUMPAD1) {
-            //    this.move(-1, 1, 0);
-            //} else if (inputData.keyCode === ROT.VK_NUMPAD3) {
-            //    this.move(-1, -1, 0);
-            //} else if (inputData.keyCode === ROT.VK_NUMPAD7) {
-            //    this.move(1, 1, 0);
-            //} else if (inputData.keyCode === ROT.VK_NUMPAD9) {
-            //    this.move(1, -1, 0);
-            } else if (inputData.keyCode === ROT.VK_I) {
+            } else if (inputData.keyCode === 98) {
+               this.move(0, 1, 0);
+            } else if (inputData.keyCode === 97) {
+               this.move(-1, 1, 0);
+            } else if (inputData.keyCode === 99) {
+               this.move(-1, -1, 0);
+            } else if (inputData.keyCode === 103) {
+               this.move(1, 1, 0);
+            } else if (inputData.keyCode === 105) {
+               this.move(1, -1, 0);
+            } else if (inputData.keyCode === 73) {
                 // Show the inventory screen
                 this.showItemsSubScreen(Game.Screen.inventoryScreen, this._player.getItems(),
                     'You are not carrying anything.');
                 return;
-            } else if (inputData.keyCode === ROT.VK_D) {
+            } else if (inputData.keyCode === 68) {
                 // Show the drop screen
                 this.showItemsSubScreen(Game.Screen.dropScreen, this._player.getItems(),
                     'You have nothing to drop.');
                 return;
-            } else if (inputData.keyCode === ROT.VK_E) {
+            } else if (inputData.keyCode === 69) {
                 // Show the drop screen
                 this.showItemsSubScreen(Game.Screen.eatScreen, this._player.getItems(),
                    'You have nothing to eat.');
                 return;           
-            } else if (inputData.keyCode === ROT.VK_W) {
+            } else if (inputData.keyCode === 87) {
                 /* 
                     !NOTE: This is to show if I want to use a capital for input!
 
@@ -242,12 +243,12 @@ Game.Screen.playScreen = {
                     this.showItemsSubScreen(Game.Screen.wieldScreen, this._player.getItems(),
                         'You have nothing to wield.');
                 return;
-            } else if (inputData.keyCode === ROT.VK_X) {
+            } else if (inputData.keyCode === 88) {
                 // Show the examine screen
                 this.showItemsSubScreen(Game.Screen.examineScreen, this._player.getItems(),
                    'You have nothing to examine.');
                 return;
-            } else if (inputData.keyCode === ROT.VK_COMMA) {
+            } else if (inputData.keyCode === 188) {
                 var items = this._player.getMap().getItemsAt(this._player.getX(), 
                     this._player.getY(), this._player.getZ());
                 // If there is only one item, directly pick it up
@@ -262,7 +263,7 @@ Game.Screen.playScreen = {
                     this.showItemsSubScreen(Game.Screen.pickupScreen, items,
                         'There is nothing here to pick up.');
                 } 
-            } else if (inputData.keyCode === ROT.VK_1) {
+            } else if (inputData.keyCode === 49) {
                 // Checking if there is an ability attached to that slot and then using it
                 let part = this._player.getPart(0);
                 if (part._onUse) {

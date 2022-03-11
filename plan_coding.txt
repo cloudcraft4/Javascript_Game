@@ -2,8 +2,11 @@
 
 UPGRADE ROT!
 
--- .extend() is failing but it is part of utilities.js so it should be good.  Why is it not
-        good????
+-- I have a lot of crap in utilities.js.  Eventually this needs to be rewritten
+
+-- input needs to use numbers not names.  I will eventually have to update everything
+
+
 
 
 OVERHAUL CREATURES:
