@@ -387,8 +387,14 @@ Game.EntityMixins.Destructible = {
     getMaxHp: function() {
         return this._maxHp;
     },
+    getCR: function() {
+        return this._cr;
+    },
     setHp: function(hp) {
         this._hp = hp;
+    },
+    getCR: function() {
+        return this._cr;
     },
     increaseDefenseValue: function(value) {
         // If no value was passed, default to 2.
@@ -866,15 +872,16 @@ Game.EntityMixins.ExperienceGainer = {
     },
     listeners: {
         onKill: function(victim) {
-            var exp = victim.getMaxHp() + victim.getDefenseValue();
-            if (victim.hasMixin('Attacker')) {
-                exp += victim.getAttackValue();
-            }
-            // Account for level differences
-            if (victim.hasMixin('ExperienceGainer')) {
-                exp -= (this.getLevel() - victim.getLevel()) * 3;
-            }
-            // Only give experience if more than 0.
+            
+            // New Code for experience.  Not really tested yet
+            var CR = victim.getCR();
+            var characterLevel = this.getLevel()
+            var exp = 0;
+            
+            // Only give XP if level vs. CR is not 7 or more
+            if (characterLevel - CR <= 6) { 
+                exp = 300 * characterLevel * Math.pow(2, ((CR - characterLevel) * 0.5));
+            }             
             if (exp > 0) {
                 this.giveExperience(exp);
             }
@@ -884,6 +891,17 @@ Game.EntityMixins.ExperienceGainer = {
         }
     }
 };
+            //OLD JUNK THAT GOES ABOVE "if (exp > 0) {""
+            // var exp = victim.getMaxHp() + victim.getDefenseValue();
+            // if (victim.hasMixin('Attacker')) {
+            //     exp += victim.getAttackValue();
+            // }
+            // // Account for level differences
+            // if (victim.hasMixin('ExperienceGainer')) {
+            //     exp -= (this.getLevel() - victim.getLevel()) * 3;
+            // }
+
+            // Only give experience if more than 0.
 
 Game.EntityMixins.RandomStatGainer = {
     name: 'RandomStatGainer',

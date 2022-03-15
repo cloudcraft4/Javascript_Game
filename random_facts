@@ -1,0 +1,42 @@
+--> There is no formula for this sadly...
+XP	Level	Proficiency Bonus
+   0	1	+2
+ 300	2	+2
+ 900	3	+2
+2,700	4	+2
+6,500	5	+3
+14,000	6	+3
+23,000	7	+3
+34,000	8	+3
+48,000	9	+4
+64,000	10	+4
+85,000	11	+4
+100,000	12	+4
+120,000	13	+5
+140,000	14	+5
+165,000	15	+5
+195,000	16	+5
+225,000	17	+6
+265,000	18	+6
+305,000	19	+6
+355,000	20	+6
+
+The proficiency bonus in Dungeons and Dragons is a bonus added to skill checks, saving throws, or attacks for skills that a character is proficient in.
+While an intelligence modifier will get added anytime that character is doing something that requires intelligence, a proficiency bonus is only added
+    if that character has added proficiency for the specific skill or tool required.
+This means that the character either has a natural talent with this particular action due to their class and race or that they’ve spent extra time training 
+    and leveling up this skill.
+
+EXAMPLE --> 11 (base roll) + 3 (Wisdom modifier) + 2 (proficiency bonus) = 16
+You only add the proficiency bonus once, even if the character has two or more proficiencies that would help them in this action. 
+The only exception to this is when a character has class-based expertise. In that case, the proficiency bonus is doubled.
+    This usually happens with rogues or bards who are able to apply an expertise feat to one or two skills
+
+WHEN DO YOU USE PROFICIENCY BONUS?
+    - Attack rolls with weapons the character is proficient with or spells the character casts
+    - Ability checks using tools or skills that the character is proficient in
+    - Saving throws using abilities the character is proficient in or DCs for spells the character casts
+
+    DON’T ADD A PROFICIENCY BONUS TO DAMAGE OR HEALING THROWS
+
+Level 3 - pick subclass.  Possibly allow changing subclass if I really want to...

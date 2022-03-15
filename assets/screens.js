@@ -192,7 +192,7 @@ Game.Screen.playScreen = {
             // Movement
             if (inputData.keyCode === 37) {
                 this.move(-1, 0, 0);
-            } else if (inputData.keyCode === 98) {
+            } else if (inputData.keyCode === 100) {
                this.move(-1, 0, 0);
             } else if (inputData.keyCode === 39) {
                 this.move(1, 0, 0);
@@ -209,9 +209,9 @@ Game.Screen.playScreen = {
             } else if (inputData.keyCode === 97) {
                this.move(-1, 1, 0);
             } else if (inputData.keyCode === 99) {
-               this.move(-1, -1, 0);
-            } else if (inputData.keyCode === 103) {
                this.move(1, 1, 0);
+            } else if (inputData.keyCode === 103) {
+               this.move(-1, -1, 0);
             } else if (inputData.keyCode === 105) {
                this.move(1, -1, 0);
             } else if (inputData.keyCode === 73) {

@@ -6,6 +6,8 @@ UPGRADE ROT!
 
 -- input needs to use numbers not names.  I will eventually have to update everything
 
+-- Creatures do sort of work but speed is crazy slow because of how it is redone
+
 
 
 

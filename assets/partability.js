@@ -101,3 +101,4 @@ Game.PartAbility.manufactoringArm = {
         entity.getMap().addEntity(minion);        
     },
 }
+
