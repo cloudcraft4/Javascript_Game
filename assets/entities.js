@@ -125,7 +125,7 @@ Game.EntityRepository.define('goblin', {
     intellegence: 10,
     wisdom: 8,
     charisma: 8,
-    xpGiven: 50,
+    challengeRating: 0.25,
 
     attackValue: 5,
     sightRadius: 3,
@@ -148,7 +148,7 @@ Game.EntityRepository.define('kobold', {
     intellegence: 8,
     wisdom: 7,
     charisma: 8,
-    xpGiven: 25,
+    challengeRating: 0.125,
 
     attackValue: 5,
     sightRadius: 3,
@@ -171,7 +171,7 @@ Game.EntityRepository.define('hobgoblin', {
     intellegence: 10,
     wisdom: 10,
     charisma: 9,
-    xpGiven: 100,
+    challengeRating: 0.5,
 
     attackValue: 5,
     sightRadius: 3,
@@ -194,7 +194,7 @@ Game.EntityRepository.define('gnoll', {
     intellegence: 6,
     wisdom: 10,
     charisma: 7,
-    xpGiven: 100,
+    challengeRating: 0.5,
 
     attackValue: 5,
     sightRadius: 3,
@@ -217,7 +217,7 @@ Game.EntityRepository.define('lizardfolk', {
     intellegence: 7,
     wisdom: 12,
     charisma: 7,
-    xpGiven: 100,
+    challengeRating: 0.5,
 
     attackValue: 5,
     sightRadius: 3,

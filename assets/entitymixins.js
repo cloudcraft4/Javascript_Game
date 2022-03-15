@@ -278,6 +278,14 @@ Game.EntityMixins.Attacker = {
     groupName: 'Attacker',
     init: function(template) {
         this._attackValue = template['attackValue'] || 1;
+        this._strength = template['strength'] || 1;
+        this._dexterity = template['dexterity'] || 1;
+        this._constitution = template['constitution'] || 1;
+        this._intellegence = template['intellegence'] || 1;
+        this._wisdom = template['wisdom'] || 1;
+        this._charisma = template['charisma'] || 1;
+        this._strength = template['strength'] || 1;
+        this._challengeRating = template['challengeRating'] || 0;
     },
     getAttackValue: function() {
         var modifier = 0;
@@ -387,14 +395,11 @@ Game.EntityMixins.Destructible = {
     getMaxHp: function() {
         return this._maxHp;
     },
-    getCR: function() {
-        return this._cr;
-    },
     setHp: function(hp) {
         this._hp = hp;
     },
-    getCR: function() {
-        return this._cr;
+    getChallengeRating: function() {
+        return this._challengeRating;
     },
     increaseDefenseValue: function(value) {
         // If no value was passed, default to 2.
@@ -831,7 +836,32 @@ Game.EntityMixins.ExperienceGainer = {
         return this._experience;
     },
     getNextLevelExperience: function() {
-        return (this._level * this._level) * 10;
+        var nextLevelExperience = 0;
+        // I think this works? I don't need to subtract experience from this first right?
+        // Also I MIGHT want to tweak numbers to make it better for PC?
+        switch(this.getLevel() + 1)  {
+            case 1: nextLevelExperience = 0; break;
+            case 2: nextLevelExperience = 300; break;
+            case 3: nextLevelExperience = 900; break;
+            case 4: nextLevelExperience = 2700; break;
+            case 5: nextLevelExperience = 6500; break;
+            case 6: nextLevelExperience = 14000; break;
+            case 7: nextLevelExperience = 23000; break;
+            case 8: nextLevelExperience = 34000; break;
+            case 9: nextLevelExperience = 48000; break;
+            case 10: nextLevelExperience = 64000; break;
+            case 11: nextLevelExperience = 85000; break;
+            case 12: nextLevelExperience = 100000; break;
+            case 13: nextLevelExperience = 120000; break;
+            case 14: nextLevelExperience = 140000; break;
+            case 15: nextLevelExperience = 165000; break;
+            case 16: nextLevelExperience = 195000; break;
+            case 17: nextLevelExperience = 225000; break;
+            case 18: nextLevelExperience = 265000; break;
+            case 19: nextLevelExperience = 305000; break;
+            case 20: nextLevelExperience = 335000; break;
+        }
+        return  nextLevelExperience;
     },
     getStatPoints: function() {
         return this._statPoints;
@@ -874,7 +904,7 @@ Game.EntityMixins.ExperienceGainer = {
         onKill: function(victim) {
             
             // New Code for experience.  Not really tested yet
-            var CR = victim.getCR();
+            var CR = victim.getChallengeRating();
             var characterLevel = this.getLevel()
             var exp = 0;
             
