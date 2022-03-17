@@ -13,13 +13,45 @@ Game.Screen.startScreen = {
         // When [Enter] is pressed, go to the play screen
         console.log("StartScreen heard: " + inputData.keyCode)
         if (inputType === 'keydown') {
-            console.log("Some kind of key was pressed");
             if (inputData.keyCode === 13) {
+                Game.switchScreen(Game.Screen.classSelectScreen);
+            }
+        }
+    }
+};
+
+/*  This is the start of the screens to choose
+various things.  This does not work yet.
+The most busted part is probably the entering and
+exiting part.  Also nothing is done with the templates yet.
+
+*/
+
+
+// Define character select screen
+Game.Screen.classSelectScreen = {
+    enter: function() { console.log("Entered class select screen."); },
+    exit: function() { console.log("Exited class select screen."); },
+    render: function(display) {
+        // Render our prompt to the screen
+        display.drawText(1,1, "Choose what class of character you would like");
+        display.drawText(1,2, "Press the number of your choice");
+        display.drawText(1,4, "1.  Fighter");
+        display.drawText(1,5, "2.  Wizard (not implimented yet)");
+        display.drawText(1,6, "3.  Monk (not implimented yet)");
+        display.drawText(1,7, "4.  Druid (not implimented yet)");
+    },
+    handleInput: function(inputType, inputData) {
+        // When [Enter] is pressed, go to the play screen
+        console.log("StartScreen heard: " + inputData.keyCode)
+        if (inputType === 'keydown') {
+            if (inputData.keyCode === 49) {
                 Game.switchScreen(Game.Screen.playScreen);
             }
         }
     }
 };
+
 
 // Define our playing screen
 Game.Screen.playScreen = {
@@ -617,37 +649,6 @@ Game.Screen.eatScreen = new Game.Screen.ItemListScreen({
         return true;
     }
 });
-
-//THIS IS THE START OF THE SCREEN FOR PICKING UP PARTS AFTER AN ENEMY DIES
-//IT IS PRETTY ROUGH
-//IT WILL BE BORING TO DO THIS AFTER EVERY FIGHT.  ONLY AFTER "elite" ENEMIES
-//WILL YOU HAVE THIS CHOICE I GUESS.
-
-// THE ONLY THING THAT MIGHT BE DIFFICULT WITH ITEM SCREEN IS ALSO SHOWING
-//WHAT IS CURRENTLY EQUIPPED.  MAYBE EDIT THE ITEM SCREEN CODE DIRECTLY????
-
-//1.  Choose item you wish you pick (while it also shows you what you have)
-//2.  Choose what slot you want to place it in (bases on what is possible)
-
-/*
-Game.Screen.partsScreen = new Game.Screen.ItemListScreen({
-    caption: 'Choose a part to attach to your body if you wish',
-    canSelect: true,
-    canSelectMultipleItems: false,
-    isAcceptable: function(item) {
-        return item && item.hasMixin('Equippable');
-    },
-    ok: function(selectedItems) {
-        // Attach the selected part to the selected slot.  Delete old part
-            this._player.attachPart(item);
-            // NOT SURE HOW TO DO THIS.  ACTUALLY THE LIST IS IMPORTANT
-            this._player.removePart(oldItem);
-        }
-        return true;
-    }
-});
-*/
-
 
 Game.Screen.wieldScreen = new Game.Screen.ItemListScreen({
     caption: 'Choose the item you wish to attach to a body part',
