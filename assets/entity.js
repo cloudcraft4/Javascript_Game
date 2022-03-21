@@ -158,3 +158,15 @@ Game.Entity.prototype.switchMap = function(newMap) {
     // Add to the new map
     newMap.addEntity(this);
 };
+
+Game.Entity.prototype.rollDice = function(diceNum) {
+    //Roll a single die with the number of sides = diceNum
+    max = Math.floor(diceNum) ;
+    return Math.floor(Math.random() * (max) + 1);
+};
+
+Game.Entity.prototype.getModifier = function(abilityScore) {
+    //Pass along the value of the stat and this gives modifier
+    modifier = Math.floor(Math.sqrt(abilityScore) - 5);
+    return modifier;
+};

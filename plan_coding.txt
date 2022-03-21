@@ -1,6 +1,6 @@
 ****************************CURRENT PROJECT****************************
 
-UPGRADE ROT!
+UPGRADING OF ROT:
 
 -- I have a lot of crap in utilities.js.  Eventually this needs to be rewritten
 
@@ -11,13 +11,10 @@ UPGRADE ROT!
 
 
 
-OVERHAUL CREATURES:
+CHARACTER OVERHAUL:
 
-1. I have made templates for some creatures but nothing else is done with them
+1. Proficiencies is not started
 
-2. Redo the Player template as well
-
-3. Figure out what is done with template
 
 
 OVERHAUL COMBAT:
@@ -31,6 +28,14 @@ OVERHAUL COMBAT:
 
 
 OVERHAUL ITEMS:
+
+
+
+PLANNING:
+    - I am thinking to not impliment skills because they do not really help me very much
+    instead I think that I will tie all difficulty rolls to stats.
+
+
 
 
 
@@ -68,17 +73,3 @@ _           ____FUTURE ISSUES___
 3.  Map Height is one square too high
 4.  Fix stupid down stairs everywhere
 5. Level Progression: Enemies harder and items better as you go futher down
-
-
-
-_           ____LEVEL BRAINSTORMING___
-
-1.  Level layout update
-    Maybe two different groups of levels with different map generation and enemies
-
-    Level 1-3 First two similar, Last is harder
-    Level 4-6 First two similar, Last is harder
-    Level 7 Boss Level
-
-2.  Perhaps most levels caverns not rooms.  This might be an issue with level generation
-

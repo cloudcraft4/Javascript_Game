@@ -1,15 +1,29 @@
 Game.classMixins = {};
 
+//Nothing here is tested!!!!!!!!!!!!!!!!!!!!!!!!!
+
 // Mixins for classes
 Game.classMixins.Fighter = {
     name: 'Fighter',
-    init: function() {
-        this._hitDice = '1d10 per level';
-        this._startingHP = 10 + "constitution_modifier";
-        this._levelingHP = '1d10 (or 6)' + 'constitution_modifier';
+    //Make sure the entity is passed along when this is added!!!
+    init: function(entity) {
+        this._owner = entity;
+            let constitution = entity.getConstitution();
+            let constitutionModifer = entity.getModifer(constitution);
+        this._hitDice = entity.rollDice(10) + entity.getLevel();
+        this._startingHP = 10 + constitutionModifer;
+        this._levelingHP = entity.rollDice(10) + constitutionModifer;
+        // this._startingGear = 
+        // You are supposed to be able to choose starting gear at creation.  Not sure if I want to bother.
+        // this._proficiencies = ["allArmor", "simpleWeapons", "martialWeapons"];
+        // this._savingThrows = ['strength', 'constitution'];
+    getOwner: function() {
+        return this._owner
+        }
     secondWind: function(user) {
         if (this._uses > 0) {
-            user._hp += '1d10 + level'
+            var owner = getOwner();
+            owner._hp += owner.rollDice(10) + owner.getLevel();
             this._uses -= 1;
         }
     actionSurge: function(user) {
@@ -33,17 +47,23 @@ Game.classMixins.Fighter = {
 // Mixins for classes
 Game.classMixins.Wizard = {
     name: 'Wizard',
-    init: function() {
-        this._hitDice = '1d6 per level';
-        this._startingHP = 6 + "constitution_modifier";
-        this._levelingHP = '1d6 (or 4)' + 'constitution_modifier';
-    spellMastery: function(user) {
+    init: function(entity) {
+        this._owner = entity;
+            let constitution = entity.getConstitution();
+            let constitutionModifer = entity.getModifer(constitution);
+        this._hitDice = entity.rollDice(6) + entity.getLevel();
+        this._startingHP = 6 + constitutionModifer;
+        this._levelingHP = entity.rollDice(6) + constitutionModifer;
+    getOwner: function() {
+        return this._owner
+        }
+    spellMastery: function() {
+    //
+    }
+    signatureSpells: function() {
         //
         }
-    signatureSpells: function(user) {
-        //
-        }
-    learnSpell: function(user) {
+    learnSpell: function() {
         // 
         }
     },
