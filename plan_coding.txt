@@ -40,6 +40,16 @@ PLANNING:
 
 
 
+*************************BrainStorming Stuff*************************
+
+Resting:  Maybe make it so that you cannot do a long rest unless you are on the over world (this
+is assuming that I ever get around to doing an overworld anyway.)
+    I may still need to limit the short resting abilities as well.
+
+
+
+
+
 
 *************************OLD STUFF TO GO THROUGHT SOMETIME*************************
 

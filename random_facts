@@ -83,6 +83,18 @@ Score Modifier
 28–29   +9
 30      +10
 
+Whenever you divide a number in the game, round down if you end up with a fraction, 
+    even if the fraction is one-half or greater.
+
+**************** Character Creation: Customizing Ability Scores *************************
+
+You have 27 points to spend on your ability scores. The cost of each score is shown on the Ability Score Point
+Cost table. For example, a score of 14 costs 7 points.  Using this method, 15 is the highest ability score you can
+end up with, before applying racial increases. You can’t have a score lower than 8.
+This method of determining ability scores enables you to create a set of three high numbers and three low ones
+(15, 15, 15, 8, 8, 8), a set of numbers that are above average and nearly equal (13, 13, 13, 12, 12, 12), or any set of
+numbers between those extremes
+
 Ability Score Point Cost
 Score Cost
 8       0
@@ -90,12 +102,6 @@ Score Cost
 10      2
 11      3
 12      4
-13      5
-14      7
+13      5  (plus 1 up to this point)
+14      7  (plus 2 here and next)
 15      9 
-
-Whenever you divide a number in the game, round down if you end up with a fraction, 
-    even if the fraction is one-half or greater.
-
-If don’t like the idea of randomly determining ability scores, you can use the following scores instead:
-    15, 14, 13, 12, 10, 8.   Probably start them all as 10 then add to it as you want. add 12.  (allow subtracting)
