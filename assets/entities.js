@@ -13,6 +13,7 @@ Game.PlayerTemplate = {
     legs: {mainLegs: 'default legs'},
     head: {mainHead: 'defaul head'},
     torso: {mainTorso: 'defaul torso',},
+    proficiencies: [],
     mixins: [Game.EntityMixins.PlayerActor,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.InventoryHolder, Game.EntityMixins.FoodConsumer,
