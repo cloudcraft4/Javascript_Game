@@ -1,6 +1,5 @@
 Game.classMixins = {};
 
-
 Game.classMixins.prototype.getOwner = function() {
     return this._owner
 };
@@ -15,13 +14,19 @@ Game.classMixins.prototype.rollHitDice = function() {
 
 
 //Nothing here is tested!!!!!!!!!!!!!!!!!!!!!!!!!
+//Is there any instance where enemies will get classes?  If so this will maybe
+//cause problems.  Things like proficiencies are not designed for non players
 
 // Mixins for classes
 Game.classMixins.Fighter = {
     name: 'Fighter',
     //Make sure the entity is passed along when this is added!!!
+    //Actually I am not entirely sure that I have to do this!  It might actually
+    //already know what this is...
     init: function(entity) {
         this._owner = entity;
+        //This is sortof a bad way to do this because I will choose
+        //class before I set up stats.  Also stats change!!!!
             let constitution = entity.getConstitution();
             let constitutionModifer = entity.getModifer(constitution);
         this._hitDiceSize = 10;
@@ -29,8 +34,9 @@ Game.classMixins.Fighter = {
         this._levelingHP = entity.rollDice(10) + constitutionModifer;
         // this._startingGear = 
         // You are supposed to be able to choose starting gear at creation.  Not sure if I want to bother.
-        // this._proficiencies = ["allArmor", "simpleWeapons", "martialWeapons"];
-        // this._savingThrows = ['strength', 'constitution'];
+
+        this._proficiencies.push("allArmor", "simpleWeapons", "martialWeapons");
+        this._savingThrows.push('strength', 'constitution');
     },
 
 

@@ -5,6 +5,15 @@ Game.EntityMixins = {};
 Game.EntityMixins.PlayerActor = {
     name: 'PlayerActor',
     groupName: 'Actor',
+    // I THINK this will work...  
+    // I am not bothering to check templates because this one will be initiated
+    // before anyother mixin is looked at
+    //It is a little bit weird to put it under "playeractor"
+    //but this mixin is the only one that is only for players unless I make a new one
+    init: function() {
+        this._proficiencies = []; 
+        this._savingThrows = []; 
+    },    
     act: function() {
         if (this._acting) {
             return;
@@ -272,12 +281,15 @@ Game.EntityMixins.GiantZombieActor = Game.extend(Game.EntityMixins.TaskActor, {
 });
 
 
-// This signifies our entity can attack basic destructible enities
+// This signifies our entity can attack basic destructible entities
 Game.EntityMixins.Attacker = {
     name: 'Attacker',
     groupName: 'Attacker',
     init: function(template) {
+        //attackvalue need to be totally redone.  This was basically just a flat amount of
+        //damage that things did (plus equipment).  Obviously things are far more complicated now.
         this._attackValue = template['attackValue'] || 1;
+
         this._strength = template['strength'] || 1;
         this._dexterity = template['dexterity'] || 1;
         this._constitution = template['constitution'] || 1;
@@ -311,9 +323,58 @@ Game.EntityMixins.Attacker = {
         this._attackValue += value;
         Game.sendMessage(this, "You look stronger!");
     },
-    attack: function(target, message='strike', cause=false) {
-        // If the target is destructible, calculate the damage
-        // based on attack and defense value
+    attack: function(target, message='strike', weaponClass, weaponDamage, cause=false) {
+        //Rewrite of Attack function.  A lot of functions above can be removed
+        //!!!!!!!!!!I need to make sure that weapon info is passed!!!!!!!!!!!!!!
+
+        if (target.hasMixin('Destructible')) {
+            let proficiencyModifier = 0;
+            if (this._proficiencies.includes(weaponClass)) {
+                //!!!!!!!!!!This function is also not created!!!!!!!!!!!!
+                proficiencyModifier += getProficiencyModifier(weaponClass);
+            }            
+            //!!!!!!!!getAbilityModifier will not work.  I might pass the weapon and then check
+            //which one is needed?????!!!!!!!!!!!
+            let abilityModifier = getAbilityModifier(weaponClass);
+            let diceRoll = this.rollDice(20);
+            //Need to handle roll of 1 and 20!!!!!!!!!!!!!!!
+            let attackValue = diceRoll + abilityModifier + proficiencyModifier;
+            let armorClass = target.getArmorClass();
+
+            if (diceRoll = 1) {
+                Game.sendMessage('It was a critical miss!');
+                break;
+            } else if (attackValue <= armorClass) {
+                Game.sendMessage('Your attack misses!');
+                break;
+            } else if ((attackValue > armorClass) || (diceRoll = 20)) {
+
+                //I NEED TO FIGURE HOW WEAPONS WORK>>>>  THERE IS NOT TEMPLATE FOR WEAPONS EITHER
+                let damage = this.rollDice(weaponDamage) + abilityModifier;
+
+                if (diceRoll = 20) {
+                    Game.sendMessage('It was a critical hit!');
+                    damage += this.rollDice(weaponDamage);
+                }
+                
+                //Not sure why I had two messages.  Probably need a conditino statement here to check
+                //who is attacking who
+                Game.sendMessage(this, 'You ' + message + ' the %s for %d damage!', 
+                    [target.getName(), damage]);
+                Game.sendMessage(target, 'The %s ' + message + ' you for %d damage!', 
+                    [this.getName(), damage]);
+
+                target.takeDamage(this, damage, cause);
+            } else {
+                console.log('Something went wrong with the attack calculation');
+                console.log('diceRoll = ' + diceRoll);
+                console.log('armorClass = ' + armorClass);
+                break;
+            }
+
+
+        }
+            
 
 // New calculation:  roll D20 and add modifiers.  If total exceed enemy AC then it is a hit.  Attack modifiers most often
 // ability modifier (STR for melee and DEX for ranged) and proficiency bonus.  You add proficiency bonus if you have it for that
@@ -326,6 +387,7 @@ Game.EntityMixins.Attacker = {
 // Resistances/Vulnerability:  After calculating damage either halve it for restistance or double it for vulnerability.  Multiple
 // sources of resistance do nothing extra.  Example fireball against creature with magic and fire resistance.  
 
+    /*
         if (target.hasMixin('Destructible')) {
             let attack = this.getAttackValue();
             let defense = target.getDefenseValue();
@@ -340,6 +402,7 @@ Game.EntityMixins.Attacker = {
             target.takeDamage(this, damage, cause);
         }
     },
+    */
     // Check if the body part referenced has an associated ability
     getAbility: function(number) {
         let bodySlots = this.getBodySlots();
@@ -367,7 +430,10 @@ Game.EntityMixins.Destructible = {
         // max specified.
         this._hp = template['hp'] || this._maxHp;
         this._defenseValue = template['defenseValue'] || 0;
+        this._armorClass= template['armorClass'] || 0;
     },
+    //This needs to be rewritten...
+    /*
     getDefenseValue: function() {
         var modifier = 0;
         // If we can equip parts, then have to take into 
@@ -387,10 +453,14 @@ Game.EntityMixins.Destructible = {
             }
         }
         return this._defenseValue + modifier;
+        */
 
     },
     getHp: function() {
         return this._hp;
+    },
+    getArmorClass: function() {
+        return this._armorClass;
     },
     getMaxHp: function() {
         return this._maxHp;

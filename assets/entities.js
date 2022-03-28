@@ -8,12 +8,11 @@ Game.PlayerTemplate = {
     sightRadius: 6,
     inventorySlots: 22,
     arms: {rightArm: 'default arm',
-            leftArm: 'default arm'      
-    },
+            leftArm: 'default arm'},
     legs: {mainLegs: 'default legs'},
     head: {mainHead: 'defaul head'},
     torso: {mainTorso: 'defaul torso',},
-    proficiencies: [],
+
     mixins: [Game.EntityMixins.PlayerActor,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.InventoryHolder, Game.EntityMixins.FoodConsumer,
