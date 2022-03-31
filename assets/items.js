@@ -24,333 +24,291 @@ Game.ItemRepository.define('rock', {
     foreground: 'white'
 });
 
-// Default
-Game.ItemRepository.define('default arm', {
-    name: 'default arm',
-    character: ')',
-    foreground: 'gray',
-    attackValue: 0,
-    bodyPart: 'arm',
-    maxCoolDown: 0,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable],
-    description: 'This default arm is used whenever you don\'t have a better option.'
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('default arm', {
-    name: 'default arm',
-    character: ')',
-    foreground: 'gray',
-    attackValue: 0,
-    bodyPart: 'arm',
-    maxCoolDown: 0,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable],
-    description: 'This default arm is used whenever you don\'t have a better option.'
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('default legs', {
-    name: 'default legs',
-    character: ')',
-    foreground: 'gray',
-    attackValue: 0,
-    bodyPart: 'legs',
-    maxCoolDown: 0,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable],
-    description: 'This default arm is used whenever you don\'t have a better option.'
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('default torso', {
-    name: 'default torso',
-    character: ')',
-    foreground: 'gray',
-    defenseValue: 0,
-    bodyPart: 'torso',
-    maxCoolDown: 0,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable],
-    description: 'This default arm is used whenever you don\'t have a better option.'
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('default head', {
-    name: 'default head',
-    character: ')',
-    foreground: 'gray',
-    defenseValue: 0,
-    bodyPart: 'head',
-    maxCoolDown: 0,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable],
-    description: 'This default head is used whenever you don\'t have a better option.'
-}, {
-    disableRandomCreation: true
-});
-
-//Demolitions
-Game.ItemRepository.define('demolition head', {
-    name: 'Demolition Head',
-    class: 'demolitions',
-    character: ')',
-    foreground: 'yellow',
-    bodyPart: 'head',
-    healValue: 2,
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable, Game.PartAbility.demolitionHead,
-        Game.ItemMixins.Healing],
-    description: 'When enemies are destroyed by explosions you are able to heal.',
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('dynamite arm', {
-    name: 'Dynamite Arm',
-    class: 'demolitions',
-    character: ')',
-    foreground: 'gray',
-    attackValue: 10,
-    bodyPart: 'arm',
-    onUse: true,
-    damage: 20,
-    areaSize: 2,
-    maxUses: 1,
-    mixins: [Game.ItemMixins.rangedAttack, Game.ItemMixins.Equippable, 
-        Game.PartAbility.demolitionArmOne],
-    description: 'Throw this arm to do massive damage'
-    //AOE ranged attack
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('demolition arm2', {
-    name: 'Demolition Arm2',
-    class: 'demolitions',
-    character: ')',
-    foreground: 'gray',
-    abilityDamage: 8,
-    bodyPart: 'arm',
-    maxCoolDown: 1,
-    currentCoolDown: 0,
-    onUse: true,
-    areaSize: 1,
-    mixins: [Game.ItemMixins.Equippable, Game.ItemMixins.areaEffect,
-        Game.PartAbility.demolitionArmTwo],
-    description: 'Causes explosions around self.  Will not cause self damage'
-    // Causes explosions around self.  Will not cause self damage
-}, {
-    disableRandomCreation: true
-});
-
-
-Game.ItemRepository.define('demolition torso', {
-    name: 'demolition torso',
-    class: 'demolitions',
-    character: ')',
-    foreground: 'gray',
-    explosionResistance: 50,
-    defenseValue: 3,
-    bodyPart: 'torso',
-    mixins: [Game.ItemMixins.Equippable, Game.PartAbility.demolitionTorso],
-    description: 'Gives Immunity to self explosions and resistance to explosions from enemies'
-    //Immunity to explosions???  Health somehow
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('demolition legs', {
-    name: 'demolition legs',
-    class: 'demolitions',
-    character: '}',
-    foreground: 'white',
-    attackValue: 10,
-    bodyPart: 'legs',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable],
-    description: 'Deals medium damage.  One time healing use.'
-    // ??  Exposion causing propulsion or something??
-}, {
-    disableRandomCreation: true
-});
-
-//Security
-Game.ItemRepository.define('sec head', {
-    name: 'sec head',
-    class: 'security',
-    character: '[',
-    foreground: 'green',
-    defenseValue: 2,
-    bodyPart: 'head',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    //Increase status effect chances???  Not great... 
-    // Something about yelling Alarm?
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('sec torso', {
-    name: 'sec torso',
-    class: 'security',
-    character: '[',
-    foreground: 'green',
-    defenseValue: 2,
-    bodyPart: 'torso',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    //Something with stun?  Stun resist plus defense?
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('sec arm1', {
-    name: 'sec arm1',    
-    class: 'security',
+Game.ItemRepository.define('club', {
+    name: 'club',
+    class: 'simple melee',
     character: '[',
     foreground: 'white',
-    attackValue: 4,
-    bodyPart: 'arm',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    //Electricity hit?  (spread to other enemies)
+    diceRoll: 4,
+    bodyPart: 'hand',
+    weight: 2,
+    damageType: 'bludgeoning',
+    properties: ['light']
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A small branch turned into a weapon'
 }, {
     disableRandomCreation: true
 });
 
-Game.ItemRepository.define('sec arm2', {
-    name: 'sec arm2',
-    class: 'security',
+Game.ItemRepository.define('dagger', {
+    name: 'club',
+    class: 'simple melee',
     character: '[',
     foreground: 'white',
-    attackValue: 4,
-    bodyPart: 'arm',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    //Hit with a chance to stun
+    diceRoll: 4,
+    bodyPart: 'hand',
+    weight: 1,
+    damageType: 'piercing',
+    properties: ['finesse','light','thrown'],
+    normalRange: 20,
+    maxRange: 60,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A simple dagger'
 }, {
     disableRandomCreation: true
 });
 
-Game.ItemRepository.define('sec legs', {
-    name: 'sec legs',
-    class: 'security',
-    character: '}',
-    foreground: 'aliceblue',
-    defenseValue: 6,
-    bodyPart: 'legs',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    // ??
-}, {
-    disableRandomCreation: true
-});
-
-//Manufacturing
-Game.ItemRepository.define('manu head', {
-    name: 'manu head',
-    class: 'manufacturing',
-    character: '[',
-    foreground: 'green',
-    defenseValue: 2,
-    bodyPart: 'head',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    // Heal on installing parts?
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('manufacturing torso', {
-    name: 'manufacturing torso',
-    class: 'manufacturing',
-    character: '[',
-    foreground: 'green',
-    defenseValue: 2,
-    bodyPart: 'torso',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    // ??  Create weak parts??  Recycle old parts for chance of new one???
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('manufacturing arm1', {
-    name: 'manufacturing arm1',    
-    class: 'manufacturing',
+Game.ItemRepository.define('greatClub', {
+    name: 'Greatclub',
+    class: 'simple melee',
     character: '[',
     foreground: 'white',
-    attackValue: 4,
-    bodyPart: 'arm',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    onUse: true,
-    mixins: [Game.ItemMixins.Equippable, Game.PartAbility.manufactoringArm]
-    // Create sentry bot?  
+    diceRoll: 8,
+    bodyPart: 'hand',
+    weight: 10,
+    damageType: 'bludgeoning',
+    properties: ['twoHanded']
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A massive tree branch'
 }, {
     disableRandomCreation: true
 });
 
-Game.ItemRepository.define('manufacturing arm2', {
-    name: 'manufacturing arm2',
-    class: 'manufacturing',
+Game.ItemRepository.define('handAxe', {
+    name: 'Handaxe',
+    class: 'simple melee',
     character: '[',
     foreground: 'white',
-    attackValue: 4,
-    bodyPart: 'arm',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    // Generic hitting plus something.  Create something...  Diff version of sentry bot?
+    diceRoll: 6,
+    bodyPart: 'hand',
+    weight: 2,
+    damageType: 'slashing',
+    properties: ['light','thrown'],
+    normalRange: 20,
+    maxRange: 60,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A simple axe that can be thrown'
 }, {
     disableRandomCreation: true
 });
 
-Game.ItemRepository.define('manufacturing legs', {
-    name: 'manufacturing legs',
-    class: 'manufacturing',
-    character: '}',
-    foreground: 'aliceblue',
-    defenseValue: 6,
-    bodyPart: 'legs',
-    maxCoolDown: 5,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Equippable]
-    //  Create caltrops/spikes/ oil slick...   Slowdown for enemies or unstable (less defense).
-    //!!! Or Legs are generic attack as something diff !!!
-}, {
-    disableRandomCreation: true
-});
-
-Game.ItemRepository.define('repair arm', {
-    name: 'repair arm',
-    class: 'repair',
+Game.ItemRepository.define('javelin', {
+    name: 'Javelin',
+    class: 'simple melee',
     character: '[',
     foreground: 'white',
-    attackValue: 10,
-    bodyPart: 'arm',
-    healValue: 20,
-    onUse: 'heal',
-    maxUses: 1,
-    maxCoolDown: 0,
-    currentCoolDown: 0,
-    mixins: [Game.ItemMixins.Healing, Game.ItemMixins.Equippable],
-    description: 'Contains enough repair nanites for a single use.'
+    diceRoll: 6,
+    bodyPart: 'hand',
+    weight: 2,
+    damageType: 'piercing',
+    properties: ['thrown'],
+    normalRange: 30,
+    maxRange: 120,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A simple axe that can be thrown'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('lightHammer', {
+    name: 'Light Hammer',
+    class: 'simple melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 4,
+    bodyPart: 'hand',
+    weight: 2,
+    damageType: 'bludgeoning',
+    properties: ['light','thrown'],
+    normalRange: 20,
+    maxRange: 60,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A small hammer that can be thrown'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('mace', {
+    name: 'Mace',
+    class: 'simple melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 6,
+    bodyPart: 'hand',
+    weight: 4,
+    damageType: 'bludgeoning',
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A metal rod with a ball at the end'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('quarterStaff', {
+    name: 'Quarterstaff',
+    class: 'simple melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 6,
+    bodyPart: 'hand',
+    weight: 4,
+    damageType: 'bludgeoning',
+    versatileRoll: 8,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'Quarterstaff'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('sickle', {
+    name: 'Sickle',
+    class: 'simple melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 4,
+    bodyPart: 'hand',
+    weight: 2,
+    damageType: 'slashing',
+    properties: ['light'],
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'Sickle'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('spear', {
+    name: 'Spear',
+    class: 'simple melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 6,
+    bodyPart: 'hand',
+    weight: 3,
+    damageType: 'piercing',
+    properties: ['thrown'],
+    versatileRoll: 8,
+    normalRange: 20,
+    maxRange: 60,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'Spear'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('crossbowLight', {
+    name: 'Crossbow, light',
+    class: 'simple ranged',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 8,
+    bodyPart: 'hand',
+    weight: 5,
+    damageType: 'piercing',
+    properties: ['ammunition', 'loading', 'twoHanded'],
+    normalRange: 80,
+    maxRange: 320,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A small crossbow'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('dart', {
+    name: 'Dart',
+    class: 'simple ranged',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 4,
+    bodyPart: 'hand',
+    weight: .25,
+    damageType: 'piercing',
+    properties: ['finess', 'thrown'],
+    normalRange: 20,
+    maxRange: 60,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A small crossbow'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('shortBow', {
+    name: 'Shortbow',
+    class: 'simple ranged',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 6,
+    bodyPart: 'hand',
+    weight: 2,
+    damageType: 'piercing',
+    properties: ['ammunition', 'twoHanded'],
+    normalRange: 80,
+    maxRange: 320,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A small bow'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('sling', {
+    name: 'Sling',
+    class: 'simple ranged',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 4,
+    bodyPart: 'hand',
+    weight: 0,
+    damageType: 'bludgeoning',
+    properties: ['ammunition'],
+    normalRange: 30,
+    maxRange: 120,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A strap of leather used to throw rocks'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('battleAxe', {
+    name: 'Battleaxe',
+    class: 'martial melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 8,
+    bodyPart: 'hand',
+    weight: 4,
+    damageType: 'slashing',
+    versatileRoll: 10,
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A battle axe'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('flail', {
+    name: 'Flail',
+    class: 'martial melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 8,
+    bodyPart: 'hand',
+    weight: 2,
+    damageType: 'bludgeoning',
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A flail'
+}, {
+    disableRandomCreation: true
+});
+
+Game.ItemRepository.define('glaive', {
+    name: 'Glaive',
+    class: 'martial melee',
+    character: '[',
+    foreground: 'white',
+    diceRoll: 10,
+    bodyPart: 'hand',
+    weight: 6,
+    damageType: 'slashing',
+    properties: ['reach', 'heavy', 'twoHanded'],
+    mixins: [Game.ItemMixins.Equippable],
+    description: 'A glaive'
 }, {
     disableRandomCreation: true
 });
