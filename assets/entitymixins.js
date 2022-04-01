@@ -338,26 +338,23 @@ Game.EntityMixins.Attacker = {
             //which one is needed?????!!!!!!!!!!!
             let abilityModifier = weapon.getAbilityModifier();
             let diceRoll = this.rollDice(20);
+            let damage = 0;
             //Need to handle roll of 1 and 20!!!!!!!!!!!!!!!
             let attackValue = diceRoll + abilityModifier + proficiencyModifier;
             let armorClass = target.getArmorClass();
 
             if (diceRoll = 1) {
                 Game.sendMessage('It was a critical miss!');
-                break;
             } else if (attackValue <= armorClass) {
                 Game.sendMessage('Your attack misses!');
-                break;
             } else if ((attackValue > armorClass) || (diceRoll = 20)) {
-
-                //I NEED TO FIGURE HOW WEAPONS WORK>>>>  THERE IS NOT TEMPLATE FOR WEAPONS EITHER
-                let damage = this.rollDice(weaponDamage) + abilityModifier;
-
+                let attackRoll = weapon.getAttackRoll();
+                damage == this.rollDice(attackRoll) + abilityModifier;
                 if (diceRoll = 20) {
                     Game.sendMessage('It was a critical hit!');
-                    damage += this.rollDice(weaponDamage);
+                    damage += this.rollDice(attackRoll);
                 }
-                
+               
                 //Not sure why I had two messages.  Probably need a conditino statement here to check
                 //who is attacking who
                 Game.sendMessage(this, 'You ' + message + ' the %s for %d damage!', 
@@ -370,40 +367,16 @@ Game.EntityMixins.Attacker = {
                 console.log('Something went wrong with the attack calculation');
                 console.log('diceRoll = ' + diceRoll);
                 console.log('armorClass = ' + armorClass);
-                break;
             }
-
-
-        }
-            
-
-// New calculation:  roll D20 and add modifiers.  If total exceed enemy AC then it is a hit.  Attack modifiers most often
-// ability modifier (STR for melee and DEX for ranged) and proficiency bonus.  You add proficiency bonus if you have it for that
-// weapon or spell.  Natural 20 is automatic hit and is a critical and Natural 1 is automatic miss.
-
-// Damage:  You roll dice based on what weapon it is and add ability modifier to that number.  Spells may or may not use a 
-// modifier depending on which one it is.
-// Critical Hit: roll twice as many dice and then add modifier (modifier only added once)
-
-// Resistances/Vulnerability:  After calculating damage either halve it for restistance or double it for vulnerability.  Multiple
-// sources of resistance do nothing extra.  Example fireball against creature with magic and fire resistance.  
-
-    /*
-        if (target.hasMixin('Destructible')) {
-            let attack = this.getAttackValue();
-            let defense = target.getDefenseValue();
-            let max = Math.max(0, attack - defense);
-            let damage = 1 + Math.floor(Math.random() * max);
-
-            Game.sendMessage(this, 'You ' + message + ' the %s for %d damage!', 
-                [target.getName(), damage]);
-            Game.sendMessage(target, 'The %s ' + message + ' you for %d damage!', 
-                [this.getName(), damage]);
-
-            target.takeDamage(this, damage, cause);
         }
     },
-    */
+            // **********ISSUES STILL TO IMPLIMENT************
+        // Attack modifiers most often ability modifier (STR for melee and DEX for ranged) and proficiency bonus. 
+        // Critical Hit: roll twice as many dice and then add modifier (modifier only added once)
+        // Resistances/Vulnerability:  After calculating damage either halve it for restistance or double it for vulnerability.  Multiple
+                // sources of resistance do nothing extra.  Example fireball against creature with magic and fire resistance.  
+
+                
     // Check if the body part referenced has an associated ability
     getAbility: function(number) {
         let bodySlots = this.getBodySlots();
@@ -434,7 +407,7 @@ Game.EntityMixins.Destructible = {
         this._armorClass= template['armorClass'] || 0;
     },
     //This needs to be rewritten...
-    /*
+ 
     getDefenseValue: function() {
         var modifier = 0;
         // If we can equip parts, then have to take into 
@@ -454,8 +427,7 @@ Game.EntityMixins.Destructible = {
             }
         }
         return this._defenseValue + modifier;
-        */
-
+   
     },
     getHp: function() {
         return this._hp;
