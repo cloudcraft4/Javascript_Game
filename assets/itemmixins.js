@@ -1,7 +1,6 @@
 Game.ItemMixins = {};
 
 
-
 // Edible mixins
 Game.ItemMixins.Edible = {
     name: 'Edible',
@@ -41,8 +40,9 @@ Game.ItemMixins.Edible = {
 Game.ItemMixins.Equippable = {
     name: 'Equippable',
     init: function(template) {
-        this._attackValue = template['attackValue'] || 0;
-        this._defenseValue = template['defenseValue'] || 0;
+        this._attackRoll = template['attackRoll'] || 0;
+        this._defenseRoll = template['defenseRoll'] || 0;
+        this._weaponClass = template['weaponClass'] || false;
         // Attributes that can be added to item
         this._bodyPart = template['bodyPart'] || false;
         this._description = template['description'] || 'Description Missing';
@@ -60,14 +60,17 @@ Game.ItemMixins.Equippable = {
     getOwner: function() {
         return this._owner;                 
     },
-    getAttackValue: function() {
-        return this._attackValue;                 
+    getattackRoll: function() {
+        return this._attackRoll;                 
     },
-    getDefenseValue: function() {
-        return this._defenceValue;
+    getDefenseRoll: function() {
+        return this._defenceRoll;
     },
     getDescription: function() {
         return this._description;
+    },
+    getWeaponClass: function() {
+        return this._weaponClass;
     },
     getPart: function() {
         return this._bodyPart

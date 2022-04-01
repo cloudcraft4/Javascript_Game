@@ -323,19 +323,20 @@ Game.EntityMixins.Attacker = {
         this._attackValue += value;
         Game.sendMessage(this, "You look stronger!");
     },
-    attack: function(target, message='strike', weaponClass, weaponDamage, cause=false) {
+    attack: function(target, message='strike', weapon, cause=false) {
         //Rewrite of Attack function.  A lot of functions above can be removed
-        //!!!!!!!!!!I need to make sure that weapon info is passed!!!!!!!!!!!!!!
 
         if (target.hasMixin('Destructible')) {
             let proficiencyModifier = 0;
+            let weaponClass = weapon.getWeaponClass;
             if (this._proficiencies.includes(weaponClass)) {
-                //!!!!!!!!!!This function is also not created!!!!!!!!!!!!
-                proficiencyModifier += getProficiencyModifier(weaponClass);
+                //!!!!!!!!!!This function is not created!!!!!!!!!!!!
+                // Wait...  How is proficiency decided?????????
+                proficiencyModifier += weapon.getProficiencyModifier();
             }            
             //!!!!!!!!getAbilityModifier will not work.  I might pass the weapon and then check
             //which one is needed?????!!!!!!!!!!!
-            let abilityModifier = getAbilityModifier(weaponClass);
+            let abilityModifier = weapon.getAbilityModifier();
             let diceRoll = this.rollDice(20);
             //Need to handle roll of 1 and 20!!!!!!!!!!!!!!!
             let attackValue = diceRoll + abilityModifier + proficiencyModifier;

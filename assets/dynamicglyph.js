@@ -8,6 +8,8 @@ Game.DynamicGlyph = function(properties) {
     // attached to this entity based on the name property
     this._attachedMixins = {};
     // Create a similar object for groups
+    this._weight = properties['weight'] || false;
+    // Create a similar object for groups
     this._attachedMixinGroups = {};
     // Set up an object for listeners
     this._listeners = {};
@@ -74,6 +76,10 @@ Game.DynamicGlyph.prototype.describe = function() {
 
 Game.DynamicGlyph.prototype.getMixins = function() {
     return this._attachedMixins;
+};
+
+Game.DynamicGlyph.prototype.getWeight = function() {
+    return this._weight;
 };
 
 Game.DynamicGlyph.prototype.describeA = function(capitalize) {

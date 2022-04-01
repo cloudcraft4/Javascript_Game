@@ -1,7 +1,6 @@
 Game.ItemRepository = new Game.Repository('items', Game.Item);
 
-/*  FOOD IS NOT CURRENTLY BEING USED
-Game.ItemRepository.define('melon', {
+Game.ItemRepository.define('ration', {
     name: 'melon',
     character: '%',
     foreground: 'lightGreen',
@@ -9,11 +8,29 @@ Game.ItemRepository.define('melon', {
     consumptions: 2,
     mixins: [Game.ItemMixins.Edible]
 });
-*/
+
+Game.ItemRepository.define('mushroom', {
+    name: 'mushroom',
+    character: '%',
+    foreground: 'lightGreen',
+    foodValue: 30,
+    consumptions: 1,
+    mixins: [Game.ItemMixins.Edible]
+});
+
+Game.ItemRepository.define('healingPotion', {
+    name: 'Healing Potion',
+    character: '!',
+    foreground: 'lightGreen',
+    healValue: 20,
+    maxUses: 1,
+    mixins: [Game.ItemMixins.Healing]
+});
 
 Game.ItemRepository.define('corpse', {
     name: 'corpse',
-    character: '%'
+    character: '%',
+    weight: 20,
 }, {
     disableRandomCreation: true
 });
@@ -21,19 +38,20 @@ Game.ItemRepository.define('corpse', {
 Game.ItemRepository.define('rock', {
     name: 'rock',
     character: '*',
+    weight: 1,
     foreground: 'white'
 });
 
 Game.ItemRepository.define('club', {
     name: 'club',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 4,
+    attackRoll: 4,
     bodyPart: 'hand',
     weight: 2,
     damageType: 'bludgeoning',
-    properties: ['light']
+    properties: ['light'],
     mixins: [Game.ItemMixins.Equippable],
     description: 'A small branch turned into a weapon'
 }, {
@@ -42,10 +60,10 @@ Game.ItemRepository.define('club', {
 
 Game.ItemRepository.define('dagger', {
     name: 'club',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 4,
+    attackRoll: 4,
     bodyPart: 'hand',
     weight: 1,
     damageType: 'piercing',
@@ -60,14 +78,14 @@ Game.ItemRepository.define('dagger', {
 
 Game.ItemRepository.define('greatClub', {
     name: 'Greatclub',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 8,
+    attackRoll: 8,
     bodyPart: 'hand',
     weight: 10,
     damageType: 'bludgeoning',
-    properties: ['twoHanded']
+    properties: ['twoHanded'],
     mixins: [Game.ItemMixins.Equippable],
     description: 'A massive tree branch'
 }, {
@@ -76,10 +94,10 @@ Game.ItemRepository.define('greatClub', {
 
 Game.ItemRepository.define('handAxe', {
     name: 'Handaxe',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 6,
+    attackRoll: 6,
     bodyPart: 'hand',
     weight: 2,
     damageType: 'slashing',
@@ -94,10 +112,10 @@ Game.ItemRepository.define('handAxe', {
 
 Game.ItemRepository.define('javelin', {
     name: 'Javelin',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 6,
+    attackRoll: 6,
     bodyPart: 'hand',
     weight: 2,
     damageType: 'piercing',
@@ -112,10 +130,10 @@ Game.ItemRepository.define('javelin', {
 
 Game.ItemRepository.define('lightHammer', {
     name: 'Light Hammer',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 4,
+    attackRoll: 4,
     bodyPart: 'hand',
     weight: 2,
     damageType: 'bludgeoning',
@@ -130,10 +148,10 @@ Game.ItemRepository.define('lightHammer', {
 
 Game.ItemRepository.define('mace', {
     name: 'Mace',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 6,
+    attackRoll: 6,
     bodyPart: 'hand',
     weight: 4,
     damageType: 'bludgeoning',
@@ -145,10 +163,10 @@ Game.ItemRepository.define('mace', {
 
 Game.ItemRepository.define('quarterStaff', {
     name: 'Quarterstaff',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 6,
+    attackRoll: 6,
     bodyPart: 'hand',
     weight: 4,
     damageType: 'bludgeoning',
@@ -161,10 +179,10 @@ Game.ItemRepository.define('quarterStaff', {
 
 Game.ItemRepository.define('sickle', {
     name: 'Sickle',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 4,
+    attackRoll: 4,
     bodyPart: 'hand',
     weight: 2,
     damageType: 'slashing',
@@ -177,10 +195,10 @@ Game.ItemRepository.define('sickle', {
 
 Game.ItemRepository.define('spear', {
     name: 'Spear',
-    class: 'simple melee',
-    character: '[',
+    weaponClass: 'simple melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 6,
+    attackRoll: 6,
     bodyPart: 'hand',
     weight: 3,
     damageType: 'piercing',
@@ -196,10 +214,10 @@ Game.ItemRepository.define('spear', {
 
 Game.ItemRepository.define('crossbowLight', {
     name: 'Crossbow, light',
-    class: 'simple ranged',
-    character: '[',
+    weaponClass: 'simple ranged',
+    character: ')',
     foreground: 'white',
-    diceRoll: 8,
+    attackRoll: 8,
     bodyPart: 'hand',
     weight: 5,
     damageType: 'piercing',
@@ -214,10 +232,10 @@ Game.ItemRepository.define('crossbowLight', {
 
 Game.ItemRepository.define('dart', {
     name: 'Dart',
-    class: 'simple ranged',
-    character: '[',
+    weaponClass: 'simple ranged',
+    character: ')',
     foreground: 'white',
-    diceRoll: 4,
+    attackRoll: 4,
     bodyPart: 'hand',
     weight: .25,
     damageType: 'piercing',
@@ -232,10 +250,10 @@ Game.ItemRepository.define('dart', {
 
 Game.ItemRepository.define('shortBow', {
     name: 'Shortbow',
-    class: 'simple ranged',
-    character: '[',
+    weaponClass: 'simple ranged',
+    character: ')',
     foreground: 'white',
-    diceRoll: 6,
+    attackRoll: 6,
     bodyPart: 'hand',
     weight: 2,
     damageType: 'piercing',
@@ -250,10 +268,10 @@ Game.ItemRepository.define('shortBow', {
 
 Game.ItemRepository.define('sling', {
     name: 'Sling',
-    class: 'simple ranged',
-    character: '[',
+    weaponClass: 'simple ranged',
+    character: ')',
     foreground: 'white',
-    diceRoll: 4,
+    attackRoll: 4,
     bodyPart: 'hand',
     weight: 0,
     damageType: 'bludgeoning',
@@ -268,10 +286,10 @@ Game.ItemRepository.define('sling', {
 
 Game.ItemRepository.define('battleAxe', {
     name: 'Battleaxe',
-    class: 'martial melee',
-    character: '[',
+    weaponClass: 'martial melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 8,
+    attackRoll: 8,
     bodyPart: 'hand',
     weight: 4,
     damageType: 'slashing',
@@ -284,10 +302,10 @@ Game.ItemRepository.define('battleAxe', {
 
 Game.ItemRepository.define('flail', {
     name: 'Flail',
-    class: 'martial melee',
-    character: '[',
+    weaponClass: 'martial melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 8,
+    attackRoll: 8,
     bodyPart: 'hand',
     weight: 2,
     damageType: 'bludgeoning',
@@ -299,10 +317,10 @@ Game.ItemRepository.define('flail', {
 
 Game.ItemRepository.define('glaive', {
     name: 'Glaive',
-    class: 'martial melee',
-    character: '[',
+    weaponClass: 'martial melee',
+    character: ')',
     foreground: 'white',
-    diceRoll: 10,
+    attackRoll: 10,
     bodyPart: 'hand',
     weight: 6,
     damageType: 'slashing',
