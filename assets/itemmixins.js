@@ -60,7 +60,7 @@ Game.ItemMixins.Equippable = {
     getOwner: function() {
         return this._owner;                 
     },
-    getattackRoll: function() {
+    getAttackRoll: function() {
         return this._attackRoll;                 
     },
     getDefenseRoll: function() {
