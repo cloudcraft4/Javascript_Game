@@ -12,7 +12,8 @@ Game.EntityMixins.PlayerActor = {
     //but this mixin is the only one that is only for players unless I make a new one
     init: function() {
         this._proficiencies = []; 
-        this._savingThrows = []; 
+        this._savingThrows = [];
+        this._resistances = [];
     },    
     act: function() {
         if (this._acting) {
@@ -405,6 +406,7 @@ Game.EntityMixins.Destructible = {
         this._hp = template['hp'] || this._maxHp;
         this._defenseValue = template['defenseValue'] || 0;
         this._armorClass= template['armorClass'] || 0;
+        this._immunities = template['immunities'] || [];
     },
     //This needs to be rewritten...
  
@@ -858,6 +860,8 @@ Game.EntityMixins.ExperienceGainer = {
         this._level = template['level'] || 1;
         this._experience = template['experience'] || 0;
         this._statPointsPerLevel = template['statPointsPerLevel'] || 1;
+        //THIS IS NOT PROPERLY IMPLIMENTED!!!!!!!!!!!!!!!!!!!!!!!!!!
+        this._bonusHPOnLevelUp = 0;
         this._statPoints = 0;
         // Determine what stats can be levelled up.
         this._statOptions = [];

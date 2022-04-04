@@ -19,12 +19,15 @@ CHARACTER OVERHAUL:
 
 OVERHAUL COMBAT:
 
-1.  I have figured out the math for the combat but nothing is implimented 
-    (There is commented text talking about it)
+1.  I previously started targeting for abilities but do not remember where I am at.
 
-2.  NOTE:  I have code for the rolling of D20 but it is not actually connect (randomfunctions.js)
+2.  Combat is partially implimented but not tested at all
 
-3.  I previously started targeting for abilities but do not remember where I am at.
+3.  I need to figure out what I am going to do about speed!!!!  Right now I am using speed 
+    as everything.  However I have not thought about INITIATIVE.  Currently the small increase
+    in travel speed that some get (for instance elves) is extremely overpowered.
+
+4. Proficiencies and Saving Throws are not implimented!
 
 
 OVERHAUL ITEMS:
