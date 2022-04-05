@@ -920,6 +920,8 @@ Game.EntityMixins.ExperienceGainer = {
         return this._statOptions;
     },
     giveExperience: function(points) {
+        // I need to take a hard look at this. I do not think that it is actually correct
+
         var statPointsGained = 0;
         var levelsGained = 0;
         // Loop until we've allocated all points.
@@ -985,6 +987,11 @@ Game.EntityMixins.RandomStatGainer = {
     groupName: 'StatGainer',
     listeners: {
         onGainLevel: function() {
+
+            // I need to over haul this.  One thing is that there is no HP given
+            // Secondly I need to remake stat gain choice as well.
+            // REMEMBER this._bonusHPOnLevelUp
+
             var statOptions = this.getStatOptions();
             // Randomly select a stat option and execute the callback for each
             // stat point.

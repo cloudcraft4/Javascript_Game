@@ -11,7 +11,6 @@ Game.Screen.startScreen = {
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
-        console.log("StartScreen heard: " + inputData.keyCode)
         if (inputType === 'keydown') {
             if (inputData.keyCode === 13) {
                 Game.switchScreen(Game.Screen.classSelectScreen);
@@ -19,14 +18,6 @@ Game.Screen.startScreen = {
         }
     }
 };
-
-/*  This is the start of the screens to choose
-various things.  This does not work yet.
-The most busted part is probably the entering and
-exiting part.  Also nothing is done with the templates yet.
-
-*/
-
 
 // Define character select screen
 Game.Screen.classSelectScreen = {
@@ -43,9 +34,55 @@ Game.Screen.classSelectScreen = {
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
-        console.log("StartScreen heard: " + inputData.keyCode)
         if (inputType === 'keydown') {
             if (inputData.keyCode === 49) {
+                var classSelect = 'fighter';
+                Game.switchScreen(Game.Screen.variableSelectScreen);
+            }
+        }
+    }
+};
+
+/*
+THIS WORKS BASICALLY HOWEVER:
+I REALLY AM NOT SURE HOW TO ACTUALLY SEND THE INFO THAT I NEED.
+I NEED TO HAVE ANOTHER TEMPLATE THAT HAS THE INFO NEEDED...
+THIS SHOULD PROBABLY BE TURNED INTO A FUNCTION OR SOMETHING...  HMMMMM.....
+*/
+
+// Define race select screen
+Game.Screen.variableSelectScreen = {
+
+    enter: function() { console.log("Entered variable select screen."); },
+    exit: function() { console.log("Exited variable select screen."); },
+    render: function(display) {
+        // Testing new method:
+        
+        //I am having it an array of arrays so that I can make the result something different if I want.
+        //Eventually I will want this stuff to be in a template or something
+
+        this._list = [['Dwarf', 'dwarf'], ['Elf', 'elf'], ['Human', 'human'], ['Halfling', 'halfling']]
+        this._title = 'Choose what race of character you would like';
+                
+        display.drawText(1,1, this._title);
+        display.drawText(1,2, "Press the letter of your choice");
+
+        for(let i = 0; i < this._list.length; i++) {
+            let message = this._list[i][0];
+            let letter = String.fromCharCode(i + 97);
+            display.drawText(1,i+4, letter + ':  ' + message);
+        }
+    },
+    //SOMEHOW HAVE TO PASS THE LIST INFO>>>>  OR SAVE IT TO THIS OBJECT???
+    handleInput: function(inputType, inputData) {
+        // When [Enter] is pressed, go to the play screen
+        if (inputType === 'keydown') {            
+            console.log("StartScreen heard: " + (inputData.keyCode - 65));
+            console.log("List length: " + this._list.length);
+            let choiceNumber = inputData.keyCode - 65;
+            if ((choiceNumber <= this._list.length) && !(choiceNumber < 0)) {
+                //THIS IS PROBLEMATIC BECAUSE I ONLY WANT TO DO SOMETHING IF IT CORRESPONDS TO A REAL CHOICE
+                let result = this._list[choiceNumber][1];
                 Game.switchScreen(Game.Screen.playScreen);
             }
         }
