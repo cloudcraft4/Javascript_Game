@@ -43,47 +43,51 @@ Game.Screen.classSelectScreen = {
     }
 };
 
-/*
-THIS WORKS BASICALLY HOWEVER:
-I REALLY AM NOT SURE HOW TO ACTUALLY SEND THE INFO THAT I NEED.
-I NEED TO HAVE ANOTHER TEMPLATE THAT HAS THE INFO NEEDED...
-THIS SHOULD PROBABLY BE TURNED INTO A FUNCTION OR SOMETHING...  HMMMMM.....
-*/
+// I HAVE NOT SET UP INIT FOR THIS!!!!!!!!!!!!!!!!!!!!!!!!
 
 // Define race select screen
 Game.Screen.variableSelectScreen = {
-
+    init: function(template) {
+        this._choices = template['choices'] || {'Dwarf':'dwarf', 'Elf':'elf', 'Human':'human', 'Halfling':'halfling'};
+        this._title = template['title'] || 'Choose what race of character you would like';      
+        this._nextScreen = template['nextScreen'] || Game.Screen.playScreen;       
+        this._numberOfChoices = Object.keys(this._choices).length;
+        this._choicesList = [];
+    },
     enter: function() { console.log("Entered variable select screen."); },
     exit: function() { console.log("Exited variable select screen."); },
     render: function(display) {
-        // Testing new method:
-        
-        //I am having it an array of arrays so that I can make the result something different if I want.
-        //Eventually I will want this stuff to be in a template or something
 
-        this._list = [['Dwarf', 'dwarf'], ['Elf', 'elf'], ['Human', 'human'], ['Halfling', 'halfling']]
-        this._title = 'Choose what race of character you would like';
-                
+        // I will eventually need to call a function that pulls up this info
+        // I had to put a lot of effort in making this dictionary because I want to be able to pass along
+        // a funtion if I need to
+        this._choices = {'Dwarf':'dwarf', 'Elf':'elf', 'Human':'human', 'Halfling':'halfling'}
+        this._title = 'Choose what race of character you would like';      
+        this._nextScreen = Game.Screen.playScreen;       
+        this._numberOfChoices = Object.keys(this._choices).length;
+        this._choicesList = [];
+
         display.drawText(1,1, this._title);
         display.drawText(1,2, "Press the letter of your choice");
 
-        for(let i = 0; i < this._list.length; i++) {
-            let message = this._list[i][0];
-            let letter = String.fromCharCode(i + 97);
-            display.drawText(1,i+4, letter + ':  ' + message);
+        // There is likely a more elegant way to do this!
+        for(let key in this._choices) {
+            let number = this._choicesList.length;
+            let letter = String.fromCharCode(number + 97);
+            display.drawText(1,number + 4, letter + ':  ' + key);
+            this._choicesList.push(key);
         }
     },
-    //SOMEHOW HAVE TO PASS THE LIST INFO>>>>  OR SAVE IT TO THIS OBJECT???
     handleInput: function(inputType, inputData) {
-        // When [Enter] is pressed, go to the play screen
+        // When a letter is pressed, save the choice and go to the play screen
         if (inputType === 'keydown') {            
-            console.log("StartScreen heard: " + (inputData.keyCode - 65));
-            console.log("List length: " + this._list.length);
-            let choiceNumber = inputData.keyCode - 65;
-            if ((choiceNumber <= this._list.length) && !(choiceNumber < 0)) {
-                //THIS IS PROBLEMATIC BECAUSE I ONLY WANT TO DO SOMETHING IF IT CORRESPONDS TO A REAL CHOICE
-                let result = this._list[choiceNumber][1];
-                Game.switchScreen(Game.Screen.playScreen);
+            let numberSelect = inputData.keyCode - 65;
+            if ((numberSelect <= this._numberOfChoices) && !(numberSelect < 0)) {
+                let choiceKey = this._choicesList[numberSelect]
+                let result = this._choices[choiceKey];
+                // I am not doing anything with the result yet.  Eventually I need to add mixins.
+                console.log("Result: " + result);
+                Game.switchScreen(this._nextScreen, result);
             }
         }
     }

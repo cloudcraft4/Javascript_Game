@@ -10,9 +10,12 @@ Game.raceMixins.Dwarf = {
         this._size = 'medium';
         this._constitution += 2;
         this._speed = 25;
-        this._proficiencies.push('battleaxe', 'handaxe', 'light hammer', 'warhammer');
-        this._savingThrows.push('poison');
-        this._resistances.push('poison');        
+        this._proficiencies['battleaxe'] = true;
+        this._proficiencies['handaxe'] = true;
+        this._proficiencies['light hammer'] = true;
+        this._proficiencies['warhammer'] = true;
+        this._savingThrows['poison'] = true;
+        this._resistances['poison'] = true;
     },
 };
     /*
@@ -47,7 +50,8 @@ Game.raceMixins.mountainDwarf = {
     name: 'Mountain Dwarf',
     init: function() {       
         this._strength += 1;        
-        this._proficiencies.push('light armor', 'medium armor');
+        this._proficiencies['light armor'] = true;
+        this._proficiencies['medium armor'] = true;
     },
 };
 
@@ -57,9 +61,9 @@ Game.raceMixins.Elf = {
         this._size = 'medium';        
         this._dexterity += 2;
         this._speed = 30;
-        this._proficiencies.push('perception');
-        this._savingThrows.push('charm');
-        this._immunities.push('magical-sleep');
+        this._proficiencies['perception'] = true;
+        this._savingThrows['charm'] = true;
+        this._immunities['magical-sleep'] = true;
     },
 };
     /*
@@ -73,7 +77,10 @@ Game.raceMixins.highElf = {
     name: 'High Elf',
     init: function() {   
         this._intellegence += 1;
-        this._proficiencies.push('longsword', 'shortsword', 'shortbow', 'longbow');
+        this._proficiencies['longsword'] = true;
+        this._proficiencies['shortsword'] = true;
+        this._proficiencies['shortbow'] = true;
+        this._proficiencies['longbow'] = true;
     },
 };
     /*
@@ -87,8 +94,11 @@ Game.raceMixins.highElf = {
 Game.raceMixins.woodElf = {
     name: 'Wood Elf',
     init: function() {       
-        this._wisdom += 1;        
-        this._proficiencies.push('longsword', 'shortsword', 'shortbow', 'longbow');
+        this._wisdom += 1;       
+        this._proficiencies['longsword'] = true;
+        this._proficiencies['shortsword'] = true;
+        this._proficiencies['shortbow'] = true;
+        this._proficiencies['longbow'] = true;        
         this._speed = 35;
     },
 };
@@ -103,8 +113,8 @@ Game.raceMixins.Halfling = {
     init: function() {
         this._size = 'small';        
         this._dexterity += 2;
-        this._speed = 25;
-        this._savingThrows.push('fear');
+        this._speed = 25;        
+        this._savingThrows['fear'] = true;
     },
 };
     /*
@@ -131,8 +141,8 @@ Game.raceMixins.stoutHalfling = {
     name: 'Stout Halfling',
     init: function() {      
         this._constitution += 1;
-        this._savingThrows.push('poison');        
-        this._resistances.push('poison');
+        this._savingThrows['poison'] = true;
+        this._resistances['poison'] = true;
     },
 };
 

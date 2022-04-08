@@ -5,15 +5,11 @@ Game.EntityMixins = {};
 Game.EntityMixins.PlayerActor = {
     name: 'PlayerActor',
     groupName: 'Actor',
-    // I THINK this will work...  
-    // I am not bothering to check templates because this one will be initiated
-    // before anyother mixin is looked at
-    //It is a little bit weird to put it under "playeractor"
-    //but this mixin is the only one that is only for players unless I make a new one
     init: function() {
-        this._proficiencies = []; 
-        this._savingThrows = [];
-        this._resistances = [];
+        //I may want to initiate these somewhere else if I end up using them for
+        //monsters.  So far though they don't use either of these
+        this._proficiencies = {}; 
+        this._savingThrows = {};
     },    
     act: function() {
         if (this._acting) {
@@ -406,7 +402,8 @@ Game.EntityMixins.Destructible = {
         this._hp = template['hp'] || this._maxHp;
         this._defenseValue = template['defenseValue'] || 0;
         this._armorClass= template['armorClass'] || 0;
-        this._immunities = template['immunities'] || [];
+        this._resistances = template['resistances'] || {};
+        this._immunities = template['immunities'] || {};
     },
     //This needs to be rewritten...
  
