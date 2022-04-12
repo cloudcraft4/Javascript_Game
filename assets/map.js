@@ -172,11 +172,6 @@ Game.Map.prototype.addEntity = function(entity) {
         let defaultTorso = Game.ItemRepository.create('default torso');
         let defaultHead = Game.ItemRepository.create('default head');
 
-        //TEMPORARTY CODE FOR TESTING
-        entity.addItem(Game.ItemRepository.create('dynamite arm'));
-        entity.addItem(Game.ItemRepository.create('manufacturing arm1'));
-        entity.addItem(Game.ItemRepository.create('demolition arm2'));
-        
         //PROBABLY MAKE THIS A METHOD SO CODE DOES NOT HAVE TO BE DUPLICATED??
         //Attach the arm and set as default
         entity.attachPart(defaultArm);

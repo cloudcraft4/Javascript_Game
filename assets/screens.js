@@ -13,64 +13,37 @@ Game.Screen.startScreen = {
         // When [Enter] is pressed, go to the play screen
         if (inputType === 'keydown') {
             if (inputData.keyCode === 13) {
-                Game.switchScreen(Game.Screen.classSelectScreen);
+                Game.switchScreen(Game.Screen.variableSelectScreen,
+                    Game.screenClassSelect);
             }
         }
     }
 };
 
-// Define character select screen
-Game.Screen.classSelectScreen = {
-    enter: function() { console.log("Entered class select screen."); },
-    exit: function() { console.log("Exited class select screen."); },
-    render: function(display) {
-        // Render our prompt to the screen
-        display.drawText(1,1, "Choose what class of character you would like");
-        display.drawText(1,2, "Press the number of your choice");
-        display.drawText(1,4, "1.  Fighter");
-        display.drawText(1,5, "2.  Wizard (not implimented yet)");
-        display.drawText(1,6, "3.  Monk (not implimented yet)");
-        display.drawText(1,7, "4.  Druid (not implimented yet)");
-    },
-    handleInput: function(inputType, inputData) {
-        // When [Enter] is pressed, go to the play screen
-        if (inputType === 'keydown') {
-            if (inputData.keyCode === 49) {
-                var classSelect = 'fighter';
-                Game.switchScreen(Game.Screen.variableSelectScreen);
-            }
-        }
-    }
-};
-
-// I HAVE NOT SET UP INIT FOR THIS!!!!!!!!!!!!!!!!!!!!!!!!
-
-// Define race select screen
+// Define a select screen to use for anything specified
 Game.Screen.variableSelectScreen = {
-    init: function(template) {
-        this._choices = template['choices'] || {'Dwarf':'dwarf', 'Elf':'elf', 'Human':'human', 'Halfling':'halfling'};
-        this._title = template['title'] || 'Choose what race of character you would like';      
-        this._nextScreen = template['nextScreen'] || Game.Screen.playScreen;       
-        this._numberOfChoices = Object.keys(this._choices).length;
-        this._choicesList = [];
-    },
+
     enter: function() { console.log("Entered variable select screen."); },
     exit: function() { console.log("Exited variable select screen."); },
-    render: function(display) {
+    render: function(display, template) {
 
-        // I will eventually need to call a function that pulls up this info
-        // I had to put a lot of effort in making this dictionary because I want to be able to pass along
-        // a funtion if I need to
-        this._choices = {'Dwarf':'dwarf', 'Elf':'elf', 'Human':'human', 'Halfling':'halfling'}
-        this._title = 'Choose what race of character you would like';      
-        this._nextScreen = Game.Screen.playScreen;       
+        //Pull up the various choices based on the templates
+        //I will have to rewrite this if I ever need to build these
+        // with a function
+        this._choices = template['choices'] || {};
+        this._title = template['title'] || 'Error: something went wrong';      
+        this._nextScreen = template['nextScreen'] || Game.Screen.playScreen;       
         this._numberOfChoices = Object.keys(this._choices).length;
+        this._action = template['action'] || console.log('There was no assigned action'); 
         this._choicesList = [];
 
         display.drawText(1,1, this._title);
         display.drawText(1,2, "Press the letter of your choice");
 
         // There is likely a more elegant way to do this!
+
+        // Build an array from the dictionary so that it is ordered
+        // This way I can line up the players choice with the selection
         for(let key in this._choices) {
             let number = this._choicesList.length;
             let letter = String.fromCharCode(number + 97);
@@ -83,10 +56,16 @@ Game.Screen.variableSelectScreen = {
         if (inputType === 'keydown') {            
             let numberSelect = inputData.keyCode - 65;
             if ((numberSelect <= this._numberOfChoices) && !(numberSelect < 0)) {
-                let choiceKey = this._choicesList[numberSelect]
-                let result = this._choices[choiceKey];
-                // I am not doing anything with the result yet.  Eventually I need to add mixins.
-                console.log("Result: " + result);
+                let choiceKey = this._choicesList[numberSelect];
+                let result = this._choices[choiceKey];               
+                this._action.call(result);
+
+                console.log('Has this updated? - ' + Game.startingChoices);
+                
+                //HM.........  Problem....  This is switchScreen not render
+                //I need to see what is up with this function cuz I need
+                //to pass variables to the next screen
+
                 Game.switchScreen(this._nextScreen, result);
             }
         }

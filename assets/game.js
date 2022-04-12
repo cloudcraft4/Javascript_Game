@@ -5,12 +5,16 @@ var Game =  {
     _screenHeight: 48,
 	init: function() {
         
-              
+
         // Any necessary initialization will go here.
         this._display = new ROT.Display({width: this._screenWidth,
                                         height: this._screenHeight + 1
                                     });
-        
+
+        // Create an array to store all of the starting choices
+        // There may be a smarter way to do things but this works for now
+        this.startingChoices = [];
+
         // Create a helper function for binding to an event
         // and making it send it to the screen
         var game = this; // So that we don't lose this
@@ -61,8 +65,6 @@ var Game =  {
     }
 };
 
-
-//Got rid of ROT.isSupported() because it is apparenly not part of new ROT
 window.onload = function() {
     // Initialize the game
     Game.init();
@@ -71,21 +73,3 @@ window.onload = function() {
     // Load the start screen
     Game.switchScreen(Game.Screen.startScreen);
 };
-
-
-
-/* OLD STUFF IN CASE I HAVE TO GO BACK
-window.onload = function() {
-    // Check if rot.js can work on this browser
-    if (!ROT.isSupported()) {
-        alert("The rot.js library isn't supported by your browser.");
-    } else {
-        // Initialize the game
-        Game.init();
-        // Add the container to our HTML page
-        document.body.appendChild(Game.getDisplay().getContainer());
-        // Load the start screen
-        Game.switchScreen(Game.Screen.startScreen);
-    }
-};
-*/
