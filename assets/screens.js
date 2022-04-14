@@ -20,59 +20,6 @@ Game.Screen.startScreen = {
     }
 };
 
-// Define a select screen to use for anything specified
-Game.Screen.variableSelectScreen = {
-
-    enter: function() { console.log("Entered variable select screen."); },
-    exit: function() { console.log("Exited variable select screen."); },
-    render: function(display, template) {
-
-        //Pull up the various choices based on the templates
-        //I will have to rewrite this if I ever need to build these
-        // with a function
-        this._choices = template['choices'] || {};
-        this._title = template['title'] || 'Error: something went wrong';      
-        this._nextScreen = template['nextScreen'] || Game.Screen.playScreen;       
-        this._numberOfChoices = Object.keys(this._choices).length;
-        this._action = template['action'] || console.log('There was no assigned action'); 
-        this._choicesList = [];
-
-        display.drawText(1,1, this._title);
-        display.drawText(1,2, "Press the letter of your choice");
-
-        // There is likely a more elegant way to do this!
-
-        // Build an array from the dictionary so that it is ordered
-        // This way I can line up the players choice with the selection
-        for(let key in this._choices) {
-            let number = this._choicesList.length;
-            let letter = String.fromCharCode(number + 97);
-            display.drawText(1,number + 4, letter + ':  ' + key);
-            this._choicesList.push(key);
-        }
-    },
-    handleInput: function(inputType, inputData) {
-        // When a letter is pressed, save the choice and go to the play screen
-        if (inputType === 'keydown') {            
-            let numberSelect = inputData.keyCode - 65;
-            if ((numberSelect <= this._numberOfChoices) && !(numberSelect < 0)) {
-                let choiceKey = this._choicesList[numberSelect];
-                let result = this._choices[choiceKey];               
-                this._action.call(result);
-
-                console.log('Has this updated? - ' + Game.startingChoices);
-                
-                //HM.........  Problem....  This is switchScreen not render
-                //I need to see what is up with this function cuz I need
-                //to pass variables to the next screen
-
-                Game.switchScreen(this._nextScreen, result);
-            }
-        }
-    }
-};
-
-
 // Define our playing screen
 Game.Screen.playScreen = {
     _player: null,
@@ -941,7 +888,6 @@ Game.Screen.chooseScreen = new Game.Screen.TargetBasedScreen({
     }
 });
 
-
 // Define our help screen
 Game.Screen.helpScreen = {
     render: function(display) {
@@ -969,3 +915,110 @@ Game.Screen.helpScreen = {
         Game.Screen.playScreen.setSubScreen(null);
     }
 };
+
+// Define a select screen to use for anything specified
+Game.Screen.variableSelectScreen = {
+
+    enter: function() { console.log("Entered variable select screen."); },
+    exit: function() { console.log("Exited variable select screen."); },
+    render: function(display, template) {
+
+        //Pull up the various choices based on the templates
+        this._choices = template['choices'] || {};
+        this._title = template['title'] || 'Error: something went wrong';      
+        this._nextScreen = template['nextScreen'] || Game.Screen.playScreen;       
+        this._numberOfChoices = Object.keys(this._choices).length;
+        this._action = template['action'] || console.log('There was no assigned action'); 
+        this._choicesList = [];
+
+        display.drawText(1,1, this._title);
+        display.drawText(1,2, "Press the letter of your choice");
+
+        // There is likely a more elegant way to do this!
+
+        // Build an array from the dictionary so that it is ordered
+        // This way I can line up the players choice with the selection
+        for(let key in this._choices) {
+            let number = this._choicesList.length;
+            let letter = String.fromCharCode(number + 97);
+            display.drawText(1,number + 4, letter + ':  ' + key);
+            this._choicesList.push(key);
+        }
+    },
+    handleInput: function(inputType, inputData) {
+        // When a letter is pressed, save the choice and go to the play screen
+        if (inputType === 'keydown') {            
+            let numberSelect = inputData.keyCode - 65;
+            if ((numberSelect <= this._numberOfChoices) && !(numberSelect < 0)) {
+                let choiceKey = this._choicesList[numberSelect];
+                let result = this._choices[choiceKey];               
+                this._action.call(result);
+
+                console.log('Has this updated? - ' + Game.startingChoices);
+                
+                //OPTIONS:  1) Recreate switchScreen() to allow passing of templates along with it
+                // 2) Create the new screen here before switching.
+                //NOTE:  currently these screens are created at startup.  This is an issue unless I create new ones whenever
+                // I need something new.  
+                // ITEM LIST SCREEN IS A FUNCTION to get around this
+
+                //Actually gain stat screen at bottom might be the most relevant
+
+
+                this._nextScreen.call();
+            }
+        }
+    }
+};
+
+// **************************************************************************************************************** //
+// ***************************************** NEW DESIGN********************************************************
+
+Game.Screen.variableSelectScreen = function(template) {
+    //Pull up the various choices based on the templates
+    this._choices = template['choices'] || {};
+    this._title = template['title'] || 'Error: something went wrong';      
+    this._nextScreen = template['nextScreen'] || Game.Screen.playScreen;       
+    this._numberOfChoices = Object.keys(this._choices).length;
+    this._action = template['action'] || console.log('There was no assigned action'); 
+    this._choicesList = [];
+};
+
+/*    NOT SURE I NEED THIS PART
+Game.Screen.ItemListScreen.prototype.setup = function(player, items) {
+    this._player = player;
+    // Should be called before switching to the screen.
+    var count = 0;
+    // Iterate over each item, keeping only the aceptable ones and counting
+    // the number of acceptable items.
+    var that = this;
+    this._items = items.map(function(item) {
+        // Transform the item into null if it's not acceptable
+        if (that._isAcceptableFunction(item)) {
+            count++;
+            return item;
+        } else {
+            return null;
+        }
+    });
+    // Clean set of selected indices
+    this._selectedIndices = {};
+    return count;
+};
+*/
+
+Game.Screen.ItemListScreen.prototype.render = function(display) {
+    display.drawText(1,1, this._title);
+    display.drawText(1,2, "Press the letter of your choice");
+
+    // There is likely a more elegant way to do this!
+
+    // Build an array from the dictionary so that it is ordered
+    // This way I can line up the players choice with the selection
+    for(let key in this._choices) {
+        let number = this._choicesList.length;
+        let letter = String.fromCharCode(number + 97);
+        display.drawText(1,number + 4, letter + ':  ' + key);
+        this._choicesList.push(key);
+    }
+};                          
